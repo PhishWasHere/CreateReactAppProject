@@ -9,6 +9,8 @@ const path = require('path');
 const { typeDefs, resolvers } = require('./schemas');
 const db = require('./config/connection');
 
+const routes = require('./routes/index');
+
 
 const PORT = process.env.PORT || 3001;
 const app = express();
@@ -18,7 +20,7 @@ const server = new ApolloServer({
 });
 
 const sess = {
-  secret: 'Super secret secret',
+  secret: 'Super secret secret', //env this later
   cookie: {
     maxAge: 60 * 60 * 1000,
     httpOnly: true,
@@ -34,6 +36,7 @@ const sess = {
 };
 
 app.use(session(sess));
+app.use('/api',routes);
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
@@ -58,6 +61,7 @@ const startApolloServer = async () => {
     })
   })
   };
+
   
 // Call the async function to start the server
   startApolloServer();

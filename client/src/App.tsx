@@ -10,12 +10,26 @@ const client = new ApolloClient({
 });
 
 function App() {
+
+  const handleClick= (e: any) => {
+    e.preventDefault();
+    fetch('/api', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    }).then((res) => {
+      console.log(res);
+    });
+    console.log('clicked');
+  }
+
   return (
     <ApolloProvider client={client}>
       <Router>
         <div className='flex'>
-        <h2>a</h2>
-        <h1 className='flex w-full border border-black text-9xl'>hi</h1>
+
+            <button className='btn' onClick={handleClick}>click</button>
         </div>
       </Router>
     </ApolloProvider>
