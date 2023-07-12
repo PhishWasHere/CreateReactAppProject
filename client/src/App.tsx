@@ -13,7 +13,10 @@ function App() {
   return (
     <ApolloProvider client={client}>
       <Router>
-
+        <div className='flex'>
+        <h2>a</h2>
+        <h1 className='flex w-full border border-black text-9xl'>hi</h1>
+        </div>
       </Router>
     </ApolloProvider>
   );
