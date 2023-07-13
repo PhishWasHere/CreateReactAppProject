@@ -12,17 +12,16 @@ module.exports = {
                 return;
             }
             
-            const userData = await User.findOne({ email: req.body.email.trim() });
+            const userData = await User.findOne({ where: { username: req.body.username.trim() } });
+            console.log(req.body, userData);
             if (!userData) {
-                res.status(400).json({
+                res.status(400).json({ 
                   message: 'Incorrect email or password, please try again',
                 });
                 return;
             }
 
-            console.log(userData, userData.password, req.body.password.trim());
-
-            const validPass = await bcrypt.compare(req.body.password.trim(), userData.password);   
+            const validPass = await User.comparePassword(req.body.password.trim(), userData.password);   
             console.log(validPass);
 
             if (!userData || !validPass) {
