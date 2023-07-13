@@ -31,14 +31,15 @@ const sess = {
   saveUninitialized: true,
   store: MongoStore.create({
     mongoUrl: process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/craproject',
-    ttl: 14 * 24 * 60 * 60,
+    ttl: 60 * 60 * 1000,
   }),
 };
 
 app.use(session(sess));
-app.use('/api',routes);
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+
+app.use('/', routes);
 
 if (process.env.NODE_ENV === 'production') {
   app.use(express.static(path.join(__dirname, '../client/build')));
@@ -60,7 +61,7 @@ const startApolloServer = async () => {
       console.log(`Use GraphQL at http://localhost:${PORT}${server.graphqlPath}`);
     })
   })
-  };
+};
 
   
 // Call the async function to start the server
