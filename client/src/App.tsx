@@ -1,69 +1,58 @@
 import React from 'react';
-import { useState } from 'react';
-import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
+import {
+  ApolloClient,
+  InMemoryCache,
+  ApolloProvider,
+  createHttpLink,
+} from '@apollo/client';
+import { setContext } from '@apollo/client/link/context';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
-import { useMutation } from '@apollo/client';
-import {ADD_USER} from './utils/mutations'
+import Home from './pages/home';
+import Signup from './pages/signup';
 
+// Construct our main GraphQL API endpoint
+const httpLink = createHttpLink({
+  uri: '/graphql',
+});
 
+// Construct request middleware that will attach the JWT token to every request as an `authorization` header
+const authLink = setContext((_, { headers }) => {
+  // get the authentication token from local storage if it exists
+  const token = localStorage.getItem('id_token');
+  // return the headers to the context so httpLink can read them
+  return {
+    headers: {
+      ...headers,
+      authorization: token ? `Bearer ${token}` : '',
+    },
+  };
+});
 
 const client = new ApolloClient({
-  uri: '/graphql',
+  // Set up our client to execute the `authLink` middleware prior to making the request to our GraphQL API
+  link: authLink.concat(httpLink),
   cache: new InMemoryCache(),
 });
 
-function App() {
-
-  const [state, setState] = useState({
-    username: '',
-    email: '',
-    password: '',
-  })
-
-  
-  const [addUser, { error, data }] = useMutation(ADD_USER);
-  
-  const handleSubmit = async (e: any) => {
-    e.preventDefault();
-    try {
-      const {data} = await addUser({
-        variables: {...state}
-      });
-
-    } catch (err) {
-      console.error(err);
-    }
-  }
-
-
-  // const handleClick= (e: any) => {
-  //   e.preventDefault();
-  //   fetch('/api', {
-  //     method: 'GET',
-  //     headers: {
-  //       'Content-Type': 'application/json',
-  //     },
-  //   }).then((res) => {
-  //     console.log(res);
-  //   });
-  //   console.log('clicked');
-  // }
-
+export default function App() {
   return (
     <ApolloProvider client={client}>
       <Router>
-        <div className='flex'>
-          <form onSubmit={handleSubmit}>
-            <input type='text' placeholder='username' name='username' value={state.username}/>
-            <input type='text' placeholder='email' name='email' value={state.email}></input>
-            <input type='password' placeholder='password' name='password' value={state.password}></input>
-            <button type='submit'>Submit</button>
-          </form>
+        <div className=''>
+        <Routes>
+            <Route
+              path='/'
+              element={<Home/>}
+              />
+            <Route
+              path='/signup'
+              element={<Signup/>}
+            />
+          </Routes>
         </div>
       </Router>
     </ApolloProvider>
   );
 }
 
-export default App;

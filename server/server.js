@@ -1,47 +1,24 @@
 //tried to use ts, but cant import and cant be bothered
+//remove exp-sess from package.json
 
 const express = require('express');
-// const session = require('express-session');
-// const MongoStore = require('connect-mongo');
 const { ApolloServer } = require('apollo-server-express');
-const { authMiddleware } = require('./utils/auth');
 const path = require('path');
+const { authMiddleware } = require('./utils/auth');
 
 const { typeDefs, resolvers } = require('./schemas');
 const db = require('./config/connection');
-
-const routes = require('./routes/index');
-
 
 const PORT = process.env.PORT || 3001;
 const app = express();
 const server = new ApolloServer({
   typeDefs,
   resolvers,
-  context: authMiddleware
+  context: authMiddleware,
 });
 
-// const sess = {
-//   secret: 'Super secret secret', //env this later
-//   cookie: {
-//     maxAge: 60 * 60 * 1000,
-//     httpOnly: true,
-//     secure: true,
-//     sameSite: 'strict',
-//   },
-//   resave: false,
-//   saveUninitialized: true,
-//   store: MongoStore.create({
-//     mongoUrl: process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/craproject',
-//     ttl: 60 * 60 * 1000,
-//   }),
-// };
-
-// app.use(session(sess));
-app.use(express.urlencoded({ extended: true }));
+app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
-
-app.use('/', routes);
 
 if (process.env.NODE_ENV === 'production') {
   app.use(express.static(path.join(__dirname, '../client/build')));
@@ -63,10 +40,10 @@ const startApolloServer = async () => {
       console.log(`Use GraphQL at http://localhost:${PORT}${server.graphqlPath}`);
     })
   })
-};
-
+  };
   
 // Call the async function to start the server
-  startApolloServer();
+startApolloServer();
+
 
 
