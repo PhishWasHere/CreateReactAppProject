@@ -33,6 +33,7 @@ export default function Signup () {
     return (
 
         <div>
+            <Link to='/login'>Already a User? Login Now</Link>
             {data ? <p>{data.addUser.message}</p> : null}
             <h1>Signup</h1>
             <form className='text-black' onSubmit={handleSubmit}>

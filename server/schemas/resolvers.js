@@ -10,10 +10,11 @@ const resolvers = {
       return users || []; // Return an empty array if users is null or undefined
     },
 
-    user: async (parent, { username }) => {
-      return User.findOne({ username: username });
+    user: async (parent, { userid }) => {
+      return User.findOne({ _id: userid });
     },
   },
+  
   Mutation: {
     addUser: async (parent, { username, email, password }) => {
       console.log('addUser');
@@ -22,7 +23,26 @@ const resolvers = {
       user.token = token; // Assign the token to the user object
       console.log(token);
       return { token, user };
-    }
+    },
+
+    login: async (parent, { email, password }) => {
+
+      const user = await User.findOne({ email });
+
+      if (!user) {
+        throw new AuthenticationError('No user found with this email address');
+      }
+ 
+      const correctPw = await user.isCorrectPassword(password);
+
+      if (!correctPw) {
+        throw new AuthenticationError('Incorrect credentials');
+      }
+
+      const token = signToken(user);
+
+      return { token, user };
+    },
   }  
 };
 
