@@ -7,7 +7,9 @@ import {
 } from '@apollo/client';
 import { setContext } from '@apollo/client/link/context';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Auth from './utils/auth';
 
+import Front from './pages/front';
 import Home from './pages/home';
 import Signup from './pages/signup';
 import Login from './pages/login';
@@ -38,12 +40,20 @@ const client = new ApolloClient({
 });
 
 export default function App() {
+
+
   return (
     <ApolloProvider client={client}>
       <Router>
-        {}
-        <div className=''>
-        <Routes>
+        <div className='flex flex-col h-screen justify-between'>
+        {!Auth.loggedIn() ? (
+          <>
+            <Front/>
+          </>
+        ) : (
+          <div className=''>
+          <Routes>
+          <Logout/>
             <Route
               path='/'
               element={<Home/>}
@@ -51,12 +61,14 @@ export default function App() {
             <Route
               path='/signup'
               element={<Signup/>}
-            />
+              />
             <Route
               path='/login'
               element={<Login/>}
-            />
+              />
           </Routes>
+        </div>
+        )}
         </div>
       </Router>
     </ApolloProvider>

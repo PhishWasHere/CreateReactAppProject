@@ -35,22 +35,28 @@ export default function Login () {
   {!Auth.loggedIn() ? (
     <>
       {data ? <p>{data.login.message}</p> : null}
-      <h1>Login</h1>
-      <form className="text-black" onSubmit={handleSubmit}>
-        <input
-          type="text"
-          placeholder="Email"
-          onChange={(e) => setFormState({ ...formState, email: e.target.value })}
-        />
-        <input
-          type="password"
-          placeholder="Password"
-          onChange={(e) => setFormState({ ...formState, password: e.target.value })}
-        />
-        <button type="submit" className="text-white">
-          Submit
-        </button>
-      </form>
+        <form onSubmit={handleSubmit} className="card flex-shrink-0 w-full max-w-sm shadow-2xl bg-base-100">
+            <div className="card-body">
+                <div className="form-control">
+                    <label className="label">
+                        <span className="label-text">Email</span>
+                    </label>
+                    <input type="text" placeholder="email" className="input input-bordered" />
+                    </div>
+                    <div className="form-control">
+                    <label className="label">
+                        <span className="label-text">Password</span>
+                    </label>
+                    <input type="text" placeholder="password" className="input input-bordered" />
+                    <label className="label">
+                        <a href="/signup" className="label-text-alt link link-hover">New User, Sign Up?</a>
+                    </label>
+                    </div>
+                <div className="form-control mt-6">
+                    <button className="btn btn-primary" type='submit'>Login</button>  
+                </div>
+            </div>
+        </form>
       {error ? <p>{error.message}</p> : null}
     </>
     ) : (
