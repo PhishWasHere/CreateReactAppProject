@@ -27,14 +27,11 @@ class AuthService {
     return false;
   }
 
-  getToken() {
-    console.log('getToken function called');
-
+  getToken() {    
     return localStorage.getItem('id_token');
   }
 
   login(idToken: any) {
-    console.log('login function called');
     localStorage.setItem('id_token', idToken);
     window.location.assign('/');
   }

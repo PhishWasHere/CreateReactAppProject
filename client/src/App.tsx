@@ -13,7 +13,7 @@ import Front from './pages/front';
 import Home from './pages/home';
 import Signup from './pages/signup';
 import Login from './pages/login';
-import Logout from './components/logout';
+import Nav from './components/navbar';
 
 // Construct our main GraphQL API endpoint
 const httpLink = createHttpLink({
@@ -45,15 +45,37 @@ export default function App() {
   return (
     <ApolloProvider client={client}>
       <Router>
-        <div className='flex flex-col h-screen justify-between'>
+        <div className='flex flex-col h-screen justify-between bg-base-200'>
         {!Auth.loggedIn() ? (
           <>
-            <Front/>
+            <Routes>
+              <Route 
+                path='/'
+                element={<Front/>}
+              />
+
+              <Route
+                path='/signup'
+                element={<Signup/>}
+              />
+
+              <Route
+                path='/login'
+                element={<Front/>} 
+              />
+
+              {/* add wildcard route
+               <Route
+                path='/*'
+                element={}
+              /> */}
+            </Routes>
           </>
         ) : (
           <div className=''>
+          <Nav/>
+          
           <Routes>
-          <Logout/>
             <Route
               path='/'
               element={<Home/>}

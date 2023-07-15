@@ -10,6 +10,15 @@ export default function Login () {
 
     const [login, {error, data}] = useMutation(LOGIN_USER);
 
+    const handleChange = (e: any) => {
+        const { name, value } = e.target;
+    
+        setFormState({
+          ...formState,
+          [name]: value,
+        });
+      };
+
     const handleSubmit = async (e: any) => {
         e.preventDefault();
         console.log('form', formState);
@@ -31,28 +40,33 @@ export default function Login () {
 
     return (
 <div>
-  <Link to="/signup">New User? Signup Now</Link>
   {!Auth.loggedIn() ? (
     <>
       {data ? <p>{data.login.message}</p> : null}
-        <form onSubmit={handleSubmit} className="card flex-shrink-0 w-full max-w-sm shadow-2xl bg-base-100">
-            <div className="card-body">
-                <div className="form-control">
+        <form onSubmit={handleSubmit} className="card flex-shrink-0 w-full shadow-2xl bg-base-100">
+            <div className="card-body ">
+                <div className="form-control ">
                     <label className="label">
-                        <span className="label-text">Email</span>
+                        <span className="">Email</span>
                     </label>
-                    <input type="text" placeholder="email" className="input input-bordered" />
+
+                    <input type="email" name='email' value={formState.email} placeholder="email" onChange={handleChange} className="input input-bordered" />
+
                     </div>
                     <div className="form-control">
+
                     <label className="label">
-                        <span className="label-text">Password</span>
+                        <span className="">Password</span>
                     </label>
-                    <input type="text" placeholder="password" className="input input-bordered" />
-                    <label className="label">
-                        <a href="/signup" className="label-text-alt link link-hover">New User, Sign Up?</a>
+
+                    <input type="password" name='password' value={formState.password} placeholder="password" onChange={handleChange} className="input input-bordered" />
+
+                    <label className="label ml-auto mt-1">
+                       <a href="/signup" className="text-base"> Sign Up!</a>
                     </label>
+
                     </div>
-                <div className="form-control mt-6">
+                <div className="form-control mt-3">
                     <button className="btn btn-primary" type='submit'>Login</button>  
                 </div>
             </div>

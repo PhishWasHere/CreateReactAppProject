@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import { useMutation } from '@apollo/client';
 import Auth from '../../utils/auth';
 
-export default function Logout () {
+export default function Navbar () {
 
     const handleSubmit = async (e: any) => {
         e.preventDefault();
