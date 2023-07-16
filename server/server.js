@@ -18,9 +18,9 @@ const server = new ApolloServer({
   resolvers,
   context: authMiddleware,
 });
-app.use(routes);
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+app.use(routes);
 
 if (process.env.NODE_ENV === 'production') {
   app.use(express.static(path.join(__dirname, '../client/build')));

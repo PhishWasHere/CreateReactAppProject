@@ -1,4 +1,4 @@
-const { User } = require('../models');
+const { User, Project, Task } = require('../models');
 const { AuthenticationError } = require('apollo-server-express');
 const { signToken } = require('../utils/auth');
  
@@ -41,6 +41,16 @@ const resolvers = {
 
       return { token, user };
     },
+
+    addProject: async (parent, { name, description, createdBy, tasks }) => {
+      const project = await Project.create({ name, description, createdBy, tasks });
+      return project;
+    },
+
+    addTask: async (parent, { title, description, dueDate, priority, project, assignee }) => {
+      const task = await Task.create({ title, description, dueDate, priority, project, assignee });
+      return task;
+    }
   }  
 };
 

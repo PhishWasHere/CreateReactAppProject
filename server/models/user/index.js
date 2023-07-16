@@ -42,8 +42,6 @@ const UserSchema = new mongoose.Schema(
       required: true,
       lowercase: true,
       trim: true,
-      // set: encrypt,
-      // get: decrypt
     },
     password: {
       type: String,
@@ -51,10 +49,6 @@ const UserSchema = new mongoose.Schema(
       minlength: 8,
       maxLength: 20,
     },
-    // chat: {
-    //   type: Schema.Types.ObjectId,
-    //   ref: 'Chat',
-    // },
     createdAt: {
       type: Date,
       default: Date.now,
@@ -62,9 +56,7 @@ const UserSchema = new mongoose.Schema(
   },
   {
     hooks: {
-    
     },
-    // collection: 'users', 
     toJSON: {
       virtuals: true,
       getters: true
@@ -110,11 +102,6 @@ UserSchema.methods.isCorrectPassword = async function (password) {
   return bcrypt.compare(password, this.password);
 };
 
-
-// userSchema.virtual('chat_history').get(function () {
-//   return this.friends.length;
-// });
-// UserSchema.path('email').set(encrypt).get(decrypt); fix later
 
 const User = mongoose.model('User', UserSchema);
 
