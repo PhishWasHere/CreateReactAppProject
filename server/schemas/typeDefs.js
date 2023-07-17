@@ -31,6 +31,8 @@ const typeDefs = gql`
   type Query {
     users: [User]!
     user(userid: ID!): User
+    projects(userid: ID!): [Project]!
+    tasks(projectid: ID!): [Task]!
   }
 
   type Auth {

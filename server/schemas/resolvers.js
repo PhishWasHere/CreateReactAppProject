@@ -12,6 +12,14 @@ const resolvers = {
     user: async (parent, { userid }) => {
       return User.findOne({ _id: userid });
     },
+
+    projects: async (parent, { userid }) => {
+      return Project.find({ createdBy: userid });
+    },
+
+    tasks: async (parent, { projectid }) => {
+      return Task.find({ project: projectid });
+    }
   },
   
   Mutation: {
