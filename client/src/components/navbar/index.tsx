@@ -25,7 +25,7 @@ export default function Navbar () {
     return (
         <nav className='navbar justify-center '>
             <div className="flex-1">
-            <button className={`btn normal-case text-xl ${classNames[currentIndex]}`} onClick={handleClick}>C.R.A.P</button>
+                <button className={`btn normal-case text-xl ${classNames[currentIndex]}`} onClick={handleClick}>C.R.A.P</button>
             </div>
             
             <div className="dropdown dropdown-end">

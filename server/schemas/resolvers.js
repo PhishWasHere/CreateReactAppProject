@@ -1,7 +1,6 @@
-const { User } = require('../models');
+const { User, Project, Task } = require('../models');
 const { AuthenticationError } = require('apollo-server-express');
 const { signToken } = require('../utils/auth');
-
  
 const resolvers = {
   Query: {
@@ -13,15 +12,22 @@ const resolvers = {
     user: async (parent, { userid }) => {
       return User.findOne({ _id: userid });
     },
+
+    projects: async (parent, { userid }) => {
+      return Project.find({ createdBy: userid });
+    },
+
+    tasks: async (parent, { projectid }) => {
+      return Task.find({ project: projectid });
+    }
   },
   
   Mutation: {
     addUser: async (parent, { username, email, password }) => {
-      console.log('addUser');
+
       const user = await User.create({ username, email, password });
       const token = signToken(user); // Retrieve the token
       user.token = token; // Assign the token to the user object
-      console.log(token);
       return { token, user };
     },
 
@@ -43,6 +49,16 @@ const resolvers = {
 
       return { token, user };
     },
+
+    addProject: async (parent, { name, description, createdBy, tasks }) => {
+      const project = await Project.create({ name, description, createdBy, tasks });
+      return project;
+    },
+
+    addTask: async (parent, { title, description, dueDate, priority, project, assignee }) => {
+      const task = await Task.create({ title, description, dueDate, priority, project, assignee });
+      return task;
+    }
   }  
 };
 

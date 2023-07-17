@@ -28,7 +28,6 @@ const decrypt = (text) => {
   return decrypted;
 };
 
-
 const UserSchema = new mongoose.Schema(
   {
     username: {
@@ -41,11 +40,8 @@ const UserSchema = new mongoose.Schema(
       type: String,
       unique: true,
       required: true,
-      // match: [/.+@.+\..+/],
       lowercase: true,
       trim: true,
-      // set: encrypt,
-      // get: decrypt
     },
     password: {
       type: String,
@@ -53,10 +49,6 @@ const UserSchema = new mongoose.Schema(
       minlength: 8,
       maxLength: 20,
     },
-    // chat: {
-    //   type: Schema.Types.ObjectId,
-    //   ref: 'Chat',
-    // },
     createdAt: {
       type: Date,
       default: Date.now,
@@ -64,9 +56,7 @@ const UserSchema = new mongoose.Schema(
   },
   {
     hooks: {
-    
     },
-    // collection: 'users', 
     toJSON: {
       virtuals: true,
       getters: true
@@ -74,10 +64,35 @@ const UserSchema = new mongoose.Schema(
   }
 );
 
-UserSchema.pre('save', async function (next) {
-  if (this.isNew || this.isModified('password')) {
-    const saltRounds = 10;
-    this.password = await bcrypt.hash(this.password, saltRounds);
+
+UserSchema.methods.encryptEmail = function () { //fix this crap later
+  const algorithm = 'aes-256-cbc';
+  const key = crypto.scryptSync(secret, 'salt', 32);
+  const iv = crypto.randomBytes(16);
+  const cipher = crypto.createCipheriv(algorithm, key, iv);
+  let encrypted = cipher.update(this.email, 'utf8', 'hex');
+  encrypted += cipher.final('hex');
+  this.email = iv.toString('hex') + ':' + encrypted;
+};
+
+UserSchema.methods.decryptEmail = function () {
+  if (this.email === null || typeof this.email === 'undefined') {
+    return this.email;
+  }
+  const algorithm = 'aes-256-cbc';
+  const key = crypto.scryptSync(secret, 'salt', 32);
+  const [ivHex, encrypted] = this.email.split(':');
+  const iv = Buffer.from(ivHex, 'hex');
+  const decipher = crypto.createDecipheriv(algorithm, key, iv);
+  let decrypted = decipher.update(encrypted, 'hex', 'utf8');
+  decrypted += decipher.final('utf8');
+  this.email = decrypted;
+};
+
+UserSchema.pre('save', async function (next) { // pre save hook
+  if (this.isNew || this.isModified('password')) { // if new user or password is modified then hash password
+    const saltRounds = 10; // move to env once done
+    this.password = await bcrypt.hash(this.password, saltRounds); 
   }
 
   next();
@@ -86,10 +101,7 @@ UserSchema.pre('save', async function (next) {
 UserSchema.methods.isCorrectPassword = async function (password) {
   return bcrypt.compare(password, this.password);
 };
-// userSchema.virtual('chat_history').get(function () {
-//   return this.friends.length;
-// });
-// UserSchema.path('email').set(encrypt).get(decrypt); fix later
+
 
 const User = mongoose.model('User', UserSchema);
 
