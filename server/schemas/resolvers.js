@@ -17,6 +17,20 @@ const resolvers = {
       return Project.find({ createdBy: userid });
     },
 
+    singleProject: async (parent, { id }) => {
+      try {
+        const project = await Project.findOne({ _id: id });
+        const tasks = await Task.find({ project: id });
+        const user = await User.findOne({ _id: project.createdBy });
+    
+        return { project, tasks, user };
+      } catch (error) {
+        // Handle any errors that occur during the database query
+        console.error(error);
+        throw new Error('Failed to fetch project and tasks.');
+      }
+    },
+
     tasks: async (parent, { projectid }) => {
       return Task.find({ project: projectid });
     }
@@ -47,11 +61,11 @@ const resolvers = {
 
       const token = signToken(user);
 
-      return { token, user };
+      return { token, user, userid: user._id };
     },
 
-    addProject: async (parent, { name, description, createdBy, tasks }) => {
-      const project = await Project.create({ name, description, createdBy, tasks });
+    addProject: async (parent, { name, description, createdBy, status }) => {
+      const project = await Project.create({ name, description, createdBy, status });
       return project;
     },
 

@@ -33,6 +33,13 @@ const typeDefs = gql`
     user(userid: ID!): User
     projects(userid: ID!): [Project]!
     tasks(projectid: ID!): [Task]!
+    singleProject(id: ID!): ProjectDetails
+  }
+
+  type ProjectDetails {
+    project: Project
+    tasks: [Task]
+    user: User
   }
 
   type Auth {
