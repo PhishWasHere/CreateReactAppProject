@@ -1,13 +1,12 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
 
-import GPT from '../../components/chat';
-
+import Projects from '../../components/projects';
 
 export default function Home () {
   return (
     <main>
-      <GPT/>
+      <Projects />
     </main>
   );
 }

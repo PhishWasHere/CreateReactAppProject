@@ -20,7 +20,6 @@ export const LOGIN_USER = gql`
       user {
         _id
         username
-        email
       }
     }
   }
@@ -35,7 +34,6 @@ export const ADD_PROJECT = gql`
       createdBy {
         _id
         username
-        email
       }
       tasks {
         _id

@@ -4,35 +4,25 @@ const { signToken } = require('../utils/auth');
  
 const resolvers = {
   Query: {
-    users: async () => {
-      const users = await User.find().sort({ createdAt: -1 });
-      return users || []; // Return an empty array if users is null or undefined
-    },
-
-    user: async (parent, { userid }) => {
-      return User.findOne({ _id: userid });
-    },
-
-    projects: async (parent, { userid }) => {
-      return Project.find({ createdBy: userid });
-    },
-
-    singleProject: async (parent, { id }) => {
-      try {
-        const project = await Project.findOne({ _id: id });
-        const tasks = await Task.find({ project: id });
-        const user = await User.findOne({ _id: project.createdBy });
-    
-        return { project, tasks, user };
-      } catch (error) {
-        // Handle any errors that occur during the database query
-        console.error(error);
-        throw new Error('Failed to fetch project and tasks.');
+    me: async (parent, args, context) => {
+      if (context.user) {
+        return User.findOne({ _id: context.user._id });
       }
+      throw new AuthenticationError('You need to be logged in!');
     },
 
-    tasks: async (parent, { projectid }) => {
-      return Task.find({ project: projectid });
+    projects: async (parent, {username}) => {
+      const params = username ? { username } : {};
+      return Project.find(params).sort({ createdAt: -1 });
+    },
+
+    project: async (parent, { _id }) => {
+      return Project.findOne({ _id }).populate('tasks');
+    },
+
+    tasks: async (parent, {username}) => {
+      const params = username ? { username } : {};
+      return Task.find(params).sort({ createdAt: -1 });
     }
   },
   
@@ -61,7 +51,7 @@ const resolvers = {
 
       const token = signToken(user);
 
-      return { token, user, userid: user._id };
+      return { token, user};
     },
 
     addProject: async (parent, { name, description, createdBy, status }) => {

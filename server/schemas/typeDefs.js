@@ -1,12 +1,14 @@
 const { gql } = require('apollo-server-express');
 
 const typeDefs = gql`
+
   type User {
     _id: ID
     username: String
     email: String
     password: String
-    createdAt: String
+    projects: [Project]
+    tasks: [Task] 
   }
 
   type Project {
@@ -15,6 +17,7 @@ const typeDefs = gql`
     description: String
     createdBy: User
     tasks: [Task]
+    status: String
   }
 
   type Task {
@@ -25,22 +28,18 @@ const typeDefs = gql`
     priority: String
     project: Project
     assignee: User
-    comments: [User]
   }
 
   type Query {
-    users: [User]!
-    user(userid: ID!): User
-    projects(userid: ID!): [Project]!
-    tasks(projectid: ID!): [Task]!
-    singleProject(id: ID!): ProjectDetails
-  }
-
-  type ProjectDetails {
-    project: Project
+    me: User
+    users: [User]
+    user(username: String!): User
+    projects: [Project]
+    project(_id: ID!): Project
     tasks: [Task]
-    user: User
+    task(_id: ID!): Task
   }
+  
 
   type Auth {
     token: ID!
