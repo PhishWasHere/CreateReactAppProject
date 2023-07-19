@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 
 import Auth from '../../utils/auth';
 
-export default function Form() {
+export default function AddProject() {
  
     const [name, setName] = useState('');
     const [description, setDescription] = useState('');

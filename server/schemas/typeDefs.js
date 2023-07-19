@@ -16,8 +16,8 @@ const typeDefs = gql`
     name: String
     description: String
     createdBy: User
-    tasks: [Task]
     status: String
+    tasks: [Task]
   }
 
   type Task {
@@ -28,12 +28,11 @@ const typeDefs = gql`
     priority: String
     project: Project
     assignee: User
+    status: String
   }
 
   type Query {
-    me: User
     users: [User]
-    user(username: String!): User
     projects: [Project]
     project(_id: ID!): Project
     tasks: [Task]

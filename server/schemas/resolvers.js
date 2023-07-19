@@ -5,6 +5,10 @@ const { signToken } = require('../utils/auth');
 const resolvers = {
   Query: {
 
+    users: async () => {
+      return User.find()
+    },
+
     projects: async (parent, args, context) => {
       if (context.user) {
         const projects = await Project.find({ createdBy: context.user._id });
@@ -14,7 +18,20 @@ const resolvers = {
     },
 
     project: async (parent, { _id }) => {
-      return Project.findOne({ _id }).populate('tasks');
+      try {
+        const project = await Project.findById(_id).populate('tasks');
+        if (!project) {
+          throw new Error('Project not found!');
+        }
+        return project;
+      } catch (error) {
+        throw new Error('Project not found!');
+      }
+    },
+
+    tasks: async (parent, { projectId }) => {
+      const tasks = await Task.find({ project: projectId });
+      return tasks;
     },
 
     tasks: async (parent, {username}) => {
@@ -56,8 +73,8 @@ const resolvers = {
       return project;
     },
 
-    addTask: async (parent, { title, description, dueDate, priority, project, assignee }) => {
-      const task = await Task.create({ title, description, dueDate, priority, project, assignee });
+    addTask: async (parent, { title, description, dueDate, priority, project, assignee , status}) => {
+      const task = await Task.create({ title, description, dueDate, priority, project, assignee, status });
       return task;
     }
   }  

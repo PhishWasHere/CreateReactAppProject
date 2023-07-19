@@ -21,6 +21,11 @@ const taskSchema = new mongoose.Schema({
     ref: 'Project',
     required: true,
   },
+  status: {
+    type: String,
+    enum: ['active', 'completed', 'cancelled'],
+    default: 'active',
+  },
   assignee: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',

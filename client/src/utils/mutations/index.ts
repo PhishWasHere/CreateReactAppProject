@@ -48,13 +48,11 @@ export const ADD_TASK = gql`
       priority
       project {
         _id
-        name
-        description
       }
+      status
       assignee {
         _id
-        username
-        email
+
       }
     }
   }

@@ -2,13 +2,13 @@ import React from 'react';
 import {Link} from 'react-router-dom';
 
 import Projects from '../../components/projects';
-import Form from '../../components/form';
+import AddProject from '../../components/addproject';
 
 export default function Home () {
   return (
     <main>
       <Projects />
-      <Form />
+      <AddProject />
     </main>
   );
 }
