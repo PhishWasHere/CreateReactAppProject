@@ -26,19 +26,12 @@ export const LOGIN_USER = gql`
 `;
 
 export const ADD_PROJECT = gql`
-  mutation($name: String!, $description: String, $createdBy: ID!, $tasks: [ID]) {
-    addProject(name: $name, description: $description, createdBy: $createdBy, tasks: $tasks) {
-      _id
+  mutation($name: String!, $description: String, $createdBy: ID!) {
+    addProject(name: $name, description: $description, createdBy: $createdBy) {
       name
       description
       createdBy {
         _id
-        username
-      }
-      tasks {
-        _id
-        title
-        description
       }
     }
   }

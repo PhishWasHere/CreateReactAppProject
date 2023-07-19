@@ -4,16 +4,13 @@ const { signToken } = require('../utils/auth');
  
 const resolvers = {
   Query: {
-    me: async (parent, args, context) => {
+
+    projects: async (parent, args, context) => {
       if (context.user) {
-        return User.findOne({ _id: context.user._id });
+        const projects = await Project.find({ createdBy: context.user._id });
+        return projects;
       }
       throw new AuthenticationError('You need to be logged in!');
-    },
-
-    projects: async (parent, {username}) => {
-      const params = username ? { username } : {};
-      return Project.find(params).sort({ createdAt: -1 });
     },
 
     project: async (parent, { _id }) => {
@@ -54,8 +51,8 @@ const resolvers = {
       return { token, user};
     },
 
-    addProject: async (parent, { name, description, createdBy, status }) => {
-      const project = await Project.create({ name, description, createdBy, status });
+    addProject: async (parent, { name, description, createdBy }) => {
+      const project = await Project.create({ name, description, createdBy });
       return project;
     },
 
