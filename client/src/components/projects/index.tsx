@@ -34,7 +34,7 @@ export default function Projects() {
               </h4>
               <div className="card-body bg-light p-2">
                 <p>{project.description}</p>
-                <p>Number of Tasks: {project.tasks.length}</p>
+                <p>Number of Tasks: {project.tasks?.length || "Error retrieving tasks"}</p>
               </div>
               <Link key={project._id} to={`/projects/${project._id}`}>
                 <button className="btn btn-primary btn-block btn-squared">

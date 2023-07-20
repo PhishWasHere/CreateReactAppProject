@@ -4,16 +4,11 @@ export const QUERY_PROJECTS = gql`
   query {
     projects {
       _id
-      name
       description
-      createdBy {
-        _id
-        username
-      }
+      name
+      status
       tasks {
         _id
-        title
-        description
       }
     }
   }
@@ -23,22 +18,16 @@ export const QUERY_PROJECT = gql`
   query project($projectId: ID!) {
     project(projectId: $projectId) {
       _id
-      name
-      description 
+      description
+      status
       tasks {
-        _id
-        title
         description
+        _id
         dueDate
+        name
         priority
-        assignee {
-          _id
-          username
-          email
-        }
         status
       }
-      status
     }
   }
 `;

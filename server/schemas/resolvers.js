@@ -11,7 +11,7 @@ const resolvers = {
 
     projects: async (parent, args, context) => {
       if (context.user) {
-        const projects = await Project.find({ createdBy: context.user._id });
+        const projects = await Project.find({ user: context.user._id });
         return projects;
       }
       throw new AuthenticationError('You need to be logged in!');
@@ -64,8 +64,12 @@ const resolvers = {
     },
 
     addProject: async (parent, { name, description, status, userId }) => {
-      const project = await Project.create({ name, description, status, user: userId });
-      return project;
+      try {
+        const project = await Project.create({ name, description, status, user: userId });
+        return project;
+      } catch (err) {
+        throw new Error('Something went wrong!');
+      }
     },
 
     addTask: async (parent, { projectId, name, description, dueDate, priority, status }) => {

@@ -26,18 +26,29 @@ export const LOGIN_USER = gql`
 `;
 
 export const ADD_PROJECT = gql`
-  mutation($name: String!, $description: String, $createdBy: ID!) {
-    addProject(name: $name, description: $description, createdBy: $createdBy) {
+  mutation Mutation($name: String!, $description: String!, $status: String!, $userId: ID!) {
+    addProject(name: $name, description: $description, status: $status, userId: $userId) {
+      _id
       name
+      status
       description
-      createdBy {
-        _id
-      }
+      userId
     }
   }
 `;
 
 export const ADD_TASK = gql`
+  mutation Mutation($projectId: ID!, $name: String!, $description: String!, $dueDate: String!, $priority: String!, $status: String!) {
+    addTask(projectId: $projectId, name: $name, description: $description, dueDate: $dueDate, priority: $priority, status: $status) {
+      _id
+      description
+      name
+      status
+    }
+  }
+`
+
+export const ADD_TASK_sunset = gql`
   mutation($title: String!, $description: String, $dueDate: String!, $priority: String, $project: ID!, $assignee: ID!) {
     addTask(title: $title, description: $description, dueDate: $dueDate, priority: $priority, project: $project, assignee: $assignee) {
       _id
