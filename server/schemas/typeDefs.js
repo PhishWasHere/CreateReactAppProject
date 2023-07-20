@@ -22,7 +22,6 @@ const typeDefs = gql`
 
   type Task {
   _id: ID!
-  project: Project!
   name: String!
   description: String!
   dueDate: String!
@@ -45,7 +44,7 @@ const typeDefs = gql`
     addUser(username: String!, email: String!, password: String!): Auth
     login(email: String!, password: String!): Auth
     addProject(name: String!, description: String!, status: String!, userId: ID!): Project
-    addTask(projectId: ID!, name: String!, description: String!, dueDate: String!, priority: String!, status: String!): Task
+    addTask(projectId: ID!, name: String!, description: String!, dueDate: String!, priority: String!, status: String!): Project
   }
   
 `;

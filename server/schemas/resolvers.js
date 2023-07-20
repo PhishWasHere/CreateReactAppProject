@@ -17,31 +17,22 @@ const resolvers = {
       throw new AuthenticationError('You need to be logged in!');
     },
 
+
     project: async (parent, { projectId }) => {
       try {
         if (!projectId) {
           throw new Error('Project ID is required.');
         }
-        const project = await Project.findById(projectId).populate('tasks');
+        const project = await Project.findById(projectId);
         if (!project) {
           throw new Error('Project not found!');
         }
-        return project;
-      } catch (err) {
-        console.log(err);
-        throw new Error('Error: Project not found!');
+      return project;
+    } catch (err) {
+      console.log(err);
+      throw new Error('Error: Project not found!');
       }
     },
-
-    // tasks: async (parent, { projectId }) => {
-    //   const tasks = await Task.find({ project: projectId });
-    //   return tasks;
-    // },
-
-    // tasks: async (parent, {username}) => {
-    //   const params = username ? { username } : {};
-    //   return Task.find(params).sort({ createdAt: -1 });
-    // }
   },
   
   Mutation: {
@@ -78,29 +69,24 @@ const resolvers = {
     },
 
     addTask: async (parent, { projectId, name, description, dueDate, priority, status }) => {
-      try {
-        if (!projectId) {
-          throw new Error('Project ID is required.'); // Validate if the project ID is provided
-        }
-        const newTask = await Task.create({ project: projectId, name, description, dueDate, priority, status });
-        // Update the project to include the new task ID in its tasks array
-        const updatedProject = await Project.findOneAndUpdate(
+      try{
+
+        return Project.findOneAndUpdate(
           { _id: projectId },
-          { $addToSet: { tasks: newTask._id } },
-          { new: true }
-        );
-    
-        if (!updatedProject) {
-          throw new Error('Project not found.');
+          {
+            $addToSet: { tasks: { name, description, dueDate, priority, status } },
+          },
+          {
+            new: true,
+            runValidators: true,
+          }
+          );
+        }catch (err) {
+          console.log(err);
+          throw new Error('Something went wrong!');
         }
-        
-        return newTask;
-      } catch (err) {
-        console.log(err);
-        throw new Error('Something went wrong!');
-      }
-    }
-  } 
+    },
+  }
 };
 
 module.exports = resolvers;
