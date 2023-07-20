@@ -19,20 +19,24 @@ const resolvers = {
 
     project: async (parent, { projectId }) => {
       try {
-        const project = await Project.findOne({_id: projectId}).populate('tasks');
+        if (!projectId) {
+          throw new Error('Project ID is required.');
+        }
+        const project = await Project.findById(projectId).populate('tasks');
         if (!project) {
           throw new Error('Project not found!');
         }
         return project;
-      } catch (error) {
-        throw new Error('Project not found!');
+      } catch (err) {
+        console.log(err);
+        throw new Error('Error: Project not found!');
       }
     },
 
-    tasks: async (parent, { projectId }) => {
-      const tasks = await Task.find({ project: projectId });
-      return tasks;
-    },
+    // tasks: async (parent, { projectId }) => {
+    //   const tasks = await Task.find({ project: projectId });
+    //   return tasks;
+    // },
 
     // tasks: async (parent, {username}) => {
     //   const params = username ? { username } : {};
@@ -68,19 +72,35 @@ const resolvers = {
       return { token, user};
     },
 
-    addProject: async (parent, { name, description, createdBy }) => {
-      const project = await Project.create({ name, description, createdBy });
+    addProject: async (parent, { name, description, status, userId }) => {
+      const project = await Project.create({ name, description, status, user: userId });
       return project;
     },
 
-    addTask: async (parent, { title, description, dueDate, priority, project, assignee , status}) => {
-      return Project.findOneAndUpdate(
-        { _id: project },
-        { $addToSet: { tasks: { title, description, dueDate, priority, project, assignee, status } } },
-        { new: true, runValidators: true }
-      )
+    addTask: async (parent, { projectId, name, description, dueDate, priority, status }) => {
+      try {
+        if (!projectId) {
+          throw new Error('Project ID is required.'); // Validate if the project ID is provided
+        }
+        const newTask = await Task.create({ project: projectId, name, description, dueDate, priority, status });
+        // Update the project to include the new task ID in its tasks array
+        const updatedProject = await Project.findOneAndUpdate(
+          { _id: projectId },
+          { $addToSet: { tasks: newTask._id } },
+          { new: true }
+        );
+    
+        if (!updatedProject) {
+          throw new Error('Project not found.');
+        }
+        
+        return newTask;
+      } catch (err) {
+        console.log(err);
+        throw new Error('Something went wrong!');
+      }
     }
-  }  
+  } 
 };
 
 module.exports = resolvers;

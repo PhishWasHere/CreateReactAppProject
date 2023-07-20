@@ -1,27 +1,12 @@
 const mongoose = require('mongoose');
 
 const projectSchema = new mongoose.Schema({
-  name: {
-    type: String,
-    required: true,
-  },
-  description: {
-    type: String,
-  },
-  createdBy: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'User',
-    required: true,
-  },
-  status: {
-    type: String,
-    enum: ['active', 'completed', 'cancelled'],
-    default: 'active',
-  },
-  tasks: [{
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Task',
-  }],
+  user: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+  name: { type: String, required: true },
+  description: { type: String, required: true },
+  status: { type: String, enum: ['Active', 'Completed', 'Paused'], default: "Active", required: true },
+  tasks: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Task' }],
+  createdOn: { type: Date, default: Date.now },
 });
 
 const Project = mongoose.model('Project', projectSchema);
