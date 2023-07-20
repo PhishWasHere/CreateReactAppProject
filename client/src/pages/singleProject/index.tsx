@@ -11,7 +11,7 @@ export default function SingleProject () {
    console.log('id', id);
    
     const { loading, data } = useQuery(QUERY_PROJECT, {
-        variables: { _id: id },
+        variables: { projectId: id },
     });
     console.log('data', data);
     

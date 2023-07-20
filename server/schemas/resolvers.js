@@ -17,9 +17,9 @@ const resolvers = {
       throw new AuthenticationError('You need to be logged in!');
     },
 
-    project: async (parent, { _id }) => {
+    project: async (parent, { projectId }) => {
       try {
-        const project = await Project.findById(_id).populate('tasks');
+        const project = await Project.findOne({_id: projectId}).populate('tasks');
         if (!project) {
           throw new Error('Project not found!');
         }
@@ -34,10 +34,10 @@ const resolvers = {
       return tasks;
     },
 
-    tasks: async (parent, {username}) => {
-      const params = username ? { username } : {};
-      return Task.find(params).sort({ createdAt: -1 });
-    }
+    // tasks: async (parent, {username}) => {
+    //   const params = username ? { username } : {};
+    //   return Task.find(params).sort({ createdAt: -1 });
+    // }
   },
   
   Mutation: {
@@ -74,8 +74,11 @@ const resolvers = {
     },
 
     addTask: async (parent, { title, description, dueDate, priority, project, assignee , status}) => {
-      const task = await Task.create({ title, description, dueDate, priority, project, assignee, status });
-      return task;
+      return Project.findOneAndUpdate(
+        { _id: project },
+        { $addToSet: { tasks: { title, description, dueDate, priority, project, assignee, status } } },
+        { new: true, runValidators: true }
+      )
     }
   }  
 };

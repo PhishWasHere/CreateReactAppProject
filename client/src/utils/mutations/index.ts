@@ -37,26 +37,21 @@ export const ADD_PROJECT = gql`
   }
 `;
 
-
 export const ADD_TASK = gql`
   mutation($title: String!, $description: String, $dueDate: String!, $priority: String, $project: ID!, $assignee: ID!) {
     addTask(title: $title, description: $description, dueDate: $dueDate, priority: $priority, project: $project, assignee: $assignee) {
       _id
-      title
-      description
-      dueDate
-      priority
-      project {
+      task {
         _id
-      }
-      status
-      assignee {
-        _id
-
+        title
+        description
+        dueDate
+        priority
+        assignee {
+          _id
+          username
+        }
       }
     }
   }
 `;
-
-
-

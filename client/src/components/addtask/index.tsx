@@ -13,58 +13,52 @@ export default function AddTask() {
     const [dueDate, setDueDate] = useState('');
     const [priority, setPriority] = useState('');
   
-    const [addProject, { error }] = useMutation(ADD_TASK);
+    const [addTask, { data, error }] = useMutation(ADD_TASK);
   
     const handleSubmit = async (e: any) => {
       e.preventDefault();
-      console.log(Auth.getProfile().data._id);
-
-
       try {
-        const { data } = await addProject({
+        const { data } = await addTask({
           variables: {
             title,
             description,
             dueDate,
             priority,
-            project: id,
+            project: id, // Replace this with your project ID
             assignee: Auth.getProfile().data._id,
           },
         });
         console.log('data', data);
       } catch (err) {
         console.error(err);
-        console.log(err);
       }
     };
-    return(
-    <div>
-        <button>
-          <form onSubmit={handleSubmit}>
-            <textarea
-                placeholder="Task title"
-                value={title}
-                onChange={(e) => setTitle(e.target.value)}
-            />
-            <textarea
-                placeholder="Task Description"
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
-            />
-            <textarea
-                placeholder="Task Due Date"
-                value={dueDate}
-                onChange={(e) => setDueDate(e.target.value)}
-            />
-            <textarea
-                placeholder="Task Priority"
-                value={priority}
-                onChange={(e) => setPriority(e.target.value)}
-            />
-
-            <button type="submit">Create Project</button>
-          </form>
-        </button>
+  
+    return (
+      <div>
+        <form onSubmit={handleSubmit}>
+          <textarea
+            placeholder="Task title"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+          />
+          <textarea
+            placeholder="Task Description"
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+          />
+          <textarea
+            placeholder="Task Due Date"
+            value={dueDate}
+            onChange={(e) => setDueDate(e.target.value)}
+          />
+          <textarea
+            placeholder="Task Priority"
+            value={priority}
+            onChange={(e) => setPriority(e.target.value)}
+          />
+          <button type="submit">Create Task</button>
+        </form>
       </div>
-    )
-}
+    );
+  };

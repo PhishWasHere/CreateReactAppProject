@@ -34,8 +34,8 @@ const typeDefs = gql`
   type Query {
     users: [User]
     projects: [Project]
-    project(_id: ID!): Project
-    tasks: [Task]
+    project(projectId: ID!): Project
+    tasks(projectId: ID!): [Task]
     task(_id: ID!): Task
   }
   
@@ -49,7 +49,7 @@ const typeDefs = gql`
     addUser(username: String!, email: String!, password: String!): Auth
     login(email: String!, password: String!): Auth
     addProject(name: String!, description: String, createdBy: ID!): Project
-    addTask(title: String!, description: String, dueDate: String!, priority: String, project: ID!, assignee: ID!): Task
+    addTask(title: String!, description: String, dueDate: String!, priority: String, projectId: ID!, assignee: ID!): Project
   }
   
 `;

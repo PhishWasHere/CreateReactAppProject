@@ -20,8 +20,8 @@ export const QUERY_PROJECTS = gql`
 `;
 
 export const QUERY_PROJECT = gql`
-  query project($_id: ID!) {
-    project(_id: $_id) {
+  query project($projectId: ID!) {
+    project(projectId: $projectId) {
       _id
       name
       description 
