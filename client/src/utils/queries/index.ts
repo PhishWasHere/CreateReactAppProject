@@ -42,3 +42,25 @@ export const QUERY_PROJECT = gql`
     }
   }
 `;
+
+export const QUERY_TASKS = gql`
+  query {
+    tasks (){
+      _id
+      title
+      description
+      dueDate
+      priority
+      project {
+        _id
+        name
+      }
+      assignee {
+        _id
+        username
+        email
+      }
+      status
+    }
+  }
+`;

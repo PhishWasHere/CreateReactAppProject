@@ -34,10 +34,10 @@ const resolvers = {
       return tasks;
     },
 
-    tasks: async (parent, {username}) => {
-      const params = username ? { username } : {};
-      return Task.find(params).sort({ createdAt: -1 });
-    }
+    tasks: async (parent, { projectId }) => {
+      const tasks = await Task.find({ project: projectId });
+      return tasks;
+    },
   },
   
   Mutation: {
