@@ -21,8 +21,8 @@ export default function AddProject() {
         const { data } = await addProject({
           variables: {
             name,
-            status,
             description,
+            status,
             userId: Auth.getProfile().data._id,
           },
         });

@@ -26,43 +26,31 @@ export const LOGIN_USER = gql`
 `;
 
 export const ADD_PROJECT = gql`
-  mutation Mutation($name: String!, $description: String!, $status: String!, $userId: ID!) {
+  mutation addProject($name: String!, $description: String!, $status: String!, $userId: ID!) {
     addProject(name: $name, description: $description, status: $status, userId: $userId) {
       _id
+      description
       name
       status
-      description
-      userId
+      user {
+        _id
+      }
     }
   }
 `;
 
 export const ADD_TASK = gql`
-  mutation Mutation($projectId: ID!, $name: String!, $description: String!, $dueDate: String!, $priority: String!, $status: String!) {
+  mutation addTask($projectId: ID!, $name: String!, $description: String!, $dueDate: String!, $priority: String!, $status: String!) {
     addTask(projectId: $projectId, name: $name, description: $description, dueDate: $dueDate, priority: $priority, status: $status) {
       _id
-      description
-      name
-      status
-    }
-  }
-`
-
-export const ADD_TASK_sunset = gql`
-  mutation($title: String!, $description: String, $dueDate: String!, $priority: String, $project: ID!, $assignee: ID!) {
-    addTask(title: $title, description: $description, dueDate: $dueDate, priority: $priority, project: $project, assignee: $assignee) {
-      _id
-      task {
+     tasks {
         _id
-        title
+        name
         description
         dueDate
         priority
-        assignee {
-          _id
-          username
-        }
-      }
+        status
+     }
     }
   }
-`;
+`

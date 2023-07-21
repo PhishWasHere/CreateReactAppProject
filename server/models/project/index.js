@@ -30,7 +30,7 @@ const projectSchema = new mongoose.Schema({
       required: true
     },
     dueDate:{
-      type: Date
+      type: Date //change to string, so i can save date in a readable way
     },
     priority:{
       type: String,
