@@ -1,6 +1,7 @@
 const { User, Project, Task } = require('../models');
 const { AuthenticationError } = require('apollo-server-express');
 const { signToken } = require('../utils/auth');
+const { encrypt, decrypt }= require ('../utils/cryptoEmail');
  
 const resolvers = {
   Query: {
@@ -16,7 +17,6 @@ const resolvers = {
       }
       throw new AuthenticationError('You need to be logged in!');
     },
-
 
     project: async (parent, { projectId }, context) => {
       if (context.user) {
@@ -40,7 +40,6 @@ const resolvers = {
   
   Mutation: {
     addUser: async (parent, { username, email, password }) => {
-
       const user = await User.create({ username, email, password });
       const token = signToken(user); // Retrieve the token
       user.token = token; // Assign the token to the user object
@@ -48,21 +47,15 @@ const resolvers = {
     },
 
     login: async (parent, { email, password }) => {
-
       const user = await User.findOne({ email });
-
       if (!user) {
         throw new AuthenticationError('No user found with this email address');
       }
- 
       const correctPw = await user.isCorrectPassword(password);
-
       if (!correctPw) {
         throw new AuthenticationError('Incorrect credentials');
       }
-
       const token = signToken(user);
-
       return { token, user};
     },
 
@@ -71,9 +64,7 @@ const resolvers = {
           const project = await Project.create({ name, description, status, user: context.user._id });
         return project;
       } 
-        // const project = await Project.create({ name, description, status, user: userId });
-        // return project;
-        throw new Error('Something went wrong!');
+      throw new Error('Something went wrong!');
     },
 
     addTask: async (parent, { projectId, name, description, dueDate, priority, status }, context) => {

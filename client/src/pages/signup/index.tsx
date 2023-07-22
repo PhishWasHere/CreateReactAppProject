@@ -32,6 +32,7 @@ export default function Signup () {
             return;
         }
         
+
         if (formState.password !== formState.confirmPassword) {
             console.log('err');
             return;

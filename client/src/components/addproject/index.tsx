@@ -24,15 +24,13 @@ export default function AddProject() {
           },
         });
         
-        
-
       } catch (err) {
         console.error(err);
         console.log(err);
       }
     };
     return(
-      <div className="card mt-10 flex-shrink-0 w-full max-w-sm shadow-2xl bg-base-100">
+      <div className="card mt-0 flex-shrink-0 w-full max-w-sm shadow-2xl bg-base-100">
           <form onSubmit={handleSubmit} className="card-body ">
             <div className="form-control ">
               <label className="label">

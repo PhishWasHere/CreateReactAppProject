@@ -64,7 +64,6 @@ const UserSchema = new mongoose.Schema(
   }
 );
 
-
 UserSchema.methods.encryptEmail = function () { //fix this crap later
   const algorithm = 'aes-256-cbc';
   const key = crypto.scryptSync(secret, 'salt', 32);
@@ -94,7 +93,6 @@ UserSchema.pre('save', async function (next) { // pre save hook
     const saltRounds = 10; // move to env once done
     this.password = await bcrypt.hash(this.password, saltRounds); 
   }
-
   next();
 });
    
