@@ -21,7 +21,7 @@ export default function SingleProject () {
 
     const project = data?.project || {};
 
-    const handleClick = async () => {
+    const handleClick = async () => { //move to component
         try {
              await removeProject({
                 variables: {
