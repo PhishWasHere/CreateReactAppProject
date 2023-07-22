@@ -54,3 +54,21 @@ export const ADD_TASK = gql`
     }
   }
 `
+export const REMOVE_PROJECT = gql`
+  mutation removeProject($projectId: ID!) {
+    removeProject(projectId: $projectId) {
+      _id
+    }
+  }
+`;
+
+export const REMOVE_TASK = gql`
+  mutation removeTask($projectId: ID!, $taskId: ID!) {
+    removeTask(projectId: $projectId, taskId: $taskId) {
+      _id
+      tasks {
+        _id
+      }
+    }
+  }
+`;

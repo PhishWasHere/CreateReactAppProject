@@ -45,6 +45,8 @@ const typeDefs = gql`
     login(email: String!, password: String!): Auth
     addProject(name: String!, description: String!, status: String!, userId: ID!): Project
     addTask(projectId: ID!, name: String!, description: String!, dueDate: String!, priority: String!, status: String!): Project
+    removeTask(projectId: ID!, taskId: ID!): Project
+    removeProject(projectId: ID!): Project
   }
   
 `;

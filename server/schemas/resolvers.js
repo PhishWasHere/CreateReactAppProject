@@ -18,20 +18,23 @@ const resolvers = {
     },
 
 
-    project: async (parent, { projectId }) => {
-      try {
-        if (!projectId) {
-          throw new Error('Project ID is required.');
+    project: async (parent, { projectId }, context) => {
+      if (context.user) {
+
+        try {
+          if (!projectId) {
+            throw new Error('Project ID is required.');
+          }
+          const project = await Project.findById(projectId);
+          if (!project) {
+            throw new Error('Project not found!');
+          }
+          return project;
+        } catch (err) {
+          console.log(err);
+          throw new Error('Error: Project not found!');
         }
-        const project = await Project.findById(projectId);
-        if (!project) {
-          throw new Error('Project not found!');
-        }
-      return project;
-    } catch (err) {
-      console.log(err);
-      throw new Error('Error: Project not found!');
-      }
+      } throw new AuthenticationError('You need to be logged in!');
     },
   },
   
@@ -63,19 +66,19 @@ const resolvers = {
       return { token, user};
     },
 
-    addProject: async (parent, { name, description, status, userId }) => {
-      try {
-        const project = await Project.create({ name, description, status, user: userId });
+    addProject: async (parent, { name, description, status, userId }, context) => {
+      if (context.user) {
+          const project = await Project.create({ name, description, status, user: context.user._id });
         return project;
-      } catch (err) {
+      } 
+        // const project = await Project.create({ name, description, status, user: userId });
+        // return project;
         throw new Error('Something went wrong!');
-      }
     },
 
-    addTask: async (parent, { projectId, name, description, dueDate, priority, status }) => {
-      try{
-
-        return Project.findOneAndUpdate(
+    addTask: async (parent, { projectId, name, description, dueDate, priority, status }, context) => {
+      if (context.user) {
+        const project = await Project.findOneAndUpdate(
           { _id: projectId },
           {
             $addToSet: { tasks: { name, description, dueDate, priority, status } },
@@ -85,12 +88,32 @@ const resolvers = {
             runValidators: true,
           }
           );
-        }catch (err) {
-          console.log(err);
-          throw new Error('Something went wrong!');
-        }
+        return project;
+      }
+      throw new Error('Something went wrong!');
     },
-  }
+
+    removeProject: async (parent, { projectId }, context) => {
+      if (context.user) {
+        const project = await Project.findOneAndDelete({
+          _id: projectId,
+        });
+        return project;
+      }
+      throw new AuthenticationError('You need to be logged in!');
+    }, 
+
+    removeTask: async (parent, { projectId, taskId }, context) => {
+      if (context.user) {
+        const project = await Project.findOneAndUpdate(
+          { _id: projectId },
+          { $pull: { tasks: { _id: taskId } } },
+          { new: true }
+        );
+        return project;
+      }
+    },
+  },
 };
 
 module.exports = resolvers;
