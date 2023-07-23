@@ -13,7 +13,7 @@ import Front from './pages/front';
 import Home from './pages/home';
 import Signup from './pages/signup';
 import Login from './pages/login';
-import Nav from './components/navbar';
+import Nav from './components/NavBar';
 import SingleProject from './pages/singleProject';
 
 // Construct our main GraphQL API endpoint

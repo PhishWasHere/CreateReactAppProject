@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useQuery } from '@apollo/client';
 import { QUERY_PROJECTS } from '../../utils/queries';
-import AddProject from '../../components/addproject';
+import AddProject from '../../components/AddProject';
 
 import Auth from '../../utils/auth';
 import { Link, Navigate, useParams } from 'react-router-dom';
