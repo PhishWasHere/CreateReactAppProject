@@ -24,13 +24,12 @@ export default function Home() {
   }
 
   const handleClick = () => {
-    console.log('clicked');
     setShowComponent((prevShowComponent) => !prevShowComponent);
   }
 
   return (
     <>
-    <div className='bg-white h-full min-h-full'> 
+    <div className='h-full min-h-full'> 
       <button onClick={handleClick} className={projects.length === 0 ? 'hidden' : 'flex flex-wrap p-2 rounded-md transition-all mx-6 btn-primary' }>➕</button>
       <main className='flex justify-center mx-auto w-10/12'>
         <div className="flex-row">

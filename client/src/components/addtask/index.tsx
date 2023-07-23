@@ -21,15 +21,14 @@ export default function AddTask() {
     const [addTask, { data, error }] = useMutation(ADD_TASK);
   
     const handleSubmit = async (e: any) => {
-      e.preventDefault();
-      
+      e.preventDefault();      
       try {
         const { data } = await addTask({
           variables: {
             projectId: id, // Replace this with your project ID
             ...formState
           },
-        });
+        });        
         setFormState({name: '', description: '', dueDate: '', priority: 'Low', status: 'Not Started'});
       } catch (err) {
         console.error(err);
@@ -82,15 +81,18 @@ export default function AddTask() {
               <label className="label">
                 <span>Task Priority</span>
               </label>
-              <input type='text'
+              <select className='select select-bordered'
               name='priority'
               value={formState.priority}
-              placeholder='Task Priority'
               onChange={handleChange}
-              className="input input-bordered" 
-              />
+              >
+                <option value='Low'>Low</option>
+                <option value='Medium'>Medium</option>
+                <option value='High'>High</option>
+              </select>
             </div>
 
+            {/* change once task made
             <div className="form-control ">
               <label className="label">
                 <span>Task Status</span>
@@ -102,7 +104,7 @@ export default function AddTask() {
               onChange={handleChange}
               className="input input-bordered" 
               />
-            </div>
+            </div> */}
 
           <button type="submit">Create Task</button>
         </form>

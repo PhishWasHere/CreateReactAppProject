@@ -42,16 +42,27 @@ export default function SingleProject () {
     }     
 
     return(
-        <div>
-            <div>
-                <button onClick={() => {handleClick()}}>Delete Project</button>
-                <h1>{project.name}</h1>
-                <p>{project.description}</p>
-                
-                <Completed />
-                <InProgress />
-                <NotStarted />
-                
+        <div className="lg:flex min-h-screen mb-5"> 
+            <button onClick={() => {handleClick()}}>Delete Project</button>
+            <div className='px-3 lg:max-w-lg bg-stone-500'>
+                <div className='md:min-w-full w-96'>
+                    <h1>{project.name}</h1>
+                    <p>{project.description}</p>
+                </div>
+            </div> 
+            
+            <div className='grid sm:flex'>
+                    <div className='w-96 border rounded-2xl '>
+                        <NotStarted />
+                    </div>
+
+                    <div className='w-96 border rounded-2xl'>
+                        <InProgress />  
+                    </div>
+                    
+                    <div className='w-96 border rounded-2xl'>
+                        <Completed />
+                    </div>                
             </div>
             <AddTask />
         </div>

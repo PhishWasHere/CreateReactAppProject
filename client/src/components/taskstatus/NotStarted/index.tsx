@@ -35,14 +35,14 @@ export default function NotStarted() {
     }
 
     return(
-        <div>
-            <div>
+        <div className="m-2">
+            <div className="">
                 {loading ? (
                     <div>Loading...</div>
                 ) : (
                     project.tasks?.map((task: any) => (
                         task.status === "Not Started" ? (
-                            <div key={task._id} className="card mb-3 bg-primary text-black">
+                        <div key={task._id} className="card mb-3 bg-primary text-black">
                             <h4 className="card-header bg-dark text-light p-2 m-0">
                                 {task.name}
                             </h4>
