@@ -26,11 +26,13 @@ export const LOGIN_USER = gql`
 `;
 
 export const ADD_PROJECT = gql`
-  mutation($name: String!, $description: String, $createdBy: ID!) {
-    addProject(name: $name, description: $description, createdBy: $createdBy) {
-      name
+  mutation addProject($name: String!, $description: String!, $status: String!, $userId: ID!) {
+    addProject(name: $name, description: $description, status: $status, userId: $userId) {
+      _id
       description
-      createdBy {
+      name
+      status
+      user {
         _id
       }
     }
@@ -38,19 +40,34 @@ export const ADD_PROJECT = gql`
 `;
 
 export const ADD_TASK = gql`
-  mutation($title: String!, $description: String, $dueDate: String!, $priority: String, $project: ID!, $assignee: ID!) {
-    addTask(title: $title, description: $description, dueDate: $dueDate, priority: $priority, project: $project, assignee: $assignee) {
+  mutation addTask($projectId: ID!, $name: String!, $description: String!, $dueDate: String!, $priority: String!, $status: String!) {
+    addTask(projectId: $projectId, name: $name, description: $description, dueDate: $dueDate, priority: $priority, status: $status) {
       _id
-      task {
+     tasks {
         _id
-        title
+        name
         description
         dueDate
         priority
-        assignee {
-          _id
-          username
-        }
+        status
+     }
+    }
+  }
+`
+export const REMOVE_PROJECT = gql`
+  mutation removeProject($projectId: ID!) {
+    removeProject(projectId: $projectId) {
+      _id
+    }
+  }
+`;
+
+export const REMOVE_TASK = gql`
+  mutation removeTask($projectId: ID!, $taskId: ID!) {
+    removeTask(projectId: $projectId, taskId: $taskId) {
+      _id
+      tasks {
+        _id
       }
     }
   }

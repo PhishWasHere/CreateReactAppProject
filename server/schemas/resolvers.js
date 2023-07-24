@@ -1,6 +1,7 @@
 const { User, Project, Task } = require('../models');
 const { AuthenticationError } = require('apollo-server-express');
 const { signToken } = require('../utils/auth');
+const { encrypt, decrypt }= require ('../utils/cryptoEmail');
  
 const resolvers = {
   Query: {
@@ -11,38 +12,34 @@ const resolvers = {
 
     projects: async (parent, args, context) => {
       if (context.user) {
-        const projects = await Project.find({ createdBy: context.user._id });
+        const projects = await Project.find({ user: context.user._id });
         return projects;
       }
       throw new AuthenticationError('You need to be logged in!');
     },
 
-    project: async (parent, { projectId }) => {
-      try {
-        const project = await Project.findOne({_id: projectId}).populate('tasks');
-        if (!project) {
-          throw new Error('Project not found!');
+    project: async (parent, { projectId }, context) => {
+      if (context.user) {
+
+        try {
+          if (!projectId) {
+            throw new Error('Project ID is required.');
+          }
+          const project = await Project.findById(projectId);
+          if (!project) {
+            throw new Error('Project not found!');
+          }
+          return project;
+        } catch (err) {
+          console.log(err);
+          throw new Error('Error: Project not found!');
         }
-        return project;
-      } catch (error) {
-        throw new Error('Project not found!');
-      }
+      } throw new AuthenticationError('You need to be logged in!');
     },
-
-    tasks: async (parent, { projectId }) => {
-      const tasks = await Task.find({ project: projectId });
-      return tasks;
-    },
-
-    // tasks: async (parent, {username}) => {
-    //   const params = username ? { username } : {};
-    //   return Task.find(params).sort({ createdAt: -1 });
-    // }
   },
   
   Mutation: {
     addUser: async (parent, { username, email, password }) => {
-
       const user = await User.create({ username, email, password });
       const token = signToken(user); // Retrieve the token
       user.token = token; // Assign the token to the user object
@@ -50,37 +47,64 @@ const resolvers = {
     },
 
     login: async (parent, { email, password }) => {
-
       const user = await User.findOne({ email });
-
       if (!user) {
         throw new AuthenticationError('No user found with this email address');
       }
- 
       const correctPw = await user.isCorrectPassword(password);
-
       if (!correctPw) {
         throw new AuthenticationError('Incorrect credentials');
       }
-
       const token = signToken(user);
-
       return { token, user};
     },
 
-    addProject: async (parent, { name, description, createdBy }) => {
-      const project = await Project.create({ name, description, createdBy });
-      return project;
+    addProject: async (parent, { name, description, status, userId }, context) => {
+      if (context.user) {
+          const project = await Project.create({ name, description, status, user: context.user._id });
+        return project;
+      } 
+      throw new Error('Something went wrong!');
     },
 
-    addTask: async (parent, { title, description, dueDate, priority, project, assignee , status}) => {
-      return Project.findOneAndUpdate(
-        { _id: project },
-        { $addToSet: { tasks: { title, description, dueDate, priority, project, assignee, status } } },
-        { new: true, runValidators: true }
-      )
-    }
-  }  
+    addTask: async (parent, { projectId, name, description, dueDate, priority, status }, context) => {
+      if (context.user) {
+        const project = await Project.findOneAndUpdate(
+          { _id: projectId },
+          {
+            $addToSet: { tasks: { name, description, dueDate, priority, status } },
+          },
+          {
+            new: true,
+            runValidators: true,
+          }
+          );
+        return project;
+      }
+      throw new Error('Something went wrong!');
+    },
+
+    removeProject: async (parent, { projectId }, context) => {
+      if (context.user) {
+        const project = await Project.findOneAndDelete({
+          _id: projectId,
+        });
+        return project;
+      }
+      throw new AuthenticationError('You need to be logged in!');
+    }, 
+
+    removeTask: async (parent, { projectId, taskId }, context) => {
+      if (context.user) {
+        const project = await Project.findOneAndUpdate(
+          { _id: projectId },
+          { $pull: { tasks: { _id: taskId } } },
+          { new: true }
+        );
+        return project;
+      }
+    },
+  },
 };
 
 module.exports = resolvers;

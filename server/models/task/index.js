@@ -1,38 +1,41 @@
 const mongoose = require('mongoose');
 
 const taskSchema = new mongoose.Schema({
-  title: {
-    type: String,
-    required: true,
+  project: { 
+    type: mongoose.Schema.Types.ObjectId, 
+    ref: 'Project', 
+    required: true 
   },
-  description: {
-    type: String,
+  name: { 
+    type: String, 
+    required: true 
   },
-  dueDate: {
-    type: Date,
+  description: { 
+    type: String, 
+    required: true 
+  },
+  dueDate: { 
+    type: Date
   },
   priority: {
+     type: String, 
+     enum: ['High', 'Medium', 'Low'], 
+     default: "Low", 
+     required: true 
+    },
+  status: { 
     type: String,
-    enum: ['low', 'medium', 'high'],
-    default: 'low',
+    enum: ['Not Started', 'In Progress', 'Completed'], 
+    default: "Not Started", 
+    required: true 
   },
-  project: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Project',
-    required: true,
+  createdOn: { 
+    type: Date, 
+    default: Date.now 
   },
-  status: {
-    type: String,
-    enum: ['active', 'completed', 'cancelled'],
-    default: 'active',
-  },
-  assignee: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'User',
-  },
-
 });
 
-const Task = mongoose.model('Task', taskSchema);
+// const Task = mongoose.model('Task', taskSchema);
 
-module.exports = Task;
+// module.exports = Task; 
+  //need to sunset

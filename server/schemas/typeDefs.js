@@ -12,44 +12,41 @@ const typeDefs = gql`
   }
 
   type Project {
-    _id: ID
-    name: String
-    description: String
-    createdBy: User
-    status: String
-    tasks: [Task]
+    _id: ID!
+    user: User!
+    name: String!
+    description: String!
+    status: String!
+    tasks: [Task!]!
   }
 
   type Task {
-    _id: ID
-    title: String
-    description: String
-    dueDate: String
-    priority: String
-    project: Project
-    assignee: User
-    status: String
+  _id: ID!
+  name: String!
+  description: String!
+  dueDate: String!
+  priority: String!
+  status: String!
+  }
+  
+  type Auth {
+    token: ID!
+    user: User 
   }
 
   type Query {
     users: [User]
     projects: [Project]
     project(projectId: ID!): Project
-    tasks(projectId: ID!): [Task]
-    task(_id: ID!): Task
-  }
-  
-
-  type Auth {
-    token: ID!
-    user: User
   }
 
   type Mutation {
     addUser(username: String!, email: String!, password: String!): Auth
     login(email: String!, password: String!): Auth
-    addProject(name: String!, description: String, createdBy: ID!): Project
-    addTask(title: String!, description: String, dueDate: String!, priority: String, projectId: ID!, assignee: ID!): Project
+    addProject(name: String!, description: String!, status: String!, userId: ID!): Project
+    addTask(projectId: ID!, name: String!, description: String!, dueDate: String!, priority: String!, status: String!): Project
+    removeTask(projectId: ID!, taskId: ID!): Project
+    removeProject(projectId: ID!): Project
   }
   
 `;
