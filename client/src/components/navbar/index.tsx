@@ -35,7 +35,10 @@ export default function Navbar () {
                 </button>
 
                 <form tabIndex={0} className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52">
-                    <button className=' mb-1 border rounded-xl ' >Settings</button>
+                    <Link to='/settings' className="mb-1 border rounded-xl  text-center">
+                        <button className='' >Settings</button>
+                    </Link>
+
                     <button className=' mb-1 border rounded-xl ' onClick={handleSubmit}>Logout</button> 
                 </form>
             </div>
