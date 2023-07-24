@@ -1,12 +1,16 @@
-import React from "react";
+import React, {useState} from "react";
 import { useParams, useNavigate } from 'react-router-dom';
 import { useQuery, useMutation } from '@apollo/client';
 import { QUERY_PROJECT } from '../../../utils/queries';
 import { REMOVE_TASK } from '../../../utils/mutations';
 import Auth from '../../../utils/auth';
 
+import UpdateTask from '../../../components/UpdateTask'; //todo
 
 export default function NotStarted() {
+    const [taskData, setTaskData] = useState(false);
+    const [selectedTaskId, setSelectedTaskId] = useState(null);
+
     const { id } = useParams();   
     
     const { loading, data } = useQuery(QUERY_PROJECT, {
@@ -34,6 +38,12 @@ export default function NotStarted() {
        }
     }
 
+    const handleTaskUpdate = async (taskId: any) => {
+        setSelectedTaskId((prevSelectedTaskId) =>
+        prevSelectedTaskId === taskId ? null : taskId
+      );
+    }
+
     return(
         <div className="m-2">
             <div className="">
@@ -42,25 +52,20 @@ export default function NotStarted() {
                 ) : (
                     project.tasks?.map((task: any) => (
                         task.status === "Not Started" ? (
-                        <div key={task._id} className="card mb-3 bg-primary text-black">
-                            <h4 className="card-header bg-dark text-light p-2 m-0">
-                                {task.name}
-                            </h4>
-                            <div className=''>
-                                <div className="card-body bg-light p-2">
-                                    <p>{task.description}</p>
-                                </div>
-                                <div className="card-body bg-light p-2">
-                                    <p>{task.dueDate}</p>
-                                </div>
-                                <div className="card-body bg-light p-2">
-                                    <p>{task.priority}</p>
-                                </div>
-                                <div className="card-body bg-light p-2">
-                                    <p>{task.status}</p>
-                                </div>
+                        <div key={task._id} className="p-2 min-h-36 flex flex-col bg-primary text-black rounded-lg">
+                            <div className="flex flex-col">
+                                <h4 className="text-lg font-bold">{task.name}</h4>
+                                <p className="text-sm break-all">{task.description}</p>
+                            </div>
+                            <div className='self-start mt-auto'>
+                                <p>{task.dueDate}</p>
+                                <p>Priority: {task.priority}</p>
                             </div>
                             <button onClick={() => {handleClick(task._id)}}>Delete Task</button>
+                            <button onClick={() => handleTaskUpdate(task._id)}>me</button>
+                            {task._id === selectedTaskId && (
+                                <UpdateTask taskId={task._id} />
+                            )} 
                         </div>
                         ) : ('')
                     ))

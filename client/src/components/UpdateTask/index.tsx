@@ -1,44 +1,43 @@
+import React, {useState, useEffect } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
 import { useMutation } from '@apollo/client';
-import { ADD_TASK } from '../../utils/mutations';
-import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
-
+import { UPDATE_TASK } from '../../utils/mutations';
 import Auth from '../../utils/auth';
 
-export default function AddTask() {
-  const { id } = useParams();
+export default function UpdateTask({taskId}: any) {
+    const { id } = useParams();
 
-  const [formState, setFormState] = useState({name: '', description: '', dueDate: '', priority: 'Low', status: 'Not Started'});
+    console.log(taskId);
 
-  const handleChange = (e: any) => {
-      const { name, value } = e.target;
-      setFormState({
-          ...formState,
-          [name]: value,
-      });
-  };
+    const [updateTask, error] = useMutation(UPDATE_TASK);
 
-  const [addTask, { data, error }] = useMutation(ADD_TASK);
+    const [formState, setFormState] = useState({name: '', description: '', dueDate: '', priority: 'Low', status: 'Not Started'});
 
-  const handleSubmit = async (e: any) => {
-    e.preventDefault();      
-    try {
-      const { data } = await addTask({
-        variables: {
-          projectId: id, 
-          ...formState
-        },
-      });        
-      setFormState({name: '', description: '', dueDate: '', priority: 'Low', status: 'Not Started'});
-    } catch (err) {
-      console.error(err);
-    }
-  };
-
-  return (
-    <div className="card mt-0 flex-shrink-0 w-full max-w-sm shadow-2xl bg-base-100">
-      <form onSubmit={handleSubmit} className="card-body ">
-          <div className="form-control ">
+    const handleChange = (e: any) => {
+        const { name, value } = e.target;
+        setFormState({
+            ...formState,
+            [name]: value,
+        });
+    };
+    const handleSubmit = async (e: any) => {
+        e.preventDefault();
+        try {
+            await updateTask({
+                variables: {
+                    projectId: id,
+                    taskId: taskId,
+                    ...formState
+                },
+            });
+        } catch (err) {
+            console.log(err);   
+        }
+    };
+    
+    return(
+        <form onSubmit={handleSubmit} className="card-body ">
+               <div className="form-control ">
             <label className="label">
               <span>Task name</span>
             </label>
@@ -92,7 +91,7 @@ export default function AddTask() {
             </select>
           </div>
 
-          {/* change once task made
+          {/* change once task made */}
           <div className="form-control ">
             <label className="label">
               <span>Task Status</span>
@@ -104,10 +103,9 @@ export default function AddTask() {
             onChange={handleChange}
             className="input input-bordered" 
             />
-          </div> */}
+          </div>
 
-        <button type="submit">Create Task</button>
-      </form>
-    </div>
-  );
-};
+          <button type="submit">Update proj</button>
+        </form>
+    )
+}

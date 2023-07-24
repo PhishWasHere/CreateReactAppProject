@@ -6,7 +6,7 @@ import Auth from '../../utils/auth';
 
 export default function UpdateProject() {
     const { id } = useParams();
-    const [UpdateProject, error] = useMutation(UPDATE_PROJECT);
+    const [updateProject, error] = useMutation(UPDATE_PROJECT);
 
     const [formState, setFormState] = useState({name: '', description: '', status: '' });
 
@@ -20,7 +20,7 @@ export default function UpdateProject() {
     const handleSubmit = async (e: any) => {
 
         try {
-            await UpdateProject({
+            await updateProject({
                 variables: {
                     projectId: id,
                     ...formState

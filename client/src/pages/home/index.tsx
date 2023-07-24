@@ -6,8 +6,17 @@ import AddProject from '../../components/AddProject';
 import Auth from '../../utils/auth';
 import { Link, Navigate, useParams } from 'react-router-dom';
 
+import UpdateProject from '../../components/UpdateProject';
+
 export default function Home() {
   const [showComponent, setShowComponent] = useState(false);
+  
+  const handleClick = () => {
+    setShowComponent((prevShowComponent) => !prevShowComponent);
+  }
+  
+  const [projSetting, setProjSetting] = useState(false);
+
 
   const { loading, data } = useQuery(QUERY_PROJECTS, {
     variables: { userid: Auth.getProfile().data._id  },
@@ -23,9 +32,7 @@ export default function Home() {
     return <Navigate to="/login"/>;
   }
 
-  const handleClick = () => {
-    setShowComponent((prevShowComponent) => !prevShowComponent);
-  }
+
 
   return (
     <>
@@ -52,22 +59,26 @@ export default function Home() {
             ) : (
               <div className="md:grid grid-cols-2 gap-4 justify-center items-center mx-2">
                 {projects.map((project: any) => (
-                  <div key={project._id} className="card w-96 bg-base-100 shadow-xl">
-                    <div className='card-body'>
-                      <h4 className="card-title">
-                        {project.name}
-                      </h4>
-                      <div className="">
-                        <p>{project.description || "No description"}</p>
+                  <div key={project._id} className="card min-w-80 bg-base-100 shadow-xl">
+                    <div className='flex flex-col mt-2 mx-5'>
+
+                      <button  className='text-end'>settings</button>
+
+                      <div className="break-all ">
+                        <h4 className="card-title">{project.name}</h4>
+                        <p className='w-4/6'>{project.description || "No description"}</p>
+                      
+                        <div className='self-end mt-auto justify-end'>
+                          <p className='justify-start mt-auto'>Tasks left: {project.tasks?.length || 0}</p>
+                          <Link className='justify-end ' to={`/projects/${project._id}`}>
+                            <button className="btn btn-primary ">
+                              View Project
+                            </button>
+                          </Link>
+                        </div>
+
                       </div>
-                      <div className='card-actions'>
-                        <p className='justify-start mt-auto'>Tasks left: {project.tasks?.length || 0}</p>
-                        <Link className='justify-end' to={`/projects/${project._id}`}>
-                          <button className="btn btn-primary">
-                            View Project
-                          </button>
-                        </Link>
-                      </div>
+                      
                     </div>
                   </div>
                 ))}
