@@ -47,6 +47,8 @@ const typeDefs = gql`
     addTask(projectId: ID!, name: String!, description: String!, dueDate: String!, priority: String!, status: String!): Project
     removeTask(projectId: ID!, taskId: ID!): Project
     removeProject(projectId: ID!): Project
+    updateProject(projectId: ID!, name: String!, description: String!, status: String!): Project
+    updateTask(projectId: ID!, taskId: ID!, name: String!, description: String!, dueDate: String!, priority: String!, status: String!): Project
   }
   
 `;

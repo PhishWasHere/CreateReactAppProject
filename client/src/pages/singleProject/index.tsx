@@ -10,6 +10,7 @@ import InProgress from '../../components/taskstatus/InProgress';
 import NotStarted from '../../components/taskstatus/NotStarted';
 
 import AddTask from '../../components/AddTask';
+import UpdateProject from '../../components/UpdateProject';
 
 export default function SingleProject () {
     const { id } = useParams();   
@@ -20,7 +21,7 @@ export default function SingleProject () {
             userid: Auth.getProfile().data._id
         },
     });
-    console.log(data, id, loading);
+    console.log(data, id, loading, 'singleProject file');
     
     const [removeProject, {error}] = useMutation(REMOVE_PROJECT);
 
@@ -39,7 +40,7 @@ export default function SingleProject () {
         } catch (err) {
             console.log(err);
         }
-    }     
+    };
 
     return(
         <div className="lg:flex min-h-screen mb-5"> 
@@ -64,7 +65,9 @@ export default function SingleProject () {
                         <Completed />
                     </div>                
             </div>
-            <AddTask />
+            {/* <AddTask />
+             <UpdateProject /> 
+             */}
         </div>
     );
 }

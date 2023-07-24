@@ -18,6 +18,7 @@ export const QUERY_PROJECT = gql`
   query project($projectId: ID!) {
     project(projectId: $projectId) {
       _id
+      name
       description
       status
       tasks {

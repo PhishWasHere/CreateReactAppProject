@@ -2,6 +2,8 @@ const { User, Project, Task } = require('../models');
 const { AuthenticationError } = require('apollo-server-express');
 const { signToken } = require('../utils/auth');
 const { encrypt, decrypt }= require ('../utils/cryptoEmail');
+
+//todo: convert to a try/catch block
  
 const resolvers = {
   Query: {
@@ -104,7 +106,39 @@ const resolvers = {
         return project;
       }
     },
-  },
+
+    updateProject: async (parent, { projectId, name, description, status }, context) => {
+      if (context.user) {
+        const project = await Project.findOneAndUpdate(
+          { _id: projectId },
+          { name, description, status },
+          { new: true }
+        );
+        return project;
+      }
+      throw new AuthenticationError('You need to be logged in!');
+    },
+  
+    updateTask: async(parent, { projectId, taskId, name, description, dueDate, priority, status }, context) => {
+      if (context.user) {
+        const project = await Project.findOneAndUpdate(
+          { _id: projectId, 'tasks._id': taskId },
+          {
+            $set: {
+              'tasks.$.name': name, 
+              'tasks.$.description': description,
+              'tasks.$.dueDate': dueDate,
+              'tasks.$.priority': priority,
+              'tasks.$.status': status
+            }
+          },
+          { new: true }
+        );
+        return project;
+      }
+      throw new AuthenticationError('You need to be logged in!');
+    }
+  }
 };
 
 module.exports = resolvers;

@@ -25,7 +25,7 @@ export default function AddTask() {
       try {
         const { data } = await addTask({
           variables: {
-            projectId: id, // Replace this with your project ID
+            projectId: id, 
             ...formState
           },
         });        

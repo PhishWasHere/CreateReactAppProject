@@ -72,3 +72,30 @@ export const REMOVE_TASK = gql`
     }
   }
 `;
+
+export const UPDATE_PROJECT = gql`
+  mutation updateProject($projectId: ID!, $name: String!, $description: String!, $status: String!) {
+    updateProject(projectId: $projectId, name: $name, description: $description, status: $status) {
+      _id
+      name
+      description
+      status
+    }
+  }
+`;
+
+export const UPDATE_TASK = gql`
+  mutation updateTask($projectId: ID!, $taskId: ID!, $name: String!, $description: String!, $dueDate: String!, $priority: String!, $status: String!) {
+    updateTask(projectId: $projectId, taskId: $taskId, name: $name, description: $description, dueDate: $dueDate, priority: $priority, status: $status) {
+      _id
+      tasks {
+        _id
+        name
+        description
+        dueDate
+        priority
+        status
+      }
+    }
+  }
+`;
