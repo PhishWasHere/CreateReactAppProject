@@ -10,29 +10,28 @@ import UpdateProject from '../../components/UpdateProject';
 
 export default function Home() {
   const [showComponent, setShowComponent] = useState(false);
+
+  const [selectedProjectId, setSelectedProjectId] = useState(null);
   
   const handleClick = () => {
     setShowComponent((prevShowComponent) => !prevShowComponent);
   }
   
-  const [projSetting, setProjSetting] = useState(false);
-
-
   const { loading, data } = useQuery(QUERY_PROJECTS, {
     variables: { userid: Auth.getProfile().data._id  },
   });  
   const user = data?.user || [];
   const projects = data?.projects || [];
 
-  useEffect(() => { //todo reload on delete task
-
-  }, []);
+  const handleProjectUpdate = async (projectId: any) => {    
+    setSelectedProjectId((prevSelectedProjectId) =>
+    prevSelectedProjectId === projectId ? null : projectId
+  );
+}
   
   if(!Auth.loggedIn()) {
     return <Navigate to="/login"/>;
   }
-
-
 
   return (
     <>
@@ -46,7 +45,6 @@ export default function Home() {
             </div>
             ) : null 
           }  
-
             {loading ? (
               <div>Loading...</div>
               ) : projects.length === 0 ? (
@@ -62,7 +60,12 @@ export default function Home() {
                   <div key={project._id} className="card min-w-80 bg-base-100 shadow-xl">
                     <div className='flex flex-col mt-2 mx-5'>
 
-                      <button  className='text-end'>settings</button>
+                      <button onClick={() => handleProjectUpdate(project._id)} className='text-end'>settings</button>
+                      {selectedProjectId === project._id && (
+                        <div>
+                          <UpdateProject projectId={project._id}/>
+                        </div>
+                      )}
 
                       <div className="break-all ">
                         <h4 className="card-title">{project.name}</h4>

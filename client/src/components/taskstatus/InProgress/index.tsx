@@ -1,12 +1,16 @@
-import React from "react";
+import React, {useState} from "react";
 import { useParams, useNavigate } from 'react-router-dom';
 import { useQuery, useMutation } from '@apollo/client';
 import { QUERY_PROJECT } from '../../../utils/queries';
 import { REMOVE_TASK } from '../../../utils/mutations';
 import Auth from '../../../utils/auth';
 
+import UpdateTask from '../../../components/UpdateTask'; 
 
 export default function InProgress() {
+    const [taskData, setTaskData] = useState(false);
+    const [selectedTaskId, setSelectedTaskId] = useState(null);
+
     const { id } = useParams();   
     
     const { loading, data } = useQuery(QUERY_PROJECT, {
@@ -34,6 +38,12 @@ export default function InProgress() {
        }
     }
 
+    const handleTaskUpdate = async (taskId: any) => {
+        setSelectedTaskId((prevSelectedTaskId) =>
+        prevSelectedTaskId === taskId ? null : taskId
+      );
+    }
+
     return(
         <div className="m-2">
             <div>
@@ -52,6 +62,10 @@ export default function InProgress() {
                                 <p>Priority: {task.priority}</p>
                             </div>
                             <button onClick={() => {handleClick(task._id)}}>Delete Task</button>
+                            <button onClick={() => handleTaskUpdate(task._id)}>me</button>
+                            {task._id === selectedTaskId && (
+                                <UpdateTask taskId={task._id} />
+                            )} 
                         </div>
                         ) : ('')
                     ))

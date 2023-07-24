@@ -4,8 +4,10 @@ import { useMutation } from '@apollo/client';
 import { UPDATE_PROJECT } from '../../utils/mutations';
 import Auth from '../../utils/auth';
 
-export default function UpdateProject() {
+export default function UpdateProject({projectId}: any) {
     const { id } = useParams();
+    console.log(projectId);
+    
     const [updateProject, error] = useMutation(UPDATE_PROJECT);
 
     const [formState, setFormState] = useState({name: '', description: '', status: '' });
@@ -18,11 +20,10 @@ export default function UpdateProject() {
         });
     };
     const handleSubmit = async (e: any) => {
-
         try {
             await updateProject({
                 variables: {
-                    projectId: id,
+                    projectId: projectId,
                     ...formState
                 },
             });

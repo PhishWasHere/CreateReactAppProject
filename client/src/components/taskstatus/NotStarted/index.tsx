@@ -5,10 +5,9 @@ import { QUERY_PROJECT } from '../../../utils/queries';
 import { REMOVE_TASK } from '../../../utils/mutations';
 import Auth from '../../../utils/auth';
 
-import UpdateTask from '../../../components/UpdateTask'; //todo
+import UpdateTask from '../../../components/UpdateTask'; 
 
 export default function NotStarted() {
-    const [taskData, setTaskData] = useState(false);
     const [selectedTaskId, setSelectedTaskId] = useState(null);
 
     const { id } = useParams();   
