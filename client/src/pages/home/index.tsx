@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useQuery } from '@apollo/client';
 import { QUERY_PROJECTS } from '../../utils/queries';
 import AddProject from '../../components/AddProject';
@@ -16,18 +16,21 @@ export default function Home() {
   const handleClick = () => {
     setShowComponent((prevShowComponent) => !prevShowComponent);
   }
+  console.log(Auth.getProfile().data._id);
   
   const { loading, data } = useQuery(QUERY_PROJECTS, {
     variables: { userid: Auth.getProfile().data._id  },
   });  
+  // const loading = false;
+  // const data = {user: undefined, projects: undefined}
   const user = data?.user || [];
   const projects = data?.projects || [];
 
   const handleProjectUpdate = async (projectId: any) => {    
     setSelectedProjectId((prevSelectedProjectId) =>
     prevSelectedProjectId === projectId ? null : projectId
-  );
-}
+    );
+  }
   
   if(!Auth.loggedIn()) {
     return <Navigate to="/login"/>;
