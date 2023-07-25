@@ -1,4 +1,4 @@
-const { User, Project, Task } = require('../models');
+const { User, Project,  } = require('../models');
 const { AuthenticationError } = require('apollo-server-express');
 const { signToken } = require('../utils/auth');
 const { encrypt, decrypt }= require ('../utils/cryptoEmail');
