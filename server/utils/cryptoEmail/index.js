@@ -1,23 +1,29 @@
 const crypto = require('crypto');
 
-const encrypt = (email, secretKey) => {
-    const encryptionKey = Buffer.from(process.env.ENCRYPT_KEY, 'hex');
+const secret = Buffer.from(process.env.SECRET, 'hex');
+const algorithm = 'aes-256-cbc'; // You can choose a different algorithm if needed
+ 
+function encrypt(email) {
     const iv = crypto.randomBytes(16);
-    const cipher = crypto.createCipheriv('aes-256-cbc', encryptionKey, iv);
-    let encryptedEmail = cipher.update(value, 'utf8', 'hex');
-    encryptedEmail += cipher.final('hex');
-    return iv.toString('hex') + ':' + encryptedEmail.toString('hex');
-};
-
-const decrypt = (email, secretKey) => {
-    const encryptionKey = Buffer.from(process.env.ENCRYPT_KEY, 'hex');
-    const textParts = email.split(':');
-    const iv = Buffer.from(textParts.shift(), 'hex');
-    const encryptedEmail = Buffer.from(textParts.join(':'), 'hex');
-    const decipher = crypto.createDecipheriv('aes-256-cbc', encryptionKey, iv);
-    let decryptedEmail = decipher.update(encryptedEmail, 'hex', 'utf8');
-    decryptedEmail += decipher.final('utf8');
-    return decryptedEmail.toString();
+    const cipher = crypto.createCipheriv(algorithm, Buffer.from(secret), iv);
+    let encrypted = cipher.update(email, 'utf8', 'hex');
+    encrypted += cipher.final('hex');
+    return `${iv.toString('hex')}:${encrypted}`;
 }
 
-module.exports = { encrypt, decrypt };
+function decrypt(encrypted) {
+    console.log(encrypted);
+    const [ivHex, encryptedHex] = encrypted.split(':');
+    const iv = Buffer.from(ivHex, 'hex');
+    const decipher = crypto.createDecipheriv(algorithm, Buffer.from(secret), iv);
+    let decrypted = decipher.update(encryptedHex, 'hex', 'utf8');
+    decrypted += decipher.final('utf8');
+    return decrypted;
+}
+
+function compareEmails(email, encryptedEmail) {
+    const decryptedEmail = decrypt(encryptedEmail);
+    return email === decryptedEmail;
+}
+
+module.exports = { encrypt, decrypt, compareEmails };

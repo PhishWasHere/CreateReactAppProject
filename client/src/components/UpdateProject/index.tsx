@@ -13,6 +13,7 @@ export default function UpdateProject({projectId}: any) {
     const [formState, setFormState] = useState({name: '', description: '', status: '' });
 
     const handleChange = (e: any) => {
+        e.preventDefault();
         const { name, value } = e.target;
         setFormState({
             ...formState,
@@ -36,12 +37,12 @@ export default function UpdateProject({projectId}: any) {
         <form onSubmit={handleSubmit} className="card-body ">
             <div className="form-control ">
               <label className="label">
-                <span>Task name</span>
+                <span>Project name</span>
               </label>
               <input type='text'
               name='name'
               value={formState.name}
-              placeholder='Task name'
+              placeholder='Project name'
               onChange={handleChange}
               className="input input-bordered" 
               />
@@ -49,12 +50,12 @@ export default function UpdateProject({projectId}: any) {
 
             <div className="form-control ">
               <label className="label">
-                <span>Task Description</span>
+                <span>Project Description</span>
               </label>
               <input type='text'
               name='description'
               value={formState.description}
-              placeholder='Task Description'
+              placeholder='Project Description'
               onChange={handleChange}
               className="input input-bordered" 
               />
@@ -62,12 +63,12 @@ export default function UpdateProject({projectId}: any) {
 
             <div className="form-control ">
               <label className="label">
-                <span>Status</span>
+                <span>Project Status</span>
               </label>
               <input type='text'
               name='status'
               value={formState.status}
-              placeholder='status'
+              placeholder=' Project Status'
               onChange={handleChange}
               className="input input-bordered" 
               />

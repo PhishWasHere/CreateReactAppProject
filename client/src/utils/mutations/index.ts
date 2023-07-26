@@ -7,7 +7,7 @@ export const ADD_USER = gql`
       user {
         _id
         username
-        enail
+        email
       }
     }
   }
