@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const crypto = require('crypto');
 
-const secret = '0118cd50c2a840d7a47e85528442f384b1bf722a171ac46bbf9b4d335f311091' //move to env once done
+const secret = process.env.HASH_SECRET //moved to env, new hash made for prod
 
 const encrypt = (text) => {
   const algorithm = 'aes-256-cbc';
