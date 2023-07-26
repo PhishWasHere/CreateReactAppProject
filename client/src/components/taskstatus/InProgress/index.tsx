@@ -55,7 +55,7 @@ export default function InProgress() {
                             <div key={task._id} className="p-2 min-h-36 flex flex-col bg-primary text-black rounded-lg">
                             <div className="flex flex-col">
                                 <h4 className="text-lg font-bold">{task.name}</h4>
-                                <p className="text-sm break-all">{task.description}aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</p>
+                                <p className="text-sm break">{task.description}</p>
                             </div>
                             <div className='self-start mt-auto'>
                                 <p>{task.dueDate}</p>

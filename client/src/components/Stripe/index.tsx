@@ -12,7 +12,7 @@ const ProductDisplay = () => (
 
 const Message = ({ message }: any) => (
 <section>
-    <p className="break-all">{message}</p>
+    <p className="break">{message}</p>
 </section>
 );
 
@@ -29,7 +29,7 @@ export default function Stripe () {
   
       if (query.get("canceled")) {
         setMessage(
-          "Order canceled -- feel free to continue using the site."
+          ""
         );
       }
     }, []);
