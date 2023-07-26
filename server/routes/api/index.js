@@ -1,5 +1,7 @@
 const router = require('express').Router();
-const SK = provess.env.STRIPE_SK_TEST;
+
+const SK = process.env.STRIPE_SK_TEST;
+
 const stripe = require('stripe')(SK);
  
 const YOUR_DOMAIN = 'http://localhost:3000';
