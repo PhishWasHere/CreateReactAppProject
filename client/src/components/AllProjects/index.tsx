@@ -56,7 +56,7 @@ export default function AllProjects() {
               <>
                 <div className="md:grid grid-cols-3 gap-4 justify-center items-center mx-2">
                   {projects.map((project: any) => (
-                    <div key={project._id} className="card min-w-80 bg-base-100 shadow-xl">
+                    <div key={project._id} className={"card min-w-80 bg-base-100 shadow-xl" + (selectedProjectId === project._id && showComponent ? ' hidden' : '')}>
                       <div className='flex flex-col mt-2 mx-5 lg:w-96 md:w-80 sm:w-72 w-72'>
                         
                         <div className="break">

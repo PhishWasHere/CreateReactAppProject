@@ -6,7 +6,6 @@ import Auth from '../../utils/auth';
 
 export default function UpdateProject({projectId}: any) {
     const { id } = useParams();
-    console.log(projectId);
     
     const [updateProject, error] = useMutation(UPDATE_PROJECT);
 
