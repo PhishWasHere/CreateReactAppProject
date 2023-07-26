@@ -15,12 +15,12 @@ export default function Home() {
 
   return (
     <>
-    <Stripe />
       <div className='lg:flex min-h-screen mb-5'>
         <div className='px-3 py-1 lg:max-w-lg bg-stone-500 lg:w-1/12'>
           <div className='md:min-w-full'>
             <div  className='flex my-4 flex-col justify-start'>
               words 
+              <Stripe />
             </div>
           </div>
         </div>

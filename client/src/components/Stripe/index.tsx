@@ -1,28 +1,18 @@
 import React, { useState, useEffect} from "react";
 
 const ProductDisplay = () => (
-<section>
-    <div className="product">
-    <img
-        src="https://i.imgur.com/EHyR2nP.png"
-        alt="The cover of Stubborn Attachments"
-    />
-    <div className="description">
-    <h3>Stubborn Attachments</h3>
-    <h5>$20.00</h5>
-    </div>
-    </div>
+  <section>
     <form action="/api/checkout" method="POST">
-    <button type="submit">
-        Checkout
-    </button>
+      <button type="submit" className="btn-primary rounded-lg p-2 transition">
+          Donate
+      </button>
     </form>
-</section>
+  </section>
 );
 
 const Message = ({ message }: any) => (
 <section>
-    <p>{message}</p>
+    <p className="break-all">{message}</p>
 </section>
 );
 
@@ -34,19 +24,22 @@ export default function Stripe () {
       const query = new URLSearchParams(window.location.search);
   
       if (query.get("success")) {
-        setMessage("Order placed! You will receive an email confirmation.");
+        setMessage("Thank you for donating to my alcohol fund.");
       }
   
       if (query.get("canceled")) {
         setMessage(
-          "Order canceled -- continue to shop around and checkout when you're ready."
+          "Order canceled -- feel free to continue using the site."
         );
       }
     }, []);
   
-    return message ? (
-      <Message message={message} />
-    ) : (
-      <ProductDisplay />
+    return (
+      <>
+        <ProductDisplay />
+        {message ? (
+          <Message message={message} />
+        ) : null }
+      </>
     );
   }
