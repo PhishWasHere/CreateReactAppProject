@@ -8,6 +8,7 @@ const YOUR_DOMAIN = 'http://localhost:3000';
 
 router.post('/checkout', async (req, res) => {
     const session = await stripe.checkout.sessions.create({
+      submit_type: 'donate',
       line_items: [
         {
           price: 'price_1NY29eGNThYXIbcnsHjHceUV',

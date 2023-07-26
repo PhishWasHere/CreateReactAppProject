@@ -6,7 +6,6 @@ export default function Navbar () {
 
     const handleSubmit = async (e: any) => {
         e.preventDefault();
-        console.log('logout');
         try {
             Auth.logout();
         } catch (err) {
