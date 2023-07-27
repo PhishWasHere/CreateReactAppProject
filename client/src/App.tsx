@@ -15,7 +15,7 @@ import Signup from './pages/signup';
 import Login from './pages/login';
 import Nav from './components/NavBar';
 import SingleProject from './pages/singleProject';
-import Settings from './pages/settings';
+import Dev from './pages/dev';
 
 // Construct our main GraphQL API endpoint
 const httpLink = createHttpLink({
@@ -94,8 +94,8 @@ export default function App() {
               element={<SingleProject/>}
               />
             <Route
-              path='/settings'
-              element={<Settings/>}
+              path='/dev'
+              element={<Dev/>}
               />
           </Routes>
         </div>
