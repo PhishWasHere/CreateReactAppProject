@@ -4,7 +4,7 @@ import { useQuery } from '@apollo/client';
 import { QUERY_PROJECT } from '../../../utils/queries';
 import Auth from '../../../utils/auth';
 
-import TaskCard from '../../common/TaskCard';
+import TaskCard from '../../common/cards/TaskCard';
 
 export default function InProgress() {
     const { id } = useParams();   

@@ -1,8 +1,8 @@
 import { useMutation } from '@apollo/client';
-import { ADD_PROJECT } from '../../../utils/mutations';
+import { ADD_PROJECT } from '../../../../utils/mutations';
 import React, { useState, useEffect } from 'react';
 
-import Auth from '../../../utils/auth';
+import Auth from '../../../../utils/auth';
 import { render } from '@testing-library/react';
 
 export default function AddProject() {

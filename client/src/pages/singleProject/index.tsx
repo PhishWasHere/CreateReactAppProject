@@ -5,9 +5,9 @@ import { QUERY_PROJECT } from '../../utils/queries';
 import { REMOVE_PROJECT } from '../../utils/mutations';
 import Auth from '../../utils/auth';
 
-import TaskCard from '../../components/common/TaskCard';
-import AddTask from '../../components/common/AddTask';
-import UpdateProject from '../../components/common/UpdateProject';
+import TaskCard from '../../components/common/cards/TaskCard';
+import AddTask from '../../components/common/forms/AddTask';
+import UpdateProject from '../../components/common/forms/UpdateProject';
 
 export default function SingleProject () {
     const [projectData, setProjectData] = useState(false);

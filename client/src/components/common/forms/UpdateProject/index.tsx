@@ -1,6 +1,6 @@
 import React, {useState } from 'react';
 import { useMutation } from '@apollo/client';
-import { UPDATE_PROJECT } from '../../../utils/mutations';
+import { UPDATE_PROJECT } from '../../../../utils/mutations';
 
 export default function UpdateProject({projectId, name, description, status}: any) {
   

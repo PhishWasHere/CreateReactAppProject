@@ -4,7 +4,7 @@ import { QUERY_PROJECTS } from '../../../utils/queries';
 
 import Auth from '../../../utils/auth';
 
-import ProjectCard from '../../../components/common/ProjectCard';
+import ProjectCard from '../../common/cards/ProjectCard';
 
 export default function Completed() {
 

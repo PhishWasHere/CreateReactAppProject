@@ -4,7 +4,7 @@ import Auth from '../../utils/auth';
 import { Link, Navigate, useParams } from 'react-router-dom';
 
 import AllProjects from '../../components/AllProjects';
-import Stripe from '../../components/Stripe';
+import Stripe from '../../components/common/Stripe';
 
 export default function Home() {
 

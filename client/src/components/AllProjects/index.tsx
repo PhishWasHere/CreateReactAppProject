@@ -4,7 +4,7 @@ import Active from './Active';
 import Completed from './Completed';
 import Paused from './Paused';
 
-import AddProject from '../common/AddProject';
+import AddProject from '../common/forms/AddProject';
 
 export default function AllProjects() {
 

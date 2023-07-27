@@ -26,12 +26,7 @@ export default function Stripe () {
       if (query.get("success")) {
         setMessage("Thank you for donating to my alcohol fund.");
       }
-  
-      if (query.get("canceled")) {
-        setMessage(
-          ""
-        );
-      }
+      
     }, []);
   
     return (
