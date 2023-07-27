@@ -4,7 +4,7 @@
   "description": "",
   "main": "server/server.js",
   "scripts": {
-    "start": "start": "concurrently \"cd server && yarn start\" \"cd client && yarn start\"",
+    "start": "concurrently \"cd server && yarn start\" \"cd client && yarn start\"",
     "dev": "concurrently \"cd server && yarn watch\" \"cd client && yarn start\"",
     "install": "cd server && yarn && cd ../client && yarn",
     "seed": "cd server && yarn seed",
