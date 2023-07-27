@@ -12,8 +12,7 @@ export default function Active() {
   const { loading, data } = useQuery(QUERY_PROJECTS, {
     variables: { userid: Auth.getProfile().data._id  },
   });  
-
-  const user = data?.user || [];
+  
   const projects = data?.projects || [];
 
   return (
@@ -28,7 +27,7 @@ export default function Active() {
                 <div className="md:grid grid-cols-2 gap-3 justify-center items-center mx-2">
                   {projects.map((project: any) => (
                     project.status === "Active" ? (
-                      <ProjectCard/>
+                      <ProjectCard key={project._id} project={project}/>
                     ) : null
                   ))}
                 </div>

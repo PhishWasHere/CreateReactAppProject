@@ -28,7 +28,7 @@ export default function Paused() {
                 <div className="md:grid grid-cols-2 gap-3 justify-center items-center mx-2">
                   {projects.map((project: any) => (
                     project.status === "Paused" ? (
-                      <ProjectCard/>
+                      <ProjectCard key={project._id} project={project}/>
                     ) : null
                   ))}
                 </div>

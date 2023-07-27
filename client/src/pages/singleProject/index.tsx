@@ -5,11 +5,7 @@ import { QUERY_PROJECT } from '../../utils/queries';
 import { REMOVE_PROJECT } from '../../utils/mutations';
 import Auth from '../../utils/auth';
 
-
-import Completed from '../../components/taskstatus/Completed';
-import InProgress from '../../components/taskstatus/InProgress';
-import NotStarted from '../../components/taskstatus/NotStarted';
-
+import TaskCard from '../../components/common/TaskCard';
 import AddTask from '../../components/common/AddTask';
 import UpdateProject from '../../components/common/UpdateProject';
 
@@ -25,11 +21,13 @@ export default function SingleProject () {
             userid: Auth.getProfile().data._id
         },
     });
-    // console.log(data, id, loading, 'singleProject file');
     
     const [removeProject, {error}] = useMutation(REMOVE_PROJECT);
 
     const project = data?.project || {};
+
+    const status = project.tasks?.map((task: any) => task.status) || [];
+    
 
     const navigate = useNavigate();
     const handleClick = async () => { //move to component (did i mean delete proj btn???)
@@ -82,18 +80,42 @@ export default function SingleProject () {
             
             <div className='grid sm:flex'>
                 <div className='w-96 border rounded-2xl '>
-                    NotStarted
-                    <NotStarted />
+                    Not Started
+                    {loading ? (
+                        <div>Loading...</div>
+                    ) : (
+                        project.tasks?.map((task: any) => (
+                            task.status === "Not Started" ? (
+                                <TaskCard key={task._id} task={task}/>
+                            ) : ('')
+                        ))
+                    )}
                 </div>
 
                 <div className='w-96 border rounded-2xl'>
-                    InProgress
-                    <InProgress />  
+                    In Progress
+                    {loading ? (
+                        <div>Loading...</div>
+                    ) : (
+                        project.tasks?.map((task: any) => (
+                            task.status === "In Progress" ? (
+                                <TaskCard key={task._id} task={task}/>
+                            ) : ('')
+                        ))
+                    )}
                 </div>
                 
                 <div className='w-96 border rounded-2xl'>
                     Completed
-                    <Completed />
+                    {loading ? (
+                        <div>Loading...</div>
+                    ) : (
+                        project.tasks?.map((task: any) => (
+                            task.status === "Completed" ? (
+                                <TaskCard key={task._id} task={task}/>
+                            ) : ('')
+                        ))
+                    )}
                 </div>                
             </div>
         </div>
