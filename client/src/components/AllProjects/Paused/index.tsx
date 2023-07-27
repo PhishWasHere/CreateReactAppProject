@@ -8,7 +8,6 @@ import ProjectCard from '../../../components/common/ProjectCard';
 
 
 export default function Paused() {
-  const [selectedProjectId, setSelectedProjectId] = useState(null);
   
   const { loading, data } = useQuery(QUERY_PROJECTS, {
     variables: { userid: Auth.getProfile().data._id  },
@@ -16,12 +15,6 @@ export default function Paused() {
 
   const user = data?.user || [];
   const projects = data?.projects || [];
-
-  const handleProjectUpdate = async (projectId: any) => {    
-    setSelectedProjectId((prevSelectedProjectId) =>
-    prevSelectedProjectId === projectId ? null : projectId
-    );
-  }
 
   return (
     <>

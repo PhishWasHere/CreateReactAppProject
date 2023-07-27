@@ -1,15 +1,17 @@
 import React, {useState} from "react";
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { useQuery, useMutation } from '@apollo/client';
 import { QUERY_PROJECT } from '../../../utils/queries';
 import { REMOVE_TASK } from '../../../utils/mutations';
 import Auth from '../../../utils/auth';
 
-import UpdateTask from '../../UpdateTask'; 
+import UpdateTask from '../../common/UpdateTask'; 
 
-export default function InProgress() {
+
+export default function TaskCard() {
     const [taskData, setTaskData] = useState(false);
     const [selectedTaskId, setSelectedTaskId] = useState(null);
+
 
     const { id } = useParams();   
     
@@ -51,8 +53,7 @@ export default function InProgress() {
                     <div>Loading...</div>
                 ) : (
                     project.tasks?.map((task: any) => (
-                        task.status === "In Progress" ? (
-                            <div key={task._id} className="p-2 min-h-36 flex flex-col bg-primary text-black rounded-lg">
+                        <div key={task._id} className="p-2 min-h-36 flex flex-col bg-primary text-black rounded-lg">
                             <div className="flex flex-col">
                                 <h4 className="text-lg font-bold">{task.name}</h4>
                                 <p className="text-sm break">{task.description}</p>
@@ -67,7 +68,6 @@ export default function InProgress() {
                                 <UpdateTask taskId={task._id} />
                             )} 
                         </div>
-                        ) : ('')
                     ))
                 )}
             </div>

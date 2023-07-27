@@ -7,11 +7,11 @@ import Auth from '../../utils/auth';
 
 
 import Completed from '../../components/taskstatus/Completed';
-import InProgress from '../../components/taskstatus/Active';
-import NotStarted from '../../components/taskstatus/Paused';
+import InProgress from '../../components/taskstatus/InProgress';
+import NotStarted from '../../components/taskstatus/NotStarted';
 
-import AddTask from '../../components/AddTask';
-import UpdateProject from '../../components/UpdateProject';
+import AddTask from '../../components/common/AddTask';
+import UpdateProject from '../../components/common/UpdateProject';
 
 export default function SingleProject () {
     const [projectData, setProjectData] = useState(false);

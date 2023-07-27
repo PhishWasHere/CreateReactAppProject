@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { useQuery } from '@apollo/client';
 import { QUERY_PROJECTS } from '../../../utils/queries';
 import Auth from '../../../utils/auth';
-import UpdateProject from '../../UpdateProject';
+import UpdateProject from '../UpdateProject';
 
 
 export default function ProjectCard() {

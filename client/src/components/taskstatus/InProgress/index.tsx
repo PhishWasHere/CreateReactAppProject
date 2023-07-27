@@ -2,14 +2,11 @@ import React from "react";
 import { useParams } from 'react-router-dom';
 import { useQuery } from '@apollo/client';
 import { QUERY_PROJECT } from '../../../utils/queries';
-
 import Auth from '../../../utils/auth';
 
 import TaskCard from '../../common/TaskCard';
 
-
-export default function Completed() {
-
+export default function InProgress() {
     const { id } = useParams();   
     
     const { loading, data } = useQuery(QUERY_PROJECT, {
@@ -28,8 +25,8 @@ export default function Completed() {
                     <div>Loading...</div>
                 ) : (
                     project.tasks?.map((task: any) => (
-                        task.status === "Completed" ? (
-                            <TaskCard/>
+                        task.status === "In Progress" ? (
+                        <TaskCard/>
                         ) : ('')
                     ))
                 )}

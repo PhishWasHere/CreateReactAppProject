@@ -1,9 +1,9 @@
 import { useMutation } from '@apollo/client';
-import { ADD_TASK } from '../../utils/mutations';
+import { ADD_TASK } from '../../../utils/mutations';
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 
-import Auth from '../../utils/auth';
+import Auth from '../../../utils/auth';
 
 export default function AddTask() {
   const { id } = useParams();

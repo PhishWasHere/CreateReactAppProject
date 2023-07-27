@@ -1,8 +1,8 @@
 import React, {useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useMutation } from '@apollo/client';
-import { UPDATE_TASK } from '../../utils/mutations';
-import Auth from '../../utils/auth';
+import { UPDATE_TASK } from '../../../utils/mutations';
+import Auth from '../../../utils/auth';
 
 export default function UpdateTask({taskId}: any) {
   const { id } = useParams();

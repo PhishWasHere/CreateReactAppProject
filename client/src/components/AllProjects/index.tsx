@@ -4,7 +4,7 @@ import Active from './Active';
 import Completed from './Completed';
 import Paused from './Paused';
 
-import AddProject from '../AddProject';
+import AddProject from '../common/AddProject';
 
 export default function AllProjects() {
 
@@ -33,7 +33,7 @@ export default function AllProjects() {
   return (
     <>
       <div>
-        <button onClick={handleClick} className={'btn-primary p-2 transition rounded-lg hidden'}>➕</button>
+        <button onClick={handleClick} className={'btn-primary p-2 transition rounded-lg'}>➕</button>
         <div className={showComponent ? '' : 'hidden'}>
           <AddProject />
         </div>
