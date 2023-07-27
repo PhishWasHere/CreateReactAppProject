@@ -54,7 +54,12 @@ export default function ProjectCard() {
                           
                           {selectedProjectId === project._id && (
                             <div>
-                              <UpdateProject projectId={project._id}/>
+                              <UpdateProject 
+                                projectId={project._id} 
+                                name={project.name} 
+                                description={project.description} 
+                                status={project.status}
+                                />
                             </div>
                           )}
                         </div>

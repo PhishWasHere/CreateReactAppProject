@@ -4,12 +4,12 @@ import { useMutation } from '@apollo/client';
 import { UPDATE_TASK } from '../../../utils/mutations';
 import Auth from '../../../utils/auth';
 
-export default function UpdateTask({taskId}: any) {
+export default function UpdateTask({taskId, name, description, dueDate, priority, status}: any) {
   const { id } = useParams();
 
   const [updateTask, error] = useMutation(UPDATE_TASK);
 
-  const [formState, setFormState] = useState({name: '', description: '', dueDate: '', priority: 'Low', status: 'Not Started'});
+  const [formState, setFormState] = useState({name: name || '', description: description || '', dueDate: dueDate || '', priority: priority || 'Low', status: status || 'Not Started'});
 
   const handleChange = (e: any) => {
       const { name, value } = e.target;
@@ -18,6 +18,7 @@ export default function UpdateTask({taskId}: any) {
           [name]: value,
       });
   };
+  
   const handleSubmit = async (e: any) => {
     e.preventDefault();
     try {
@@ -42,7 +43,7 @@ export default function UpdateTask({taskId}: any) {
         <input type='text'
         name='name'
         value={formState.name}
-        placeholder='Task name'
+        placeholder={name}
         onChange={handleChange}
         className="input input-bordered" 
         />
@@ -55,7 +56,7 @@ export default function UpdateTask({taskId}: any) {
         <input type='text'
         name='description'
         value={formState.description}
-        placeholder='Task Description'
+        placeholder={description}
         onChange={handleChange}
         className="input input-bordered" 
         />
@@ -68,7 +69,7 @@ export default function UpdateTask({taskId}: any) {
         <input type='text'
         name='dueDate'
         value={formState.dueDate}
-        placeholder='Due Date'
+        placeholder={dueDate}
         onChange={handleChange}
         className="input input-bordered" 
         />
@@ -94,13 +95,17 @@ export default function UpdateTask({taskId}: any) {
         <label className="label">
           <span>Task Status</span>
         </label>
-        <input type='text'
-        name='status'
-        value={formState.status}
-        placeholder='Task Status'
-        onChange={handleChange}
-        className="input input-bordered" 
-        />
+        <select
+          name='status'
+          value={formState.status}
+          placeholder='Task Status'
+          onChange={handleChange}
+          className="input input-bordered"
+        >
+          <option>Not Started</option>
+          <option>In Progress</option>
+          <option>Completed</option>
+        </select>
       </div>
 
       <button type="submit">Update proj</button>
