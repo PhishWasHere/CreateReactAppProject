@@ -1,5 +1,4 @@
-import React, {useEffect, useState} from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState} from 'react';
 import { useMutation } from '@apollo/client';
 import { LOGIN_USER } from '../../utils/mutations';
 import Auth from '../../utils/auth';
@@ -10,7 +9,7 @@ export default function Login () {
 
     const [login, {error, data}] = useMutation(LOGIN_USER);
 
-    const handleChange = (e: any) => {
+    const handleChange = (e) => {
         const { name, value } = e.target;
     
         setFormState({
@@ -19,7 +18,7 @@ export default function Login () {
         });
       };
 
-    const handleSubmit = async (e: any) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         console.log('form', formState);
 

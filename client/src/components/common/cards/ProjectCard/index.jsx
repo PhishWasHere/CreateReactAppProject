@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import UpdateProject from '../../forms/UpdateProject';
 
 
-export default function ProjectCard({ project }:any) {
+export default function ProjectCard({ project }) {
 
     const [selectedProjectId, setSelectedProjectId] = useState(null);
 
@@ -12,7 +12,7 @@ export default function ProjectCard({ project }:any) {
         return () => {};
     }, []);
 
-    const handleProjectUpdate = async (projectId: any) => {    
+    const handleProjectUpdate = async (projectId) => {    
         setSelectedProjectId((prevSelectedProjectId) =>
         prevSelectedProjectId === projectId ? null : projectId
         );
