@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useMutation } from '@apollo/client';
 import { ADD_USER } from '../../utils/mutations';
@@ -10,7 +10,7 @@ export default function Signup () {
     
     const reg = /.+@.+\..+/;
 
-    const handleChange = (e: any) => {
+    const handleChange = (e) => {
         const { name, value } = e.target;
 
         setFormState({
@@ -21,7 +21,7 @@ export default function Signup () {
 
     const [addUser, {error, data}] = useMutation(ADD_USER);
 
-    const handleSubmit = async (e: any) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
 

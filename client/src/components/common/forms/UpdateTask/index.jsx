@@ -1,17 +1,16 @@
-import React, {useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import React, {useState } from 'react';
+import { useParams } from 'react-router-dom';
 import { useMutation } from '@apollo/client';
 import { UPDATE_TASK } from '../../../../utils/mutations';
-import Auth from '../../../../utils/auth';
 
-export default function UpdateTask({taskId, name, description, dueDate, priority, status}: any) {
+export default function UpdateTask({taskId, name, description, dueDate, priority, status}) {
   const { id } = useParams();
 
   const [updateTask, error] = useMutation(UPDATE_TASK);
 
   const [formState, setFormState] = useState({name: name || '', description: description || '', dueDate: dueDate || '', priority: priority || 'Low', status: status || 'Not Started'});
 
-  const handleChange = (e: any) => {
+  const handleChange = (e) => {
       const { name, value } = e.target;
       setFormState({
           ...formState,
@@ -19,7 +18,7 @@ export default function UpdateTask({taskId, name, description, dueDate, priority
       });
   };
   
-  const handleSubmit = async (e: any) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     try {
         await updateTask({

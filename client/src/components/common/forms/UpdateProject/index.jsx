@@ -2,13 +2,13 @@ import React, {useState } from 'react';
 import { useMutation } from '@apollo/client';
 import { UPDATE_PROJECT } from '../../../../utils/mutations';
 
-export default function UpdateProject({projectId, name, description, status}: any) {
+export default function UpdateProject({projectId, name, description, status}) {
   
   const [updateProject, error] = useMutation(UPDATE_PROJECT);
 
   const [formState, setFormState] = useState({name: name || '', description: description || '', status: status || '' });
 
-  const handleChange = (e: any) => {
+  const handleChange = (e) => {
     e.preventDefault();
     const { name, value } = e.target;
     setFormState({
@@ -17,7 +17,7 @@ export default function UpdateProject({projectId, name, description, status}: an
     });
   };
 
-  const handleSubmit = async (e: any) => {
+  const handleSubmit = async (e) => {
     try {
         await updateProject({
             variables: {

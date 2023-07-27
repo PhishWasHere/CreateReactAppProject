@@ -1,7 +1,6 @@
-import React, { useState } from 'react';
-
+import React, { } from 'react';
 import Auth from '../../utils/auth';
-import { Link, Navigate, useParams } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 
 import AllProjects from '../../components/AllProjects';
 import Stripe from '../../components/common/Stripe';

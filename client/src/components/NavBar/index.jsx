@@ -4,7 +4,7 @@ import Auth from '../../utils/auth';
 
 export default function Navbar () {
 
-    const handleSubmit = async (e: any) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         try {
             Auth.logout();
