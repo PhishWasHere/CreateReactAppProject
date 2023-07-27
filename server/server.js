@@ -1,5 +1,4 @@
-//tried to use ts, but cant import and cant be bothered
-//remove exp-sess from package.json
+
 require('dotenv').config();
 
 const express = require('express');
