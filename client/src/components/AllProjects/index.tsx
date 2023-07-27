@@ -14,7 +14,6 @@ export default function AllProjects() {
     setShowComponent((prevShowComponent) => !prevShowComponent);
   }
 
-
   const nav = [
     {
       name: 'Active',
