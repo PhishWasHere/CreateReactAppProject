@@ -33,13 +33,13 @@ export default function AllProjects() {
   return (
     <>
       <div>
-        <button onClick={handleClick} className={'btn-primary hidden'}>➕</button>
+        <button onClick={handleClick} className={'btn-primary p-2 transition rounded-lg hidden'}>➕</button>
         <div className={showComponent ? '' : 'hidden'}>
           <AddProject />
         </div>
       </div>
 
-      <section className='flex'>
+      <section className='flex flex-col'>
         <div>
           <ul className='flex justify-center'>
             {nav.map((item) => {
