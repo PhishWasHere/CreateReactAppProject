@@ -7,8 +7,8 @@ import Auth from '../../utils/auth';
 
 
 import Completed from '../../components/taskstatus/Completed';
-import InProgress from '../../components/taskstatus/InProgress';
-import NotStarted from '../../components/taskstatus/NotStarted';
+import InProgress from '../../components/taskstatus/Active';
+import NotStarted from '../../components/taskstatus/Paused';
 
 import AddTask from '../../components/AddTask';
 import UpdateProject from '../../components/UpdateProject';

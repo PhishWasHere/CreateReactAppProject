@@ -2,16 +2,18 @@ import React, { useState } from 'react';
 import { useQuery } from '@apollo/client';
 import { QUERY_PROJECTS } from '../../../utils/queries';
 
+
 import Auth from '../../../utils/auth';
 import { Link, Navigate, useParams } from 'react-router-dom';
 
 import UpdateProject from '../../../components/UpdateProject';
 
-export default function Completed() {
+export default function Active() {
   const [showComponent, setShowComponent] = useState(false);
 
   const [selectedProjectId, setSelectedProjectId] = useState(null);
   
+
   const { loading, data } = useQuery(QUERY_PROJECTS, {
     variables: { userid: Auth.getProfile().data._id  },
   });  
@@ -29,14 +31,14 @@ export default function Completed() {
     <>
     <div className='h-full min-h-full mx-auto'> 
       <section className='flex justify-center mx-auto w-full'>
-        <div className="flex-row">
+        <div className="flex-row"> 
             {loading ? (
               <div>Loading...</div>
               ) : (
               <>
                 <div className="md:grid grid-cols-3 gap-4 justify-center items-center mx-2">
                   {projects.map((project: any) => (
-                    project.status === "Completed" ? (
+                    project.status === "Active" ? (
                       <div key={project._id} className={"card min-w-80 bg-base-100 shadow-xl" + (selectedProjectId === project._id && showComponent ? ' hidden' : '')}>
                         <div className='flex flex-col mt-2 mx-5 lg:w-96 md:w-80 sm:w-72 w-72'>
                           

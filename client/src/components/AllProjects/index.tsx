@@ -1,58 +1,77 @@
 import React, { useState } from 'react';
-import NotStarted from './NotStarted';
-import InProgress from './InProgress';
+
+import Active from './Active';
 import Completed from './Completed';
+import Paused from './Paused';
+
+import AddProject from '../AddProject';
 
 export default function AllProjects() {
 
-  const [activeTab, setActiveTab] = useState('Not Started');
+  const [activeTab, setActiveTab] = useState('Active')
+  const [showComponent, setShowComponent] = useState(false);
+  const handleClick = () => {
+    setShowComponent((prevShowComponent) => !prevShowComponent);
+  }
+
 
   const nav = [
     {
-      name: 'Not Started',
-      component: <NotStarted />,
+      name: 'Active',
+      component: <Active />,
     },
     {
-      name: 'In Progress',
-      component: <InProgress />,
+      name: 'Paused',
+      component: <Paused />,
     },
     {
       name: 'Completed',
       component: <Completed />,
-    }
+    },
   ];
 
   return (
     <>
-      <section className='flex justify-center'>
-        <ul className='flex'>
-          {nav.map((item) => {
-            const isActive = item.name === activeTab;
-
-            return (
-              <li key={item.name} className='mr-5'>
-                <button
-                  className={`${
-                    isActive ? 'text-red-500' : 'text-blue-500'
-                  } hover:text-purple-500`}
-                  onClick={() => setActiveTab(item.name)}
-                >
-                  {item.name}
-                </button>
-              </li>
-            );
-          })}
-        </ul>
-      </section>
-      <div className='flex justify-center mt-4'>
-        {nav.map((item) =>
-          item.name === activeTab ? (
-            <div key={item.name} className='flex justify-center'>
-              {item.component}
-            </div>
-          ) : null
-        )}
+      <div>
+        <button onClick={handleClick} className={'btn-primary hidden'}>➕</button>
+        <div className={showComponent ? '' : 'hidden'}>
+          <AddProject />
+        </div>
       </div>
+
+      <section className='flex'>
+        <div>
+          <ul className='flex justify-center'>
+            {nav.map((item) => {
+              const isActive = item.name === activeTab;
+              return (
+                <li key={item.name} className='mx-1'>
+                  <button
+                    className={`${
+                      isActive ? 'text-red-500' : 'text-blue-500'
+                    } hover:text-purple-500`}
+                    onClick={() => setActiveTab(item.name)}
+                  >
+                    {item.name}
+                  </button>
+                </li>
+              );
+            })}
+          </ul>
+        </div>
+
+        <div>
+          <div className=''>
+            {nav.map((item) =>
+              item.name === activeTab ? (
+                <div key={item.name} className=''>
+                  {item.component}
+                </div>
+              ) : null
+              )}
+          </div>
+        </div>
+      </section>
     </>
   );
 };

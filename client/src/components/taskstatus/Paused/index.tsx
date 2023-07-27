@@ -5,7 +5,7 @@ import { QUERY_PROJECT } from '../../../utils/queries';
 import { REMOVE_TASK } from '../../../utils/mutations';
 import Auth from '../../../utils/auth';
 
-import UpdateTask from '../../../components/UpdateTask'; 
+import UpdateTask from '../../UpdateTask'; 
 
 export default function NotStarted() {
     const [selectedTaskId, setSelectedTaskId] = useState(null);
