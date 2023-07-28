@@ -11,7 +11,7 @@ import Auth from './utils/auth';
 
 import Front from './pages/front';
 import Home from './pages/home';
-import Signup from './pages/signup';
+import Signup from './pages/signup/index.jsx';
 import Login from './pages/login';
 import Nav from './components/NavBar';
 import SingleProject from './pages/singleProject';
