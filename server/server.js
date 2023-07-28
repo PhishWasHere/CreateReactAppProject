@@ -17,6 +17,9 @@ const server = new ApolloServer({
   resolvers,
   context: authMiddleware,
 });
+server.applyMiddleware({ app });
+
+
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(routes);
@@ -32,19 +35,18 @@ app.get('/', (req, res) => {
 
 // Create a new instance of an Apollo server with the GraphQL schema
 const startApolloServer = async () => {
-  await server.start();
-  server.applyMiddleware({ app });
-  
-  db.once('open', () => {
-    app.listen(PORT, () => {
-      console.log(`API server running on port ${PORT}!`);
-      console.log(`Use GraphQL at http://localhost:${PORT}${server.graphqlPath}`);
-    })
-  })
-};
-  
+  try {
+    await server.start();
+
+    db.once('open', () => {
+      app.listen(PORT, () => {
+        console.log(`API server running on port ${PORT}!`);
+        console.log(`Use GraphQL at http://localhost:${PORT}${server.graphqlPath}`);
+      });
+    });
+  } catch (error) {
+    console.error('Error starting the server:', error);
+  }
+}; 
 // Call the async function to start the server
 startApolloServer();
-
-
-

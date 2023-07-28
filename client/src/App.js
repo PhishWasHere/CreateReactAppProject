@@ -45,7 +45,7 @@ export default function App() {
 
   return (
     <ApolloProvider client={client}>
-      <Router basename="/subdirectory">
+      <Router>
         <div className='flex flex-col h-screen justify-between bg-base-200'>
         {!Auth.loggedIn() ? (
           <>
