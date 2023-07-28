@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {  } from 'react';
 import { useQuery } from '@apollo/client';
 import { QUERY_PROJECTS } from '../../../utils/queries';
 
@@ -25,7 +25,7 @@ export default function Active() {
               ) : (
               <>
                 <div className="md:grid grid-cols-2 gap-3 justify-center items-center mx-2">
-                  {projects.map((project: any) => (
+                  {projects.map((project) => (
                     project.status === "Active" ? (
                       <ProjectCard key={project._id} project={project}/>
                     ) : null

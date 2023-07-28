@@ -1,4 +1,4 @@
-import React, {useState, useEffect } from 'react';
+import React, {useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useQuery, useMutation } from '@apollo/client';
 import { QUERY_PROJECT } from '../../utils/queries';
@@ -26,7 +26,7 @@ export default function SingleProject () {
 
     const project = data?.project || {};
 
-    const status = project.tasks?.map((task: any) => task.status) || [];
+    const status = project.tasks?.map((task) => task.status) || [];
     
 
     const navigate = useNavigate();
@@ -84,7 +84,7 @@ export default function SingleProject () {
                     {loading ? (
                         <div>Loading...</div>
                     ) : (
-                        project.tasks?.map((task: any) => (
+                        project.tasks?.map((task) => (
                             task.status === "Not Started" ? (
                                 <TaskCard key={task._id} task={task}/>
                             ) : ('')
@@ -97,7 +97,7 @@ export default function SingleProject () {
                     {loading ? (
                         <div>Loading...</div>
                     ) : (
-                        project.tasks?.map((task: any) => (
+                        project.tasks?.map((task) => (
                             task.status === "In Progress" ? (
                                 <TaskCard key={task._id} task={task}/>
                             ) : ('')
@@ -110,7 +110,7 @@ export default function SingleProject () {
                     {loading ? (
                         <div>Loading...</div>
                     ) : (
-                        project.tasks?.map((task: any) => (
+                        project.tasks?.map((task) => (
                             task.status === "Completed" ? (
                                 <TaskCard key={task._id} task={task}/>
                             ) : ('')

@@ -7,7 +7,7 @@ import Auth from '../../../../utils/auth';
 import UpdateTask from '../../forms/UpdateTask'; 
 
 
-export default function TaskCard({ task }:any) {
+export default function TaskCard({ task }) {
     const [selectedTaskId, setSelectedTaskId] = useState(null);
 
     useEffect(() => { //fixes mem leaks (idk how, but the err told me to do this)
@@ -18,7 +18,7 @@ export default function TaskCard({ task }:any) {
     
     const [removeTask, {error}] = useMutation(REMOVE_TASK);
     
-    const handleClick = async (taskId: string) => { 
+    const handleClick = async (taskId) => { 
        try {
             await removeTask({
                 variables: {
@@ -32,7 +32,7 @@ export default function TaskCard({ task }:any) {
        }
     }
 
-    const handleTaskUpdate = async (taskId: any) => {
+    const handleTaskUpdate = async (taskId) => {
         setSelectedTaskId((prevSelectedTaskId) =>
         prevSelectedTaskId === taskId ? null : taskId
       );

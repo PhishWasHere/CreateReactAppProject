@@ -1,9 +1,8 @@
 import { useMutation } from '@apollo/client';
 import { ADD_PROJECT } from '../../../../utils/mutations';
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 
 import Auth from '../../../../utils/auth';
-import { render } from '@testing-library/react';
 
 export default function AddProject() {
  
@@ -12,7 +11,7 @@ export default function AddProject() {
   
     const [addProject, { error }] = useMutation(ADD_PROJECT);
   
-    const handleSubmit = async (e: any) => {
+    const handleSubmit = async (e) => {
 
       try {
         const { data } = await addProject({
