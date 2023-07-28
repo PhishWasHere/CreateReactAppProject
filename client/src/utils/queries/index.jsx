@@ -32,3 +32,26 @@ export const QUERY_PROJECT = gql`
     }
   }
 `;
+
+export const QUERY_USER = gql`
+  query user($userId: ID!) {
+    user(userId: $userId) {
+      _id
+      username
+      projects {
+        _id
+        name
+        description
+        status
+        tasks {
+          description
+          _id
+          dueDate
+          name
+          priority
+          status
+        }
+      }
+    }
+  }
+`;

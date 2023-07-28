@@ -3,12 +3,22 @@ const { AuthenticationError } = require('apollo-server-express');
 const { signToken } = require('../utils/auth');
 const { encrypt, decrypt }= require ('../utils/cryptoEmail');
 
-//todo: convert to a try/catch block
  
 const resolvers = {
   Query: {
     users: async () => {
       return User.find()
+    },
+
+    user: async (parent, args, context) => {
+      try {
+        if (context.user) {
+          return User.findById(context.user._id);
+        } console.log(context.user._id);
+        throw new AuthenticationError('You need to be logged in!');
+      } catch (err) {
+         throw new Error('Something went wrong!');
+      }
     },
 
     projects: async (parent, args, context) => {

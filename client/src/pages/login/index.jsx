@@ -20,16 +20,11 @@ export default function Login () {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log('form', formState);
-
-        try {
-            console.log('tryform', formState);
-            
+        try {            
             const {data} = await login({
                 variables: {...formState}
             });
             
-            console.log('data: ', data);
             Auth.login(data.login.token);
             
         } catch (err) {
