@@ -5,10 +5,12 @@ import { Navigate } from 'react-router-dom';
 import AllProjects from '../../components/AllProjects';
 import Stripe from '../../components/common/Stripe';
 import AddProject from '../../components/common/forms/AddProject';
+import UpdateProject from '../../components/common/forms/UpdateProject';
 
+import { useProject } from '../../utils/contextAPI/ProjectProvider';
 
 export default function Home() {
-
+  const { projectData } = useProject();
   const [showComponent, setShowComponent] = useState(false);
 
   if(!Auth.loggedIn()) {
@@ -31,6 +33,8 @@ export default function Home() {
                   <AddProject />
                 </div>
               </div>
+              
+              <UpdateProject props={projectData}/>
 
               words 
               <Stripe />

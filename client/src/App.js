@@ -17,6 +17,8 @@ import Nav from './components/NavBar';
 import SingleProject from './pages/singleProject';
 import Dev from './pages/dev';
 
+import ProjectProvider from './utils/contextAPI/ProjectProvider';
+
 // Construct our main GraphQL API endpoint
 const httpLink = createHttpLink({
   uri: '/graphql',
@@ -44,6 +46,7 @@ const client = new ApolloClient({
 export default function App() {
 
   return (
+    <ProjectProvider>
     <ApolloProvider client={client}>
       <Router>
         <div className='flex flex-col h-screen justify-between bg-base-200'>
@@ -103,6 +106,7 @@ export default function App() {
         </div>
       </Router>
     </ApolloProvider>
+    </ProjectProvider>
   );
 }
 
