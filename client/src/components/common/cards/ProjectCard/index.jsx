@@ -15,19 +15,17 @@ export default function ProjectCard({ project }) {
   }, []);
   
   const handleProjectUpdate = () => {
-    console.log(project);
-    
+    setSelectedProjectId((prevSelectedProjectId) =>
+      prevSelectedProjectId === project._id ? null : project._id
+    );
+  
     setProjectData({
       project: project,
-      projectId: project._id,
+      projectId: selectedProjectId, // Change this to project._id
       name: project.name,
       description: project.description,
       status: project.status,
     });
-
-    setSelectedProjectId((prevSelectedProjectId) =>
-      prevSelectedProjectId === project._id ? null : project._id
-    );
   };
 
   return (
@@ -47,7 +45,7 @@ export default function ProjectCard({ project }) {
                       View Project
                     </button>
                   </Link>
-                  <button onClick={handleProjectUpdate} className="text-end ml-auto">
+                  <button onClick={() => handleProjectUpdate(project)} className="text-end ml-auto">
                     settings
                   </button>
                 </div>

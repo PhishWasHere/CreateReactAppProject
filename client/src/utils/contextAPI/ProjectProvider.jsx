@@ -12,7 +12,7 @@ export default function ProjectProvider({ children }) {
     isClicked: children.isClicked || false,
   });
 
-  console.log('from context', children.projectId);
+  console.log('from context', children.project);
 
   return (
     <ProjectContext.Provider value={{ projectData, setProjectData }}>

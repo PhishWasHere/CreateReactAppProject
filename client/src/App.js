@@ -46,7 +46,7 @@ const client = new ApolloClient({
 export default function App() {
 
   return (
-    <ProjectProvider>
+    <ProjectProvider >
     <ApolloProvider client={client}>
       <Router>
         <div className='flex flex-col h-screen justify-between bg-base-200'>
