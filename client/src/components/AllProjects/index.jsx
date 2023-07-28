@@ -4,15 +4,9 @@ import Active from './Active';
 import Completed from './Completed';
 import Paused from './Paused';
 
-import AddProject from '../common/forms/AddProject';
-
 export default function AllProjects() {
 
   const [activeTab, setActiveTab] = useState('Active')
-  const [showComponent, setShowComponent] = useState(false);
-  const handleClick = () => {
-    setShowComponent((prevShowComponent) => !prevShowComponent);
-  }
 
   const nav = [
     {
@@ -31,27 +25,20 @@ export default function AllProjects() {
 
   return (
     <>
-      <div>
-        <button onClick={handleClick} className={'btn-primary p-2 transition rounded-lg'}>➕</button>
-        <div className={showComponent ? '' : 'hidden'}>
-          <AddProject />
-        </div>
-      </div>
-
       <section className='flex flex-col'>
         <div>
           <ul className='flex justify-center'>
-            {nav.map((item) => {
-              const isActive = item.name === activeTab;
+            {nav.map((arr) => {
+              const isActive = arr.name === activeTab;
               return (
-                <li key={item.name} className='mx-1'>
+                <li key={arr.name} className='px-1 mb-5'>
                   <button
-                    className={`${
-                      isActive ? 'text-red-500' : 'text-blue-500'
-                    } hover:text-purple-500`}
-                    onClick={() => setActiveTab(item.name)}
+                    className={`flex p-2 rounded-lg ${
+                      isActive ? 'btn-neutral' : 'btn-primary'
+                    } transition`}
+                    onClick={() => setActiveTab(arr.name)}
                   >
-                    {item.name}
+                    {arr.name}
                   </button>
                 </li>
               );
@@ -61,10 +48,10 @@ export default function AllProjects() {
 
         <div>
           <div className=''>
-            {nav.map((item) =>
-              item.name === activeTab ? (
-                <div key={item.name} className=''>
-                  {item.component}
+            {nav.map((arr) =>
+              arr.name === activeTab ? (
+                <div key={arr.name} className=''>
+                  {arr.component}
                 </div>
               ) : null
               )}
