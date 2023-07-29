@@ -50,8 +50,7 @@ export default function TaskCard({ task }) {
                         <p>{task.dueDate}</p>
                         <p>Priority: {task.priority}</p>
                     </div>
-                    <button onClick={() => handleTaskUpdate(task._id)} className="bg-base-100 text-info rounded-lg transition mt-2">Update Task</button>
-                    <button onClick={() => {handleClick(task._id)}} className="bg-error rounded-lg mt-2 ">Delete Task</button>
+                    <button onClick={() => handleTaskUpdate(task._id)} className="bg-base-100 text-info rounded-lg transition my-2">Update Task</button>
                     {task._id === selectedTaskId && (
                         <UpdateTask 
                             taskId={task._id} 
@@ -62,6 +61,8 @@ export default function TaskCard({ task }) {
                             status={task.status}
                         />
                     )} 
+                    <button onClick={() => {handleClick(task._id)}} className="bg-error rounded-lg">Delete Task</button>
+
                 </div>
             </div>
         </div>
