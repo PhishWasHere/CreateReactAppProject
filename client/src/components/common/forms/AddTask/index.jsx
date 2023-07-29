@@ -7,7 +7,8 @@ export default function AddTask() {
   const { id } = useParams();
 
   const [formState, setFormState] = useState({name: '', description: '', dueDate: '', priority: 'Low', status: 'Not Started'});
-
+  console.log(formState);
+  
   const handleChange = (e) => {
       const { name, value } = e.target;
       setFormState({

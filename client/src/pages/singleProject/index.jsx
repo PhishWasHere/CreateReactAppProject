@@ -1,9 +1,10 @@
 import React, {useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { useQuery, useMutation } from '@apollo/client';
 import { QUERY_PROJECT } from '../../utils/queries';
-import { REMOVE_PROJECT } from '../../utils/mutations';
 import Auth from '../../utils/auth';
+
+import ProjectDelete from '../../components/common/cards/ProjecDteleteCard';
 
 import TaskCard from '../../components/common/cards/TaskCard';
 import AddTask from '../../components/common/forms/AddTask';
@@ -12,6 +13,7 @@ import UpdateProject from '../../components/common/forms/UpdateProject';
 export default function SingleProject () {
     const [projectData, setProjectData] = useState(false); // used to toggle form
     const [taskData, setTaskData] = useState(false); // used to toggle form
+    const [projectDelete, setProjectDelete]  = useState(false); // used to toggle form
 
     const { id } = useParams();   
 
@@ -21,36 +23,26 @@ export default function SingleProject () {
             userid: Auth.getProfile().data._id
         },
     });
-    
-    const [removeProject, {error}] = useMutation(REMOVE_PROJECT);
 
     const project = data?.project || {};
 
     const status = project.tasks?.map((task) => task.status) || [];
     
-
-    const navigate = useNavigate();
     const handleDelete = async () => { //make new comp to confirm deletion
-        try {
-             await removeProject({
-                variables: {
-                    projectId: id,
-                    userid: Auth.getProfile().data._id
-                },
-            });
-            navigate ("/"); //figure out how to reload data
-        } catch (err) {
-            console.log(err);
-        }
+        setProjectData(false)
+        setTaskData(false)
+        setProjectDelete((prevProjectDelete) => !prevProjectDelete);
     };
 
     const handleUpdate = async () => {
         setTaskData(false)
+        setProjectDelete(false)
         setProjectData((prevProjectData) => !prevProjectData);
     }
 
     const handleTaskUpdate = async () => {
         setProjectData(false)
+        setProjectDelete(false)
         setTaskData((prevTaskData) => !prevTaskData);
     }
     return(
@@ -65,10 +57,12 @@ export default function SingleProject () {
 
                     <div className='flex '>
                         <button className='btn-primary p-1 rounded-lg mx-0.5' onClick={() => {handleUpdate()}}>Update Project</button>
-                        <button className='btn-primary p-1 rounded-lg mx-0.5' onClick={() => {handleDelete()}}>Delete Project</button>
-
                         <button className='btn-primary p-1 rounded-lg mx-0.5' onClick={() => {handleTaskUpdate()}}>addTask</button>
+                        <button className='btn-error p-1 rounded-lg mx-0.5 text-gray-950/100' onClick={() => {handleDelete()}}>Delete Project</button>
                     </div>
+                    {projectDelete ? (
+                        <ProjectDelete/>
+                    ) : null }
                 </div>
 
                 {projectData ? (

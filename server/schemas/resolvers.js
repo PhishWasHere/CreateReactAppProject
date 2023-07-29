@@ -88,6 +88,9 @@ const resolvers = {
     addProject: async (parent, { name, description, status, userId }, context) => {
       try {
         if (context.user) {
+          if (!name || !description || !status) {
+            throw new Error('All fields are required!');
+          }
             const project = await Project.create({ name, description, status, user: context.user._id });
           return project;
         } 
@@ -100,6 +103,9 @@ const resolvers = {
     addTask: async (parent, { projectId, name, description, dueDate, priority, status }, context) => {
       try{
         if (context.user) {
+          if (!projectId || !name || !description || !dueDate || !priority || !status) {
+            throw new Error('All fields are required!');
+          }
           const project = await Project.findOneAndUpdate(
             { _id: projectId },
             {
@@ -151,6 +157,9 @@ const resolvers = {
     updateProject: async (parent, { projectId, name, description, status }, context) => {
       try {
         if (context.user) {
+          if (!projectId || !name || !description || !status) {
+            throw new Error('All fields are required!');
+          }
           const project = await Project.findOneAndUpdate(
             { _id: projectId },
             { name, description, status },
@@ -167,6 +176,9 @@ const resolvers = {
     updateTask: async(parent, { projectId, taskId, name, description, dueDate, priority, status }, context) => {
       try{ 
         if (context.user) {
+          if (!projectId || !taskId || !name || !description || !dueDate || !priority || !status) {
+            throw new Error('All fields are required!');
+          }
           const project = await Project.findOneAndUpdate(
             { _id: projectId, 'tasks._id': taskId },
             {
