@@ -24,7 +24,7 @@ export default function Active() {
               <div>Loading...</div>
               ) : (
               <>
-                <div className="md:grid grid-cols-2 gap-3 justify-center items-center mx-2">
+                <div className="md:grid lg:flex xl:grid grid-cols-2 gap-3 justify-center items-center mx-2">
                   {projects.map((project) => (
                     project.status === "Active" ? (
                       <ProjectCard key={project._id} project={project}/>
