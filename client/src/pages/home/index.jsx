@@ -38,13 +38,12 @@ export default function Home() {
             
             <div className='flex my-4 '>
               <div className='bg-base-100  rounded-lg'>
-                <h3 className='p-2 text-lg'>Add a project <button onClick={handleClick} className={'btn-primary p-2 transition rounded-lg'}>➕</button></h3>
-                <div className={showComponent ? 'mx-auto' : 'hidden'}> 
+                <h3 className='p-2 text-lg text-center'>Add a project <button onClick={handleClick} className={'btn-primary p-2 transition rounded-lg lg:hidden'}>➕</button></h3>
+                <div className={showComponent ? 'mx-auto' : 'hidden lg:block'}> 
                   <AddProject />
                 </div>
               </div>
             </div>
-            
           </div>
 
             <div className='flex mt-auto'>
