@@ -113,7 +113,7 @@ export default function Signup () {
                                 placeholder="Confirm Password" 
                                 onChange={handleChange} 
                                 className={`input input-bordered`}
-                                />
+                            />
 
                                 
                                 

@@ -31,7 +31,8 @@ export default function UpdateProject({projectId, name, description, status}) {
   };
   
   return(
-    <form onSubmit={handleSubmit} className="card-body bg-base-100 rounded-lg">
+    <form onSubmit={handleSubmit}  className='card mt-0 flex-shrink-0 w-full max-w-sm shadow-2xl bg-base-100'>
+      <div onSubmit={handleSubmit} className="card-body">
         <div className="form-control ">
           <label className="label">
             <span>Project name</span>
@@ -75,7 +76,11 @@ export default function UpdateProject({projectId, name, description, status}) {
           </select>
         </div>
 
-      <button type="submit">Update proj</button>
+        <button type="submit" className={
+          !formState.name ||
+          !formState.description ||
+          !formState.status ? 'btn-primary opacity-50 rounded-lg' : 'btn-primary rounded-lg'}>Update proj</button>
+      </div>
     </form>
   )
 }

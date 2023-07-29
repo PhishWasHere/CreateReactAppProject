@@ -50,8 +50,8 @@ export default function TaskCard({ task }) {
                         <p>{task.dueDate}</p>
                         <p>Priority: {task.priority}</p>
                     </div>
-                    <button onClick={() => {handleClick(task._id)}}>Delete Task</button>
-                    <button onClick={() => handleTaskUpdate(task._id)}>me</button>
+                    <button onClick={() => handleTaskUpdate(task._id)} className="bg-base-100 text-info rounded-lg transition mt-2">Update Task</button>
+                    <button onClick={() => {handleClick(task._id)}} className="bg-error rounded-lg mt-2 ">Delete Task</button>
                     {task._id === selectedTaskId && (
                         <UpdateTask 
                             taskId={task._id} 

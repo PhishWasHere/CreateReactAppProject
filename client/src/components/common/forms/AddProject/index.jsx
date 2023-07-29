@@ -29,8 +29,8 @@ export default function AddProject() {
       }
     };
     return(
-      <div className="card mt-0 flex-shrink-0 w-full max-w-sm shadow-2xl bg-base-100">
-          <form onSubmit={handleSubmit} className="card-body ">
+      <form onSubmit={handleSubmit} className="card mt-0 flex-shrink-0 w-full max-w-sm shadow-2xl bg-base-100">
+          <div className="card-body ">
             <div className="form-control ">
               <label className="label">
                 <span>Project Name</span>
@@ -58,7 +58,7 @@ export default function AddProject() {
             </div>
 
             <button className="btn btn-primary mt-2" type="submit">Create Project</button>
-          </form>
-      </div>
+          </div>
+      </form>
     )
 }
