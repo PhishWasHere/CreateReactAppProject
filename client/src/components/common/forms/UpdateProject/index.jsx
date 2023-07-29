@@ -31,7 +31,7 @@ export default function UpdateProject({projectId, name, description, status}) {
   };
   
   return(
-    <form onSubmit={handleSubmit} className="card-body ">
+    <form onSubmit={handleSubmit} className="card-body bg-base-100 rounded-lg">
         <div className="form-control ">
           <label className="label">
             <span>Project name</span>

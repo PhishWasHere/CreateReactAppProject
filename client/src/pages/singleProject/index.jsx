@@ -10,8 +10,8 @@ import AddTask from '../../components/common/forms/AddTask';
 import UpdateProject from '../../components/common/forms/UpdateProject';
 
 export default function SingleProject () {
-    const [projectData, setProjectData] = useState(false);
-    const [taskData, setTaskData] = useState(false);
+    const [projectData, setProjectData] = useState(false); // used to toggle form
+    const [taskData, setTaskData] = useState(false); // used to toggle form
 
     const { id } = useParams();   
 
@@ -30,7 +30,7 @@ export default function SingleProject () {
     
 
     const navigate = useNavigate();
-    const handleClick = async () => { //move to component (did i mean delete proj btn???)
+    const handleDelete = async () => { //make new comp to confirm deletion
         try {
              await removeProject({
                 variables: {
@@ -45,41 +45,50 @@ export default function SingleProject () {
     };
 
     const handleUpdate = async () => {
+        setTaskData(false)
         setProjectData((prevProjectData) => !prevProjectData);
     }
 
     const handleTaskUpdate = async () => {
+        setProjectData(false)
         setTaskData((prevTaskData) => !prevTaskData);
     }
-    
     return(
-        <div className="lg:flex min-h-screen mb-5"> 
-            <div className='px-3 lg:max-w-lg bg-stone-500 container'>
-                <div className='flex flex-col'>
-                    <button onClick={() => {handleUpdate()}}>Update Project</button>
-                    <button onClick={() => {handleClick()}}>Delete Project</button>
+        <div className="xl:flex h-full "> 
+            <div className='flex xl:flex-col px-3 bg-base-100 rounded-lg'>
+                <div className='flex  flex-col'>
+                    <h1 className='font-semibold text-xl'>{project.name}</h1>
+                    <p className='font-semibold text-base'>{project.description}</p>
+                    <p className='text-base'>Tasks left: </p>
 
-                    <button onClick={() => {handleTaskUpdate()}}>addTask</button>
+                
+
+                    <div className='flex '>
+                        <button className='btn-primary p-1 rounded-lg mx-0.5' onClick={() => {handleUpdate()}}>Update Project</button>
+                        <button className='btn-primary p-1 rounded-lg mx-0.5' onClick={() => {handleDelete()}}>Delete Project</button>
+
+                        <button className='btn-primary p-1 rounded-lg mx-0.5' onClick={() => {handleTaskUpdate()}}>addTask</button>
+                    </div>
                 </div>
 
-                <div className='md:min-w-full'>
-                    <h1>{project.name}</h1>
-                    <p>{project.description}</p>
-                </div>
+                {projectData ? (
+                    <UpdateProject 
+                    projectId={project._id} 
+                    name={project.name} 
+                    description={project.description} 
+                    status={project.status}
+                    />
+                    ) : null
+                }
+
+                {taskData ? ( 
+                    <AddTask />
+                    ) : null 
+                }
             </div> 
-
-            {projectData ? (
-                <UpdateProject/>
-                ) : null 
-            }
-
-            {taskData ? (
-                <AddTask />
-                ) : null 
-            }
             
-            <div className='grid sm:flex'>
-                <div className='w-96 border rounded-2xl '>
+            <div className='grid lg:flex lg:flex-row mx-auto sm:justify-center'>
+                <div className='w-72 xl:w-96 md:w-96 border rounded-2xl '>
                     Not Started
                     {loading ? (
                         <div>Loading...</div>
@@ -92,7 +101,7 @@ export default function SingleProject () {
                     )}
                 </div>
 
-                <div className='w-96 border rounded-2xl'>
+                <div className='w-72 xl:w-96 md:w-96 border rounded-2xl '>
                     In Progress
                     {loading ? (
                         <div>Loading...</div>
@@ -105,7 +114,7 @@ export default function SingleProject () {
                     )}
                 </div>
                 
-                <div className='w-96 border rounded-2xl'>
+                <div className='w-72 xl:w-96 md:w-96 border rounded-2xl '>
                     Completed
                     {loading ? (
                         <div>Loading...</div>
@@ -120,4 +129,4 @@ export default function SingleProject () {
             </div>
         </div>
     );
-}
+} 
