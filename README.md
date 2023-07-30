@@ -46,5 +46,5 @@
   N/A
 
   ## Questions
-  If you have any questions, please contact me at N/A. You can also visit my [GitHub profile](https://github.com/PhishWasHere /).
+  If you have any questions, please contact me at N/A. You can also visit my [GitHub profile](https://github.com/PhishWasHere/).
   
