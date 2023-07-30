@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const dateFormat = require ('../../utils/dateFormat');
 
 const projectSchema = new mongoose.Schema({
   user: { 
@@ -30,7 +31,8 @@ const projectSchema = new mongoose.Schema({
       required: true
     },
     dueDate:{
-      type: Date //change to string, so i can save date in a readable way
+      type: Date,
+      get: (timestamp) => dateFormat(timestamp)
     },
     priority:{
       type: String,
@@ -48,7 +50,8 @@ const projectSchema = new mongoose.Schema({
   }],
   createdOn: { 
     type: Date, 
-    default: Date.now 
+    default: Date.now,
+    get: (timestamp) => dateFormat(timestamp)
   },
 });
 
