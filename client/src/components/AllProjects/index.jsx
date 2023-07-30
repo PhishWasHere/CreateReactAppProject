@@ -46,7 +46,7 @@ export default function AllProjects() {
           </ul>
         </div>
 
-        <div>
+        <section>
           <div className=''>
             {nav.map((arr) =>
               arr.name === activeTab ? (
@@ -56,7 +56,7 @@ export default function AllProjects() {
               ) : null
               )}
           </div>
-        </div>
+        </section>
       </section>
     </>
   );

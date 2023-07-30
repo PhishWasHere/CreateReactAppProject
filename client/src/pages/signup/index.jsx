@@ -57,85 +57,85 @@ export default function Signup () {
                 <>
                     {data ? <p>{data.addUser.message}</p> : null}
                     <div className="my-auto flex justify-center">
-                    <form onSubmit={handleSubmit} className="card mt-10 flex-shrink-0 w-full max-w-sm shadow-2xl bg-base-100">
+                        <form onSubmit={handleSubmit} className="card mt-10 flex-shrink-0 w-full max-w-sm shadow-2xl bg-base-100">
 
-                        <div className="card-body ">
-                            <div className="form-control ">
-                                <label className="label">
-                                <span className=''>Username</span>                           
-                                </label>
+                            <div className="card-body ">
+                                <div className="form-control ">
+                                    <label className="label">
+                                    <span className=''>Username</span>                           
+                                    </label>
 
-                                <input type="text" 
-                                name='username' 
-                                value={formState.username} 
-                                placeholder="Username" 
-                                onChange={handleChange} 
-                                className="input input-bordered" 
+                                    <input type="text" 
+                                    name='username' 
+                                    value={formState.username} 
+                                    placeholder="Username" 
+                                    onChange={handleChange} 
+                                    className="input input-bordered" 
+                                    />
+                                </div>
+
+                                <div className="form-control ">
+                                    <label className="label">
+                                    <span className={formState.email && !reg.test(formState.email) ? 'text-red-700' : ''}>Email</span>                                         
+                                    </label>
+
+                                    <input type="email" 
+                                    name='email' 
+                                    value={formState.email} 
+                                    placeholder="email" 
+                                    onChange={handleChange} 
+                                    className="input input-bordered" 
+                                    />
+                                </div>
+
+                                <div className="form-control ">
+                                    <label className="label">
+                                        <span className={`${formState.password !== formState.confirmPassword ? 'text-red-700' : ''}`} >Password</span>                                
+                                    </label>
+
+                                    <input type="Password" 
+                                    name='password' 
+                                    value={formState.password} 
+                                    placeholder="Password" 
+                                    onChange={handleChange} 
+                                    className={`input input-bordered`} 
+                                    />
+                                </div>
+
+                                <div className="form-control ">
+                                    <label className="label">
+                                        <span className={`${formState.password !== formState.confirmPassword ? 'text-red-700' : ''}`} >Confirm Password</span>                                
+                                    </label>
+
+                                    <input type="Password" 
+                                    name='confirmPassword' 
+                                    value={formState.confirmPassword} 
+                                    placeholder="Confirm Password" 
+                                    onChange={handleChange} 
+                                    className={`input input-bordered`}
                                 />
+
+                                    
+                                    
+                                    {formState.password !== formState.confirmPassword && (
+                                        <p className="mt-4 text-red-700">Passwords do not match</p>
+                                    )}
+                                    {formState.email && !reg.test(formState.email) ? (
+                                        <p className="mt-4 text-red-700">Please enter a valid email</p>
+                                    ) : null}
+                                </div>
+
+                                <div className="form-control mt-3">
+                                    <button
+                                        className={`${formState.password !== formState.confirmPassword ? 'btn btn-warning' : 'btn btn-primary'}`}
+                                        type='submit'
+                                        disabled={formState.password !== formState.confirmPassword || !reg.test(formState.email) || !formState.username || !formState.password}
+                                    >
+                                        Sign Up
+                                    </button>  
+                                </div>
                             </div>
-
-                            <div className="form-control ">
-                                <label className="label">
-                                <span className={formState.email && !reg.test(formState.email) ? 'text-red-700' : ''}>Email</span>                                         
-                                </label>
-
-                                <input type="email" 
-                                name='email' 
-                                value={formState.email} 
-                                placeholder="email" 
-                                onChange={handleChange} 
-                                className="input input-bordered" 
-                                />
-                            </div>
-
-                            <div className="form-control ">
-                                <label className="label">
-                                    <span className={`${formState.password !== formState.confirmPassword ? 'text-red-700' : ''}`} >Password</span>                                
-                                </label>
-
-                                <input type="Password" 
-                                name='password' 
-                                value={formState.password} 
-                                placeholder="Password" 
-                                onChange={handleChange} 
-                                className={`input input-bordered`} 
-                                />
-                            </div>
-
-                            <div className="form-control ">
-                                <label className="label">
-                                    <span className={`${formState.password !== formState.confirmPassword ? 'text-red-700' : ''}`} >Confirm Password</span>                                
-                                </label>
-
-                                <input type="Password" 
-                                name='confirmPassword' 
-                                value={formState.confirmPassword} 
-                                placeholder="Confirm Password" 
-                                onChange={handleChange} 
-                                className={`input input-bordered`}
-                            />
-
-                                
-                                
-                                {formState.password !== formState.confirmPassword && (
-                                    <p className="mt-4 text-red-700">Passwords do not match</p>
-                                )}
-                                {formState.email && !reg.test(formState.email) ? (
-                                    <p className="mt-4 text-red-700">Please enter a valid email</p>
-                                ) : null}
-                            </div>
-
-                            <div className="form-control mt-3">
-                                <button
-                                    className={`${formState.password !== formState.confirmPassword ? 'btn btn-warning' : 'btn btn-primary'}`}
-                                    type='submit'
-                                    disabled={formState.password !== formState.confirmPassword || !reg.test(formState.email) || !formState.username || !formState.password}
-                                >
-                                    Sign Up
-                                </button>  
-                            </div>
-                        </div>
-                    </form>
+                        </form>
                     </div>
                 </>
             ) : (

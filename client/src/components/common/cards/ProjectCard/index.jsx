@@ -19,11 +19,11 @@ export default function ProjectCard({ project }) {
     }
     return(
         <>
-          <div className="md:grid gap-4 justify-center items-center mx-2">
+          <section className="md:grid gap-4 justify-center items-center mx-2">
             <div className="card min-w-80 bg-base-100 shadow-xl">
               <div className='flex flex-col mt-2 mx-5 lg:w-96 md:w-80 sm:w-72 w-72'>
                 
-                <div className="break">
+                <article className="break">
                   <h4 className="card-title">{project.name}</h4>
                   <p className='w-4/6'>{project.description || "No description"}</p>
                 
@@ -39,7 +39,7 @@ export default function ProjectCard({ project }) {
                     </div>
                   </div>
 
-                </div>
+                </article>
                 
                 {selectedProjectId === project._id && (
                   <div>
@@ -53,7 +53,7 @@ export default function ProjectCard({ project }) {
                 )}
               </div>
             </div>
-          </div>
+          </section>
                 
         </>
     )

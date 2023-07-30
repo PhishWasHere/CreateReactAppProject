@@ -39,7 +39,7 @@ export default function TaskCard({ task }) {
     }
 
     return(
-        <div className="m-2">
+        <article className="m-2">
             <div>
                 <div className="p-2 min-h-36 flex flex-col bg-primary text-black rounded-lg">
                     <div className="flex flex-col">
@@ -65,6 +65,6 @@ export default function TaskCard({ task }) {
 
                 </div>
             </div>
-        </div>
+        </article>
     );
 }

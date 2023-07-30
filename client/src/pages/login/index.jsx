@@ -58,14 +58,15 @@ export default function Login () {
                     <label className="label ml-auto mt-1">
                        <a href="/signup" className="text-base"> Sign Up!</a>
                     </label>
-
-                    </div>
+                    
+                </div>
+                {error ? <p>{error.message}</p> : null}
                 <div className="form-control mt-3">
                     <button className="btn btn-primary" type='submit'>Login</button>  
                 </div>
             </div>
         </form>
-      {error ? <p>{error.message}</p> : null}
+      
     </>
     ) : (
     <p>You are logged in</p>

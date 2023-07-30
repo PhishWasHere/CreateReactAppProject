@@ -45,14 +45,12 @@ export default function SingleProject () {
     }
     return(
         <div className="xl:flex h-full "> 
-            <div>
+            <aside>
                 <div className='flex xl:flex-col py-5 px-3 bg-base-100 rounded-lg'>
                     <div className='flex flex-col'>
                         <h1 className='font-semibold text-xl'>{project.name}</h1>
                         <p className='font-semibold text-base'>{project.description}</p>
-                        <p className='text-base'>Tasks left: </p>
-
-                    
+                
 
                         <div className='flex '>
                             <button className='btn-primary p-1 rounded-lg mx-0.5' onClick={() => {handleUpdate()}}>Update Project</button>
@@ -79,9 +77,9 @@ export default function SingleProject () {
                         ) : null 
                     }
                 </div> 
-            </div>
+            </aside>
             
-            <div className='grid lg:flex lg:flex-row mx-auto sm:justify-center'>
+            <main className='grid lg:flex lg:flex-row mx-auto sm:justify-center'>
                 <div className='w-72 xl:w-96 md:w-96 border rounded-2xl '>
                     Not Started
                     {loading ? (
@@ -120,7 +118,7 @@ export default function SingleProject () {
                         ))
                     )}
                 </div>                
-            </div>
+            </main>
         </div>
     );
 } 
