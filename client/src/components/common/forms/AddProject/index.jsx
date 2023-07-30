@@ -25,7 +25,6 @@ export default function AddProject() {
         
       } catch (err) {
         console.error(err);
-        console.log(err);
       }
     };
     return(

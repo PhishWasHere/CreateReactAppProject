@@ -8,7 +8,7 @@ export default function AllProjects() {
 
   const [activeTab, setActiveTab] = useState('Active')
 
-  const nav = [
+  const nav = [ // array of components to render based on users current tab
     {
       name: 'Active',
       component: <Active />,

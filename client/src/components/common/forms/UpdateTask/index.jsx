@@ -29,7 +29,7 @@ export default function UpdateTask({taskId, name, description, dueDate, priority
             },
         });
     } catch (err) {
-        console.log(err);   
+        console.error(err);   
     }
   };
   

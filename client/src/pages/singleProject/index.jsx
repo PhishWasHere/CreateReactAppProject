@@ -26,19 +26,19 @@ export default function SingleProject () {
 
     const project = data?.project || {};
     
-    const handleDelete = async () => { //make new comp to confirm deletion
+    const handleDelete = async () => { // used to toggle form
         setProjectData(false)
         setTaskData(false)
         setProjectDelete((prevProjectDelete) => !prevProjectDelete);
     };
 
-    const handleUpdate = async () => {
+    const handleUpdate = async () => { // used to toggle form
         setTaskData(false)
         setProjectDelete(false)
         setProjectData((prevProjectData) => !prevProjectData);
     }
 
-    const handleTaskUpdate = async () => {
+    const handleTaskUpdate = async () => { // used to toggle form
         setProjectData(false)
         setProjectDelete(false)
         setTaskData((prevTaskData) => !prevTaskData);

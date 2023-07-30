@@ -10,7 +10,7 @@ db.once('open', async () => {
 
     await User.create(userSeeds);
 
-    for (let i = 0; i < projectSeeds.length; i++) {
+    for (let i = 0; i < projectSeeds.length; i++) { //loop through project seeds and create each one
       const { user, ...projectData } = projectSeeds[i];
       const userName = await User.findOne({ username: user });
 
@@ -21,7 +21,6 @@ db.once('open', async () => {
       
       const project = new Project({ user: userName._id, ...projectData });
       await project.save();
-      console.log(project);
 
     }
   } catch (err) {

@@ -67,8 +67,6 @@ const resolvers = {
 
     login: async (parent, { email, password }) => {
       try {
-        // const decryptedEmail = decrypt(email);
-        // console.log(decryptedEmail);
         const user = await User.findOne({ email });
         if (!user) {
           throw new AuthenticationError('Incorrect email or password');

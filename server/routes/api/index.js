@@ -11,7 +11,7 @@ router.post('/checkout', async (req, res) => {
       submit_type: 'donate',
       line_items: [
         {
-          price: 'price_1NY29eGNThYXIbcnsHjHceUV',
+          price: 'price_1NY29eGNThYXIbcnsHjHceUV', //price id from stripe set on stripe dashboard
           quantity: 1,
         },
       ],

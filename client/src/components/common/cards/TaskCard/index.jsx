@@ -32,7 +32,7 @@ export default function TaskCard({ task }) {
        }
     }
 
-    const handleTaskUpdate = async (taskId) => {
+    const handleTaskUpdate = async (taskId) => { // toggles the update form, also sets the selectedTaskId to the task id
         setSelectedTaskId((prevSelectedTaskId) =>
         prevSelectedTaskId === taskId ? null : taskId
       );

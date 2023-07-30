@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-
+//404 route
 export default function WildCard() {
     return (
         <section className="flex flex-col items-center justify-center h-screen">

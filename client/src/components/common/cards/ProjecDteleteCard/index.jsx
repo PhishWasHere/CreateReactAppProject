@@ -26,7 +26,7 @@ export default function ProjectDelete () {
                     userid: Auth.getProfile().data._id
                 },
             });
-            navigate ("/"); //figure out how to reload data
+            navigate ("/"); //supposed to navigate to the home page, and refresh data
         } catch (err) {
             console.log(err);
         }

@@ -1,4 +1,5 @@
 import React from "react";
+//dev page to view components
 
 export default function Dev () {
     return(
@@ -17,7 +18,7 @@ export default function Dev () {
                 <button className="btn btn-outline">Outline</button>
                 <button className="btn btn-ghost">Ghost</button>
                 <button className="btn btn-link">Link</button>
-                <button className="btn btn-disabled" disabled>Disabled</button>
+                <button className="btn btn-disabled">Disabled</button>
             </div>
         </>
     )

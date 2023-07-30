@@ -8,7 +8,7 @@ export default function Signup () {
     
     const [formState, setFormState] = useState({username: '', email: '', password: '', confirmPassword: ''});
     
-    const reg = /.+@.+\..+/;
+    const reg = /.+@.+\..+/; // regex for email validation
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -24,16 +24,12 @@ export default function Signup () {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-
-        console.log(formState);
-
-        if (!reg.test(formState.email)) {
+        if (!reg.test(formState.email)) { // if email is not valid
             console.log('err');
             return;
         }
-        
 
-        if (formState.password !== formState.confirmPassword) {
+        if (formState.password !== formState.confirmPassword) { // if passwords don't match
             console.log('err');
             return;
         }

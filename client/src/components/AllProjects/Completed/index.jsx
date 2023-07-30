@@ -12,7 +12,6 @@ export default function Completed() {
     variables: { userid: Auth.getProfile().data._id  },
   });  
 
-  const user = data?.user || [];
   const projects = data?.projects || [];
 
   return (

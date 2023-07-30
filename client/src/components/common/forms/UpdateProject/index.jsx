@@ -26,7 +26,7 @@ export default function UpdateProject({projectId, name, description, status}) {
             },
         });
     } catch (err) {
-        console.log(err);   
+        console.error(err);   
     }
   };
   
