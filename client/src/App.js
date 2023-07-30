@@ -16,6 +16,7 @@ import Login from './pages/login';
 import Nav from './components/NavBar';
 import SingleProject from './pages/singleProject';
 import Dev from './pages/dev';
+import WildCard from './pages/wildCard';
 
 // Construct our main GraphQL API endpoint
 const httpLink = createHttpLink({
@@ -65,11 +66,10 @@ export default function App() {
                 element={<Front/>} 
               />
 
-              {/* add wildcard route
-               <Route
+              <Route
                 path='/*'
-                element={}
-              /> */}
+                element={<WildCard />}
+              />
             </Routes>
           </>
         ) : (
@@ -97,6 +97,10 @@ export default function App() {
               path='/dev'
               element={<Dev/>}
               />
+            <Route
+                path='/*'
+                element={<WildCard />}
+              /> 
           </Routes>
         </div>
         )}

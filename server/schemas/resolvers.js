@@ -78,7 +78,7 @@ const resolvers = {
           throw new AuthenticationError('Incorrect email or password');
         }
         const token = signToken(user);
-        return { token, user};
+        return { token, user };
       } catch (err) {
         console.error(err);
         throw new AuthenticationError('Something went wrong!');
