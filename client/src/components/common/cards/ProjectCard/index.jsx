@@ -35,7 +35,7 @@ export default function ProjectCard({ project }) {
                           View Project
                         </button>
                       </Link>
-                      <button onClick={() => handleProjectUpdate(project._id)} className='text-end ml-auto'>settings</button>
+                      <button onClick={() => handleProjectUpdate(project._id)} className='text-end ml-auto btn-link'>settings</button>
                     </div>
                   </div>
 

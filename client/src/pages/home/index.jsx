@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Auth from '../../utils/auth';
 import { Navigate } from 'react-router-dom';
 
@@ -14,7 +14,7 @@ import { QUERY_USER } from '../../utils/queries';
 export default function Home() {
   const [showComponent, setShowComponent] = useState(false);
   
-  const {loading, data } = useQuery(QUERY_USER, {
+  const {loading, data, refetch } = useQuery(QUERY_USER, {
     variables: { userId: Auth.getProfile().data._id },
   }); 
 
@@ -26,6 +26,7 @@ export default function Home() {
   const handleClick = () => {
     setShowComponent((prevShowComponent) => !prevShowComponent);
   }
+
   return (
     <>
       <div className='lg:flex min-h-full'>
