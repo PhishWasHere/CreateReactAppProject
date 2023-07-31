@@ -1,7 +1,5 @@
-import React, {useState, useEffect} from "react";
-import { useNavigate } from 'react-router-dom';
-
-import { useParams } from 'react-router-dom';
+import React, {useState } from "react";
+import { useParams, useNavigate } from 'react-router-dom';
 
 import Auth from '../../../../utils/auth';
 import { useMutation } from '@apollo/client';

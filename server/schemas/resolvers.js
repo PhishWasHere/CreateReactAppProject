@@ -60,7 +60,6 @@ const resolvers = {
         user.token = token; // Assign the token to the user object
         return { token, user };
       } catch (err) {
-        console.error(err);
         throw new AuthenticationError('Something went wrong!');
       }
     },
@@ -78,7 +77,6 @@ const resolvers = {
         const token = signToken(user);
         return { token, user };
       } catch (err) {
-        console.error(err);
         throw new AuthenticationError('Something went wrong!');
       }
     },
