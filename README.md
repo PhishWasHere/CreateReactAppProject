@@ -20,7 +20,7 @@
   Graduation project for Monash Bootcamp. A personal project manager made with the MERN stack.
 
   ## Installation
-  Clone repo then use yarn in root folder (if you are using npm, you will need to update the package_json files). 
+  Clone repo then use yarn in root folder (if you are using npm, you will need to update the package.json files). 
   Populate .env file
 
   ## Usage
