@@ -98,7 +98,7 @@ export default function App() {
               element={<Dev/>}
               />
             <Route
-                path='/*'
+                path='*'
                 element={<WildCard />}
               /> 
           </Routes>
