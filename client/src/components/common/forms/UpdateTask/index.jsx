@@ -8,7 +8,7 @@ export default function UpdateTask({taskId, name, description, dueDate, priority
 
   const [updateTask, error] = useMutation(UPDATE_TASK);
 
-  const [formState, setFormState] = useState({name: name || '', description: description || '', dueDate: 'MM / DD / YYYY', priority: priority || 'Low', status: status || 'Not Started'});
+  const [formState, setFormState] = useState({name: name || '', description: description || '', dueDate: '', priority: priority || 'Low', status: status || 'Not Started'});
 
   const handleChange = (e) => {
       const { name, value } = e.target;
