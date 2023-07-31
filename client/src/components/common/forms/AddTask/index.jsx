@@ -64,12 +64,12 @@ export default function AddTask() {
 
           <div className="form-control ">
             <label className="label">
-              <span>Due Date</span>
+              <span>Due Date (MM / DD / YYYY)</span>
             </label>
             <input type='text'
             name='dueDate'
             value={formState.dueDate}
-            placeholder='Due Date'
+            placeholder='MM / DD / YYYY'
             onChange={handleChange}
             className="input input-bordered" 
             />
@@ -104,7 +104,7 @@ export default function AddTask() {
             />
           </div> */}
 
-        <button type="submit">Create Task</button>
+        <button className="btn btn-primary mt-2" type="submit">Create Task</button>
       </form>
     </div>
   );

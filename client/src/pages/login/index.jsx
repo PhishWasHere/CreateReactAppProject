@@ -1,6 +1,7 @@
 import React, { useState} from 'react';
 import { useMutation } from '@apollo/client';
 import { LOGIN_USER } from '../../utils/mutations';
+import{ Link } from 'react-router-dom';
 import Auth from '../../utils/auth';
 
 
@@ -56,7 +57,7 @@ export default function Login () {
                     <input type="password" name='password' value={formState.password} placeholder="password" onChange={handleChange} className="input input-bordered" />
 
                     <label className="label ml-auto mt-1">
-                       <a href="/signup" className="text-base"> Sign Up!</a>
+                       <Link to="/signup" > Sign Up!</Link>
                     </label>
                     
                 </div>

@@ -4,7 +4,7 @@ import { useQuery } from '@apollo/client';
 import { QUERY_PROJECT } from '../../utils/queries';
 import Auth from '../../utils/auth';
 
-import ProjectDelete from '../../components/common/cards/ProjecDteleteCard';
+import ProjectDelete from '../../components/common/cards/ProjecDeleteCard';
 
 import TaskCard from '../../components/common/cards/TaskCard';
 import AddTask from '../../components/common/forms/AddTask';

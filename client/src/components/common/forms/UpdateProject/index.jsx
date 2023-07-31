@@ -79,7 +79,7 @@ export default function UpdateProject({projectId, name, description, status}) {
         <button type="submit" className={
           !formState.name ||
           !formState.description ||
-          !formState.status ? 'btn-primary opacity-50 rounded-lg' : 'btn-primary rounded-lg'}>Update proj</button>
+          !formState.status ? 'btn-primary opacity-50 rounded-lg' : 'btn-primary rounded-lg'}>Update project</button>
       </div>
     </form>
   )

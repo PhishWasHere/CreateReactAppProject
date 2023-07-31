@@ -8,7 +8,7 @@ export default function UpdateTask({taskId, name, description, dueDate, priority
 
   const [updateTask, error] = useMutation(UPDATE_TASK);
 
-  const [formState, setFormState] = useState({name: name || '', description: description || '', dueDate: dueDate || '', priority: priority || 'Low', status: status || 'Not Started'});
+  const [formState, setFormState] = useState({name: name || '', description: description || '', dueDate: 'MM / DD / YYYY', priority: priority || 'Low', status: status || 'Not Started'});
 
   const handleChange = (e) => {
       const { name, value } = e.target;
@@ -21,15 +21,15 @@ export default function UpdateTask({taskId, name, description, dueDate, priority
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-        await updateTask({
-            variables: {
-                projectId: id,
-                taskId: taskId,
-                ...formState
-            },
-        });
+      await updateTask({
+          variables: {
+              projectId: id,
+              taskId: taskId,
+              ...formState
+          },
+      });
     } catch (err) {
-        console.error(err);   
+      console.error(err);   
     }
   };
   
@@ -69,7 +69,7 @@ export default function UpdateTask({taskId, name, description, dueDate, priority
           <input type='text'
           name='dueDate'
           value={formState.dueDate}
-          placeholder={dueDate}
+          placeholder='MM / DD / YYYY'
           onChange={handleChange}
           className="input input-bordered" 
           />
@@ -90,7 +90,6 @@ export default function UpdateTask({taskId, name, description, dueDate, priority
           </select>
         </div>
 
-        {/* change once task made */}
         <div className="form-control ">
           <label className="label">
             <span>Task Status</span>
