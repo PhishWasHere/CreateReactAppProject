@@ -57,7 +57,7 @@ export default function Login () {
                     <input type="password" name='password' value={formState.password} placeholder="password" onChange={handleChange} className="input input-bordered" />
 
                     <label className="label ml-auto mt-1">
-                       <Link to="/signup" clLinkssName="text-base"> Sign Up!</Link>
+                       <Link to="/signup" > Sign Up!</Link>
                     </label>
                     
                 </div>
