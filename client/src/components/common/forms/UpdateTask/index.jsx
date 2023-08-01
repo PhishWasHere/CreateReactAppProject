@@ -17,7 +17,6 @@ export default function UpdateTask({taskId, name, description, dueDate, priority
           [name]: value,
       });
   };
-  
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -74,6 +73,9 @@ export default function UpdateTask({taskId, name, description, dueDate, priority
           className="input input-bordered" 
           />
         </div>
+        {error ? (<div>
+          <p className="text-red-500 break">Please use the format: MM/DD/YYYY</p>
+        </div>) : null}
 
         <div className="form-control ">
           <label className="label">
