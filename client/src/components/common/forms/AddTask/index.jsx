@@ -16,7 +16,7 @@ export default function AddTask() {
       });
   };
 
-  const [addTask, { data, error }] = useMutation(ADD_TASK);
+  const [addTask, {  error }] = useMutation(ADD_TASK);
 
   const handleSubmit = async (e) => {
     e.preventDefault();      
@@ -74,6 +74,9 @@ export default function AddTask() {
             className="input input-bordered" 
             />
           </div>
+          {error ? (<div>
+            <p className="text-red-500 break">Please use the format: MM/DD/YYYY</p>
+          </div>) : null}
 
           <div className="form-control ">
             <label className="label">
@@ -89,20 +92,6 @@ export default function AddTask() {
               <option value='High'>High</option>
             </select>
           </div>
-
-          {/* change once task made
-          <div className="form-control ">
-            <label className="label">
-              <span>Task Status</span>
-            </label>
-            <input type='text'
-            name='status'
-            value={formState.status}
-            placeholder='Task Status'
-            onChange={handleChange}
-            className="input input-bordered" 
-            />
-          </div> */}
 
         <button className="btn btn-primary mt-2" type="submit">Create Task</button>
       </form>
