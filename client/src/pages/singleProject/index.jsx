@@ -80,8 +80,8 @@ export default function SingleProject () {
             </aside>
             
             <main className='grid lg:flex lg:flex-row mx-auto sm:justify-center'>
-                <div className='w-72 xl:w-96 md:w-96 border rounded-2xl '>
-                    Not Started
+                <div className='w-72 xl:w-96 md:w-96 border-x border-b border-primary text-center rounded-2xl m-1'>
+                    <p className='border border-primary rounded-t-2xl'>Not Started</p>
                     {loading ? (
                         <div>Loading...</div>
                     ) : (
@@ -93,8 +93,8 @@ export default function SingleProject () {
                     )}
                 </div>
 
-                <div className='w-72 xl:w-96 md:w-96 border rounded-2xl '>
-                    In Progress
+                <div className='w-72 xl:w-96 md:w-96 border-x border-b border-primary text-center rounded-2xl m-1'>
+                    <p className='border border-primary rounded-t-2xl'>In Progress</p>
                     {loading ? (
                         <div>Loading...</div>
                     ) : (
@@ -106,8 +106,8 @@ export default function SingleProject () {
                     )}
                 </div>
                 
-                <div className='w-72 xl:w-96 md:w-96 border rounded-2xl '>
-                    Completed
+                <div className='w-72 xl:w-96 md:w-96 border-x border-b border-primary text-center rounded-2xl m-1'>
+                    <p className='border border-primary rounded-t-2xl'>Completed</p>
                     {loading ? (
                         <div>Loading...</div>
                     ) : (
