@@ -1,7 +1,6 @@
 const { User, Project,  } = require('../models');
 const { AuthenticationError } = require('apollo-server-express');
 const { signToken } = require('../utils/auth');
-const { encrypt, decrypt }= require ('../utils/cryptoEmail');
 
  
 const resolvers = {
@@ -14,7 +13,7 @@ const resolvers = {
       try {
         if (context.user) {
           return User.findById(context.user._id);
-        } console.log(context.user._id);
+        } 
         throw new AuthenticationError('You need to be logged in!');
       } catch (err) {
          throw new Error('Something went wrong!');

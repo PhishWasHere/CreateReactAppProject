@@ -2,7 +2,6 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const dateFormat = require ('../../utils/dateFormat');
 
-const {encrypt, decrypt} = require('../../utils/cryptoEmail');
 
 const UserSchema = new mongoose.Schema(
   {
@@ -41,19 +40,12 @@ const UserSchema = new mongoose.Schema(
   }
 );
 
-// UserSchema.virtual('originalEmail').get(function () {
-//   return this.email;
-// });
 
 UserSchema.pre('save', async function (next) { // pre save hook
   if (this.isNew || this.isModified('password')) { // if new user or password is modified then hash password
     const saltRounds = 10; // move to env once done
     this.password = await bcrypt.hash(this.password, saltRounds); 
   }
-
-  // if (this.isModified('email')) {
-  //   this.email = encrypt(this.email);
-  // } 
   next();
 });
    
