@@ -4,9 +4,10 @@ const SK = process.env.STRIPE_SK_TEST;
 
 const stripe = require('stripe')(SK);
  
-const YOUR_DOMAIN = `http://${req.headers.host}`;
-
 router.post('/checkout', async (req, res) => {
+  
+  const YOUR_DOMAIN = `http://${req.headers.host}`;
+
     const session = await stripe.checkout.sessions.create({
       submit_type: 'donate',
       line_items: [
