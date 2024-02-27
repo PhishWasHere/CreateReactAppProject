@@ -201,7 +201,7 @@ const resolvers = {
 
       try {
         const user = await prisma.user.delete({
-          where: { id: String(id) },
+          where: { id: String(context.user.id) },
         });
 
         return user;
@@ -254,15 +254,16 @@ const resolvers = {
       }
     },
 
-    updateUser: async (parent: any, { id, name, email }: { id: string, name: string, email: string }, context: any) => {
+    updateUser: async (parent: any, { name, email, password }: { name: string, email: string, password: string }, context: any) => {
       if (!context.user) throw new Error("Not authenticated");
 
       try {
         const user = await prisma.user.update({
-          where: { id: String(id) },
+          where: { id: String(context.user.id) },
           data: {
             name,
             email,
+            password
           },
         });
 

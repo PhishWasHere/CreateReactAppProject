@@ -3,8 +3,6 @@ import { NextRequest } from "next/server";
 import { startServerAndCreateNextHandler } from "@as-integrations/next";
 import {typeDefs, resolvers} from "@/lib/prisma/schemas";
 
-
-
 const apolloServer = new ApolloServer({
   typeDefs,
   resolvers,

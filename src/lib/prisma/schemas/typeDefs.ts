@@ -60,7 +60,7 @@ const typeDefs = `#graphql
 
     updateProject(id: ID!, name: String, description: String, dueDate: DateTime, isActive: Boolean): Project
     updateTask(id: ID!, name: String, description: String, dueDate: DateTime, isActive: Boolean): Task
-    updateUser(id: ID!, name: String, email: String): User
+    updateUser(id: ID!, name: String, email: String, password: String): User
   }
 
 `;
