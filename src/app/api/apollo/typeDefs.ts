@@ -7,7 +7,7 @@ const typeDefs = `#graphql
   }
 
   type AuthPayload {
-    token: String!
+    token: String
     user: User
   }
 

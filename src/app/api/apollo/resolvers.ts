@@ -1,5 +1,6 @@
 import getError from "@/utils/getErr";
 import prisma from "@/lib/prisma";
+import { signToken } from "@/utils/auth";
 
 // need to fix types later
 // type TaskType = {
@@ -102,7 +103,7 @@ const resolvers = {
             name,
           },
         });
-
+        
         return user;
       } catch (err) {
         const msg = getError(err);
@@ -111,14 +112,19 @@ const resolvers = {
     },
 
     login: async (parent: any, { email, password }: { email: string, password: string }, context: any) => {
-      try {
+      try {      
         const user = await prisma.user.findUnique({
           where: { email },
-        });
+        });        
 
-        if (!user) throw new Error("No user found");
+        if (!user || user.password !== password) {
+          const res = { error: true, message: "Invalid email or password", status: 401};
+          return res;
+        };
 
-        return user;
+        const token = signToken({ _id: user.id, username: user.name});
+        
+        return {user, token};
       } catch (err) {
         const msg = getError(err);
         throw new Error(msg);

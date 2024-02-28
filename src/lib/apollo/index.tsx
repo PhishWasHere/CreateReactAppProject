@@ -14,7 +14,7 @@ import {
 
 function makeClient() {
   const httpLink = new HttpLink({
-    uri: "http://localhost:3000/api/apollo",
+    uri: process.env.DOMAIN || "http://localhost:3000/api/apollo",
   });
 
   return new NextSSRApolloClient({

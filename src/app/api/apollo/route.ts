@@ -1,7 +1,8 @@
 import { ApolloServer } from "@apollo/server";
 import { NextRequest } from "next/server";
 import { startServerAndCreateNextHandler } from "@as-integrations/next";
-import {typeDefs, resolvers} from "@/lib/prisma/schemas";
+import typeDefs from "./typeDefs";
+import resolvers from "./resolvers";
 
 const apolloServer = new ApolloServer({
   typeDefs,
