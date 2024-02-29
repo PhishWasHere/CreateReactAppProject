@@ -1,6 +1,6 @@
 import getError from "@/utils/getErr";
 import prisma from "@/lib/prisma";
-import { signToken } from "@/utils/auth";
+import { serverAuth } from "@/utils/auth";
 
 // need to fix types later
 // type TaskType = {
@@ -122,7 +122,7 @@ const resolvers = {
           return res;
         };
 
-        const token = signToken({ _id: user.id, username: user.name});
+        const token = serverAuth.signToken({ _id: user.id, username: user.name});
         
         return {user, token};
       } catch (err) {
@@ -132,7 +132,7 @@ const resolvers = {
     },
 
     createProject: async (parent: any, { name, description, dueDate }: { name: string, description: string, dueDate: Date }, context: any) => {
-      if (!context.user) throw new Error("Not authenticated");
+      if (!context) throw new Error("Not authenticated");
 
       try {
         const project = await prisma.project.create({
@@ -203,7 +203,10 @@ const resolvers = {
     },
 
     removeUser: async (parent: any, { id }: { id: string }, context: any) => {
+      console.log("aaaaaaaaaaaaaaaaaaa", context);
+      
       if (!context.user) throw new Error("Not authenticated");
+      await serverAuth.authMiddleware(context.req);
 
       try {
         const user = await prisma.user.delete({

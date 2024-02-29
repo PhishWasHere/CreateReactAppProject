@@ -11,6 +11,7 @@ import {
   NextSSRInMemoryCache,
   SSRMultipartLink,
 } from "@apollo/experimental-nextjs-app-support/ssr";
+import { userAuth } from "@/utils/auth";
 
 function makeClient() {
   const httpLink = new HttpLink({
@@ -22,6 +23,7 @@ function makeClient() {
     link:
       typeof window === "undefined"
         ? ApolloLink.from([
+            userAuth.clientAuthMiddleware,
             new SSRMultipartLink({
               stripDefer: true,
             }),

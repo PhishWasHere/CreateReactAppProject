@@ -8,20 +8,22 @@ import { useSuspenseQuery, useMutation } from "@apollo/client";
 
 import { gql, useQuery } from "@apollo/client";
 import { query, mutation } from "@/lib/gql/index";
+import {userAuth} from "@/utils/auth";
 
 export default function Home() {
-  // const { data } = useSuspenseQuery(mutation.loginMutation);
-  const [login, { data, loading, error }] = useMutation(mutation.loginMutation);
+
+  const [test, {data, loading, error}] = useMutation(mutation.removeUserMutation);
   const [form, setForm] = useState({
-    // name: "",
-    email: "",
-    password: "",
+    name: "",
+    email: "email@email",
+    password: "pass",
   });
 
   const click = async (e: React.MouseEvent<HTMLButtonElement>) => { 
     e.preventDefault();
     try {
-      await login({ variables: form });
+      await test({variables: {removeUserId: "1"}});
+
     } catch (error) {
       console.log(error);
     }
@@ -29,10 +31,6 @@ export default function Home() {
   useEffect(() => {
     console.log(data);
 
-    if (data?.login.token) {
-      cookie.remove("token");
-      cookie.set("token", data?.login.token);
-    }
   }, [data]);
 
   return (
@@ -40,13 +38,13 @@ export default function Home() {
       {loading? <p>loading...</p> : null}
       {error? <p>error...</p> : null}
       <form className="">
-        {/* <input type="text" className="text-black"
-          onChange={(e) => setForm({...form, name: e.target.value})}
-        /> */}
         <input type="text" className="text-black"
+          onChange={(e) => setForm({...form, name: e.target.value})}
+        />
+        <input type="text" className="text-black" defaultValue={form.email}
           onChange={(e) => setForm({...form, email: e.target.value})}
         />
-        <input type="text" className="text-black"
+        <input type="text" className="text-black" defaultValue={form.password}
           onChange={(e) => setForm({...form, password: e.target.value})}
         />
 

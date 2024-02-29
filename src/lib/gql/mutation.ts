@@ -11,7 +11,7 @@ export const loginMutation = gql`mutation($email: String!, $password: String!) {
   }
 }
 `
-const signupMutation = gql`mutation($email: String!, $password: String!, $name: String!) {
+export const signupMutation = gql`mutation($email: String!, $password: String!, $name: String!) {
   signup(email: $email, password: $password, name: $name) {
     user {
       email
@@ -21,13 +21,13 @@ const signupMutation = gql`mutation($email: String!, $password: String!, $name: 
   }
 }
 `
-const removeUserMutation = gql`mutation($id: ID!) {
+export const removeUserMutation = gql`mutation($removeUserId: ID!) {
     removeUser(id: $removeUserId) {
     id
   }
 }
 `
-const updateUserMutation = gql`mutation($name: String!, $email: String!, $password: String!) {
+export const updateUserMutation = gql`mutation($name: String!, $email: String!, $password: String!) {
   updateUser(name: $name, email: $email, password: $password) {
     name
     email
@@ -36,7 +36,7 @@ const updateUserMutation = gql`mutation($name: String!, $email: String!, $passwo
 }
 `
 
-const createProjectMutation = gql`mutation($name: String!, $description: String!, $dueDate: DateTime) {
+export const createProjectMutation = gql`mutation($name: String!, $description: String!, $dueDate: DateTime) {
   createProject(name: $name, description: $description, dueDate: $dueDate) {
     description
     dueDate
@@ -45,3 +45,58 @@ const createProjectMutation = gql`mutation($name: String!, $description: String!
 }
 `
 
+export const removeProjectMutation = gql`mutation($removeProjectId: ID!) {
+    removeProject(id: $removeProjectId) {
+    id
+  }
+}
+`
+
+export const updateProjectMutation = gql`mutation($updateProjectId: ID!, $name: String, $description: String, $dueDate: DateTime, $isActive: Boolean) {
+    updateProject(id: $updateProjectId) {
+    description
+    dueDate
+    isActive
+    name
+    tasks {
+      id
+    }
+    id
+  }
+}
+`
+
+export const createTaskMutation = gql`mutation($name: String!, $description: String!, $dueDate: DateTime, $projectId: ID!) {
+    createTask(name: $name, projectId: $projectId, description: $description, dueDate: $dueDate) {
+    description
+    dueDate
+    id
+    isActive
+    name
+    project {
+      id
+    }
+  }
+}
+`
+
+export const removeTaskMutation = gql`mutation($id: ID!) {
+    removeTask(id: $removeTaskId) {
+    id
+  }
+}
+`
+
+export const updateTaskMutation = gql`mutation($updateTaskId: ID!, $name: String, $description: String, $dueDate: DateTime, $isActive: Boolean) {
+    updateTask(id: $updateTaskId) {
+    description
+    dueDate
+    isActive
+    name
+    project {
+      id
+    }
+    id
+  }
+}
+` 
