@@ -7,7 +7,7 @@ const expiration = '12h';
 
 export const authMiddleware = async ({ req }: {req: Request}) => { 
   let token = req.body.token || req.query.token || req.headers.authorization;
-
+  
   if (req.headers.authorization) { 
     token = token.split(' ').pop().trim();
   }

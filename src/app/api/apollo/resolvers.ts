@@ -202,11 +202,11 @@ const resolvers = {
       }
     },
 
-    removeUser: async (parent: any, { id }: { id: string }, context: any) => {
-      console.log("aaaaaaaaaaaaaaaaaaa", context);
+    removeUser: async (parent: any, { id }: { id: string }, context: any) => {      
+      // if (!context.user) throw new Error("Not authenticated");
+      return console.log(context, parent);
       
-      if (!context.user) throw new Error("Not authenticated");
-      await serverAuth.authMiddleware(context.req);
+      // await serverAuth.authMiddleware();
 
       try {
         const user = await prisma.user.delete({

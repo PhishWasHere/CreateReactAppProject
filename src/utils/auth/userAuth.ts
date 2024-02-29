@@ -1,7 +1,7 @@
 import {jwtDecode} from 'jwt-decode';
 import cookie from "js-cookie";
-import { setContext } from "@apollo/client/link/context";
-import { ApolloLink } from '@apollo/client';
+
+const tokenName = "token";
 
 export const validateToken = () => {
   const token = getToken();
@@ -11,7 +11,7 @@ export const validateToken = () => {
   console.log(decodedToken);
   
   if (decodedToken.exp! < Date.now() / 1000) {
-    cookie.remove("token");
+    cookie.remove(tokenName);
     return true;
   }
   return false
@@ -19,15 +19,15 @@ export const validateToken = () => {
 
 export const setToken = (token: string) => {
   removeToken();
-  cookie.set("token", token);
+  cookie.set(tokenName, token);
 }
 
 export const getToken = () => {
-  return cookie.get("token");
+  return cookie.get(tokenName);
 }
 
 export const removeToken = () => {
-  cookie.remove("token");
+  cookie.remove(tokenName);
 }
 
 type userType = {
@@ -42,15 +42,3 @@ export const getUser = () => {
   const user: userType = jwtDecode(token);
   return user;
 }
-
-export const clientAuthMiddleware = new ApolloLink((operation, forward) => {
-  const token = getToken();
-  operation.setContext(({ headers = {} }) => ({
-     headers: {
-       ...headers,
-       authorization: token ? `Bearer ${token}` : "",
-     },
-  }));
- 
-  return forward(operation);
-});

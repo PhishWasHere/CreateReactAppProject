@@ -9,14 +9,16 @@ import { userAuth } from "@/utils/auth";
 const apolloServer = new ApolloServer({
   typeDefs,
   resolvers,
-  context: ({ req }: { req: any }) => {
+  context: ({ req, res }: {req: Request, res: Response}) => {
     const user = userAuth.getUser();
+    console.log("context log", user, req.headers);
+    
     return {
-      headers: req.headers,
       user
     };
   },
-});
+} as ApolloServerOptions<any>);
+
 const handler = startServerAndCreateNextHandler<NextRequest>(apolloServer);
 export async function GET(request: NextRequest) {
   return handler(request);
