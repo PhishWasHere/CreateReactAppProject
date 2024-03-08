@@ -41,7 +41,10 @@ import { serverAuth } from "@/utils/auth";
 
 const resolvers = {
   Query: {
-    Hello: () => "Word!",
+    Hello:  async (parent: any, args: any, context: any) => {
+      // for testing purposes
+      return "world";
+    },
 
     users: async (parent: any, args: any, context: any) => {
       // for testing purposes
@@ -112,7 +115,8 @@ const resolvers = {
     },
 
     login: async (parent: any, { email, password }: { email: string, password: string }, context: any) => {
-      try {      
+      try {
+        
         const user = await prisma.user.findUnique({
           where: { email },
         });        
@@ -202,15 +206,17 @@ const resolvers = {
       }
     },
 
-    removeUser: async (parent: any, { id }: { id: string }, context: any) => {      
-      // if (!context.user) throw new Error("Not authenticated");
-      return console.log(context, parent);
-      
-      // await serverAuth.authMiddleware();
+    removeUser: async (parent: any, { id }: { id: string }, context: any) => {
+      if (!context) throw new Error("Context not found");
 
-      try {
+      const ctx: any = await serverAuth.authMiddleware(context);
+      
+      if (ctx.statusCode !== 200) return ctx;
+      
+
+      try {        
         const user = await prisma.user.delete({
-          where: { id: String(context.user.id) },
+          where: { id: String(ctx.body.user._id) },
         });
 
         return user;

@@ -23,7 +23,8 @@ export const setToken = (token: string) => {
 }
 
 export const getToken = () => {
-  return cookie.get(tokenName);
+  const token = cookie.get(tokenName);  
+  return token;
 }
 
 export const removeToken = () => {

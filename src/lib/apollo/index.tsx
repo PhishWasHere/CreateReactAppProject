@@ -20,12 +20,16 @@ const httpLink = new HttpLink({
 });
 
 // not setting context for server side rendering
-// need to fix this as i cant validate anything server side
-const authLink = setContext((_, { headers }) => {
-  console.log("authLink");
-  const token = userAuth.getToken();
+// need to fix this as i cant validate anything server side 
+export const authLink = setContext(async(_, { headers }) => {
+
+  let token = userAuth.getToken();
+  
+  if (typeof window !== "undefined") {
+    console.log("undefined");
+  }
+  
   if (!token) {
-    console.log("no token");
     return headers;
   }
   

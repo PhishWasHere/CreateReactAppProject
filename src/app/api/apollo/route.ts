@@ -4,25 +4,29 @@ import { startServerAndCreateNextHandler } from "@as-integrations/next";
 import typeDefs from "./typeDefs";
 import resolvers from "./resolvers";
 
-import { userAuth } from "@/utils/auth";
 
 const apolloServer = new ApolloServer({
   typeDefs,
   resolvers,
-  context: ({ req, res }: {req: Request, res: Response}) => {
-    const user = userAuth.getUser();
-    console.log("context log", user, req.headers);
+});
+
+const handler = startServerAndCreateNextHandler<NextRequest>(apolloServer as any, {  
+  context: async req => {
+    const token = req.headers.get("authorization");
     
     return {
-      user
+      req,
+      body: {
+        token: token ? `Bearer ${token}` : "",
+      }
     };
   },
-} as ApolloServerOptions<any>);
+});
 
-const handler = startServerAndCreateNextHandler<NextRequest>(apolloServer);
+// const handler = startServerAndCreateNextHandler<NextRequest>(apolloServer);
 export async function GET(request: NextRequest) {
   return handler(request);
 }
-export async function POST(request: NextRequest) {
+export async function POST(request: NextRequest) {  
   return handler(request);
 } 

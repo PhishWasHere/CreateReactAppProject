@@ -5,26 +5,26 @@ const secret:string | undefined = process.env.JWT_SECRET || "secret";
 const issuer = process.env.JWT_ISS || "localhost";
 const expiration = '12h';
 
-export const authMiddleware = async ({ req }: {req: Request}) => { 
-  let token = req.body.token || req.query.token || req.headers.authorization;
+export const authMiddleware = async (ctx: Request) => {   
+  let token = ctx.body.token || ctx.query.token || ctx.headers.authorization;
   
-  if (req.headers.authorization) { 
-    token = token.split(' ').pop().trim();
+  if (ctx) { 
+    token = token.split(' ').pop().trim();    
   }
 
-  if (!token || !secret) return req.statusCode = 500;
+  if (!token || !secret) return ctx.statusCode = 500;
   
   try { 
-    const { data } = jwt.verify(token, secret, { maxAge: expiration }) as JwtPayload;
-    req.body.user = data;
-    return req;
+    const { data } = jwt.verify(token, secret, { maxAge: expiration }) as JwtPayload;    
+    ctx.statusCode = 200;
+    ctx.body.user = data;
   } catch {
-    console.log('Invalid token');
-    req.statusCode = 401;
-    req.body = { error: true, message: "Invalid token"};
-    return req;
+    // console.log('Invalid token');
+    ctx.statusCode = 401;
+    ctx.body = { error: true, message: "Invalid token"};
   }
-
+  
+  return ctx;
 }
 
 export const signToken = ({ _id, email, username } : {_id: string, email?: string, username?: string, }) => { 
