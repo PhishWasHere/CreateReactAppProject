@@ -108,12 +108,13 @@ const resolvers = {
 
   Mutation: {
     // todo: need to remove any type from ctx inside protected routes
-    // todo inside folded
+    // todo: inside folded
+    // todo: figure out how to return better erros to client
     signup: async (_: null, { email, password, name }: { email: string, password: string, name: string }, __: null) => {
       try {
         const user = await prisma.user.create({
           data: {
-            email,
+            email, // todo: need to validate email
             password, // todo: need to hash
             name,
           },
@@ -149,6 +150,54 @@ const resolvers = {
       }
     },
 
+    updateUser: async (_: null, { name, email, password }: { name: string, email: string, password: string }, context: any) => {      
+      if (!context.body.token) throw new Error("Not authenticated");
+
+      const ctx: any = await serverAuth.authMiddleware(context);
+      if (ctx.statusCode !== 200) return ctx;
+
+      if (!ctx.body.user._id || !name || !email || !password) {
+        return { error: true, message: "Missing fields", status: 406 };
+      }
+
+      try {
+        const id = ctx.body.user._id;
+
+        const user = await prisma.user.update({
+          where: { id: String(id)},
+          data: {
+            name,
+            email,
+            password
+          },
+        });
+        
+        return user;
+      } catch (err) {
+        const msg = getError(err);
+        throw new Error(msg);
+      }
+    },
+    
+    removeUser: async (_: null, { id }: { id: string }, context: any) => {
+      if (!context) throw new Error("Context not found");
+      
+      const ctx: any = await serverAuth.authMiddleware(context);
+      
+      if (ctx.statusCode !== 200) return ctx;
+      
+      try {
+        const user = await prisma.user.delete({
+          where: { id: String(ctx.body.user._id) },
+        });
+
+        return user;
+      } catch (err) {
+        const msg = getError(err);
+        throw new Error(msg);
+      }
+    },
+
     createProject: async (_: null, { name, description, dueDate }: { name: string, description: string, dueDate: Date }, context: any) => {
       // console.log("attempt create Project");
       
@@ -157,10 +206,11 @@ const resolvers = {
       const ctx: any = await serverAuth.authMiddleware(context);
       if (ctx.statusCode !== 200) return ctx;
       
+      if (!ctx.body.user._id || !name || !description || !dueDate) {
+        return { error: true, message: "Missing fields", status: 406 };
+      }
+
       try {
-        if (!ctx.body.user._id || !name || !description || !dueDate) {
-          return { error: true, message: "Missing fields", status: 406 };
-        }
         console.log('attempt', ctx.body.user._id);
         const _id = ctx.body.user._id;
 
@@ -169,7 +219,6 @@ const resolvers = {
             name,
             description,
             dueDate,
-            userId: _id,
             user: {
               connect: {
                 id: _id, 
@@ -177,7 +226,7 @@ const resolvers = {
             },
           },
         });
-
+        
         return project;
       } catch (err) {
         console.log(err);
@@ -187,7 +236,8 @@ const resolvers = {
       }
     },
 
-    createTask: async (parent: any, { name, description, priority, dueDate, projectId }: { name: string, description: string, priority: number, dueDate: Date, projectId: string }, context: any) => {
+
+    createTask: async (_: null, { name, description, priority, dueDate, projectId }: { name: string, description: string, priority: number, dueDate: Date, projectId: string }, context: any) => {
       if (!context.user) throw new Error("Not authenticated");
 
       try {
@@ -208,7 +258,7 @@ const resolvers = {
       }
     },
 
-    removeProject: async (parent: any, { id }: { id: string }, context: any) => {
+    removeProject: async (_: null, { id }: { id: string }, context: any) => {
       // if (!context.user) throw new Error("Not authenticated");
 
       try {
@@ -223,7 +273,7 @@ const resolvers = {
       }
     },
 
-    removeTask: async (parent: any, { id }: { id: string }, context: any) => {
+    removeTask: async (_: null, { id }: { id: string }, context: any) => {
       if (!context.user) throw new Error("Not authenticated");
 
       try {
@@ -238,26 +288,7 @@ const resolvers = {
       }
     },
 
-    removeUser: async (parent: any, { id }: { id: string }, context: any) => {
-      if (!context) throw new Error("Context not found");
-      
-      const ctx: any = await serverAuth.authMiddleware(context);
-      
-      if (ctx.statusCode !== 200) return ctx;
-      
-      try {
-        const user = await prisma.user.delete({
-          where: { id: String(ctx.body.user._id) },
-        });
-
-        return user;
-      } catch (err) {
-        const msg = getError(err);
-        throw new Error(msg);
-      }
-    },
-
-    updateProject: async (parent: any, { id, name, description, dueDate, isActive }: { id: string, name: string, description: string, dueDate: Date, isActive: boolean }, context: any) => {
+    updateProject: async (_: null, { id, name, description, dueDate, isActive }: { id: string, name: string, description: string, dueDate: Date, isActive: boolean }, context: any) => {
       if (!context.user) throw new Error("Not authenticated");
 
       try {
@@ -279,7 +310,7 @@ const resolvers = {
     },
 
 
-    updateTask: async (parent: any, { id, name, description, dueDate, isActive }: { id: string, name: string, description: string, dueDate: Date, isActive: boolean }, context: any) => {
+    updateTask: async (_: null, { id, name, description, dueDate, isActive }: { id: string, name: string, description: string, dueDate: Date, isActive: boolean }, context: any) => {
       if (!context.user) throw new Error("Not authenticated");
 
       try {
@@ -300,25 +331,6 @@ const resolvers = {
       }
     },
 
-    updateUser: async (parent: any, { name, email, password }: { name: string, email: string, password: string }, context: any) => {
-      if (!context.user) throw new Error("Not authenticated");
-
-      try {
-        const user = await prisma.user.update({
-          where: { id: String(context.user.id) },
-          data: {
-            name,
-            email,
-            password
-          },
-        });
-
-        return user;
-      } catch (err) {
-        const msg = getError(err);
-        throw new Error(msg);
-      }
-    }
   }
 };
 

@@ -12,7 +12,7 @@ import { userAuth } from "@/utils/auth";
 export default function Home() {
   const t = useSuspenseQuery(query.hello);
 
-  const [login, {data, loading, error}] = useMutation(mutation.loginMutation);
+  const [login, {data, loading, error}] = useMutation(mutation.updateUserMutation);
   const [form, setForm] = useState({
     name: "name",
     email: "email@email",
@@ -32,13 +32,13 @@ export default function Home() {
 
   useEffect(() => {
     console.log(data);
-    userAuth.setToken(data?.login.token);
+    // userAuth.setToken(data?.login.token);
     
   }, [data]);
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <h1>Login route</h1>
+      <h1>Update route</h1>
       {loading? <p>loading...</p> : null}
       {error? <p>error...</p> : null}
       <form className="">
