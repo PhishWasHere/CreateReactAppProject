@@ -24,7 +24,8 @@ const typeDefs = `#graphql
     name: String!
     description: String!
     isActive: Boolean
-    createdBy: User
+    user: User
+    userId: ID
     dueDate: DateTime
     tasks: [Task]
   }
@@ -51,7 +52,7 @@ const typeDefs = `#graphql
     signup(email: String!, password: String!, name: String!): AuthPayload
     login(email: String!, password: String!): AuthPayload
     
-    createProject(name: String!, description: String!, dueDate: DateTime): Project
+    createProject(name: String!, description: String!, dueDate: DateTime!, userId: String): Project
     createTask(name: String!, description: String, dueDate: DateTime, projectId: ID!): Task
     
     removeProject(id: ID!): Project

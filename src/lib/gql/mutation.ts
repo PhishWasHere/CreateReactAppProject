@@ -36,11 +36,15 @@ export const updateUserMutation = gql`mutation($name: String!, $email: String!, 
 }
 `
 
-export const createProjectMutation = gql`mutation($name: String!, $description: String!, $dueDate: DateTime) {
-  createProject(name: $name, description: $description, dueDate: $dueDate) {
+export const createProjectMutation = gql`mutation($name: String!, $description: String!, $dueDate: DateTime!, $userId: String) {
+  createProject(name: $name, description: $description, dueDate: $dueDate, userId: $userId) {
     description
     dueDate
     name
+    userId
+    user{
+      id
+    }
   }
 }
 `

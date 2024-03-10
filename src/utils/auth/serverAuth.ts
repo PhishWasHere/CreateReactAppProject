@@ -12,7 +12,7 @@ export const authMiddleware = async (ctx: Request) => {
     token = token.split(' ').pop().trim();    
   }
 
-  if (!token || !secret) return ctx.statusCode = 500;
+  if (!token || !secret) return ctx.statusCode = 401;
   
   try { 
     const { data } = jwt.verify(token, secret, { maxAge: expiration }) as JwtPayload;    
@@ -28,7 +28,7 @@ export const authMiddleware = async (ctx: Request) => {
 }
 
 export const signToken = ({ _id, email, username } : {_id: string, email?: string, username?: string, }) => { 
-  if (!secret) return;
+  if (!secret) return null;
   
   const payload = { _id, email, username}; 
   return jwt.sign({ data: payload }, secret, { issuer, expiresIn: expiration});

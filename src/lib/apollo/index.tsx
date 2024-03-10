@@ -19,16 +19,12 @@ const httpLink = new HttpLink({
   uri: process.env.DOMAIN || "http://localhost:3000/api/apollo",
 });
 
-// not setting context for server side rendering
-// need to fix this as i cant validate anything server side 
+// need this function or the token wont set.
+  // even though the token will always return undefined as window isnt avaliable on the server
+    // but if function is removed, the token will never be set aaaaaaaaa
 export const authLink = setContext(async(_, { headers }) => {
-
   let token = userAuth.getToken();
-  
-  if (typeof window !== "undefined") {
-    console.log("undefined");
-  }
-  
+
   if (!token) {
     return headers;
   }

@@ -6,7 +6,7 @@ export const hello = gql`query {
 `
 export const projects = gql`query {
   projects {
-    createdBy {
+    user {
       id
     }
     description
@@ -22,7 +22,7 @@ export const projects = gql`query {
 
 export const project = gql`query($projectId: ID!) {
   project(id: $projectId) {
-    createdBy {
+    user {
       id
     }
     description
@@ -71,6 +71,13 @@ export const users = gql`query {
     name
     projects {
       id
+      name
+      description
+      isActive
+      dueDate
+      tasks {
+        id
+      }
     }
   }
 }
@@ -83,6 +90,13 @@ export const user = gql`query($userId: ID!) {
     name
     projects {
       id
+      name
+      description
+      isActive
+      dueDate
+      tasks {
+        id
+      }
     }
   }
 }
