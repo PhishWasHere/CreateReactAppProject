@@ -16,7 +16,7 @@ import { userAuth } from "@/utils/auth";
 import { setContext } from "@apollo/client/link/context";
 
 const httpLink = new HttpLink({
-  uri: process.env.DOMAIN || "http://localhost:3000/api/apollo",
+  uri: process.env.API_URI || "http://localhost:3000/api/apollo",
 });
 
 // need this function or the token wont set.

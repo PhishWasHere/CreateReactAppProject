@@ -1,0 +1,33 @@
+version: '3.5'
+
+services:
+ app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: gql-test
+    ports:
+      - "3030:3030"
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+    environment:
+      - DATABASE_URL=postgresql://postgres:password@db:8081/mydb?schema=public
+      - API_URI=http://localhost:0000/api/apollo
+    depends_on:
+      - db
+
+ db:
+    image: postgres:16.2
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: password
+      POSTGRES_USER: postgres
+      POSTGRES_DB: postgres
+    ports:
+      - 8081:8081
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+ 
+volumes:
+ postgres-data:

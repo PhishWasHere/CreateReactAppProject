@@ -15,7 +15,12 @@ export const authMiddleware = async (ctx: Request) => {
   if (!token || !secret) return ctx.statusCode = 401;
   
   try { 
-    const { data } = jwt.verify(token, secret, { maxAge: expiration }) as JwtPayload;    
+    const { data } = jwt.verify(token, secret, { maxAge: expiration }) as JwtPayload;
+
+    if (!data.username|| !data._id === undefined) {      
+      throw new Error('Invalid token');
+    }
+
     ctx.statusCode = 200;
     ctx.body.user = data;
   } catch {

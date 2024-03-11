@@ -57,7 +57,7 @@ export const removeProjectMutation = gql`mutation($removeProjectId: ID!) {
 `
 
 export const updateProjectMutation = gql`mutation($updateProjectId: ID!, $name: String, $description: String, $dueDate: DateTime, $isActive: Boolean) {
-    updateProject(id: $updateProjectId) {
+    updateProject(id: $updateProjectId, name: $name, description: $description, dueDate: $dueDate, isActive: $isActive) {
     description
     dueDate
     isActive

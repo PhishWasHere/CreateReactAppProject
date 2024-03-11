@@ -7,6 +7,7 @@ import cookie from "js-cookie";
 import { useSuspenseQuery, useMutation } from "@apollo/client";
 import { gql, useQuery } from "@apollo/client";
 import { query, mutation } from "@/lib/gql/index";
+import { toISO } from "@/utils/dateConvertor";
 
 export default function Home() {
 
@@ -18,9 +19,9 @@ export default function Home() {
   });
 
   const convertDate = (d: string) => {
-    const date = new Date(d);
-    const toISO = date.toISOString();
-    form.dueDate = toISO;
+    // const date = new Date(d);
+    const iso = toISO(d);
+    form.dueDate = iso;
   }
 
   const click = async (e: React.MouseEvent<HTMLButtonElement>) => {

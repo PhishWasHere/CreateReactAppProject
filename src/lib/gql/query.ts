@@ -83,7 +83,7 @@ export const users = gql`query {
 }
 `
 
-export const user = gql`query($userId: ID!) {
+export const user = gql`query($userId: ID) {
   user(id: $userId) {
     email
     id

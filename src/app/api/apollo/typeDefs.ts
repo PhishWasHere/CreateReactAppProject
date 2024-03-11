@@ -41,7 +41,7 @@ const typeDefs = `#graphql
 
   type Query {
     users: [User]
-    user(id: ID!): User
+    user(id: ID): User
     projects: [Project]
     project(id: ID!): Project
     tasks: [Task]

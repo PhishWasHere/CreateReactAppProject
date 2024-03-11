@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "codegen": "graphql-codegen --config resolvers.ts"
+    "codegen": "graphql-codegen --config resolvers.ts",
+    "docker": "docker-compose up --build"
   },
   "dependencies": {
     "@apollo/client": "^3.9.0-rc.1",
