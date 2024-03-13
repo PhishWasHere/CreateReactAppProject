@@ -31,14 +31,18 @@ export const project = gql`query($projectId: ID!) {
     isActive
     name
     tasks {
+      name
+      isActive
       id
+      dueDate
+      description
     }
   }
 }
 `
 
-export const tasks = gql`query {
-  tasks {
+export const tasks = gql`query($projectId: ID!) {
+  tasks(id: $projectId) {
     isActive
     name
     dueDate

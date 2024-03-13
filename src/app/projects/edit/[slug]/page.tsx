@@ -1,5 +1,4 @@
 'use client'
-export const dynamic = "force-dynamic";
 
 import {useEffect, useState} from "react";
 
@@ -9,12 +8,13 @@ import { ParentType } from "@/utils/types";
 import { toISO } from "@/utils/dateConvertor";
 
 // todo: turn into component that takes in id as args
-export default function Home() {
-  const t = useQuery(query.project, { variables: { projectId: "934e8cce-d0e3-44a5-9a0c-9367abb2ddd6" } });  
+export default function Page({ params }: { params: { slug: string } }) {
+  const t = useQuery(query.project, { variables: { projectId: params.slug } });  
   const [updateProj, {data, loading, error}] = useMutation(mutation.updateProjectMutation);
+  const [removeProj] = useMutation(mutation.removeProjectMutation);
 
   const [form, setForm] = useState({
-    updateProjectId: "934e8cce-d0e3-44a5-9a0c-9367abb2ddd6",
+    updateProjectId: params.slug,
     name: '',
     description: "",
     isActive: false,
@@ -24,7 +24,7 @@ export default function Home() {
   useEffect(() => {
     if (t.data) {
       setForm({
-        updateProjectId: "934e8cce-d0e3-44a5-9a0c-9367abb2ddd6",
+        updateProjectId: params.slug,
         name: t.data.project.name,
         description: t.data.project.description || "",
         isActive: t.data.project.isActive,
@@ -41,6 +41,11 @@ export default function Home() {
     } catch (error) {
       console.log(error);
     }
+  }
+
+  const remove = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    removeProj({variables: {removeProjectId: params.slug}});
   }
 
   return (
@@ -81,6 +86,9 @@ export default function Home() {
         <p>loading...</p>
       }
 
+      <button onClick={(e) => remove(e)}>
+        remove project
+      </button>
     </main>
   );
 }

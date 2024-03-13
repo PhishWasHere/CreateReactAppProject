@@ -62,16 +62,13 @@ export const updateProjectMutation = gql`mutation($updateProjectId: ID!, $name: 
     dueDate
     isActive
     name
-    tasks {
-      id
-    }
     id
   }
 }
 `
 
-export const createTaskMutation = gql`mutation($name: String!, $description: String!, $dueDate: DateTime, $projectId: ID!) {
-    createTask(name: $name, projectId: $projectId, description: $description, dueDate: $dueDate) {
+export const createTaskMutation = gql`mutation($name: String!, $description: String!, $dueDate: DateTime, $isActive: Boolean, $projectId: ID!) {
+    createTask(name: $name, projectId: $projectId, description: $description, dueDate: $dueDate, isActive: $isActive) {
     description
     dueDate
     id
@@ -84,7 +81,7 @@ export const createTaskMutation = gql`mutation($name: String!, $description: Str
 }
 `
 
-export const removeTaskMutation = gql`mutation($id: ID!) {
+export const removeTaskMutation = gql`mutation($removeTaskId: ID!) {
     removeTask(id: $removeTaskId) {
     id
   }
@@ -92,14 +89,11 @@ export const removeTaskMutation = gql`mutation($id: ID!) {
 `
 
 export const updateTaskMutation = gql`mutation($updateTaskId: ID!, $name: String, $description: String, $dueDate: DateTime, $isActive: Boolean) {
-    updateTask(id: $updateTaskId) {
+    updateTask(id: $updateTaskId, name: $name, description: $description, dueDate: $dueDate, isActive: $isActive) {
     description
     dueDate
     isActive
     name
-    project {
-      id
-    }
     id
   }
 }

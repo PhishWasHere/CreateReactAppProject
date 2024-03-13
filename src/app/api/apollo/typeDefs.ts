@@ -15,7 +15,7 @@ const typeDefs = `#graphql
     id: ID!
     name: String!
     email: String!
-    password: String!
+    password: String
     projects: [Project]
   }
 
@@ -36,7 +36,7 @@ const typeDefs = `#graphql
     description: String!
     isActive: Boolean
     dueDate: DateTime
-    project: Project!
+    project: Project
   }
 
   type Query {
@@ -44,7 +44,7 @@ const typeDefs = `#graphql
     user(id: ID): User
     projects: [Project]
     project(id: ID!): Project
-    tasks: [Task]
+    tasks(id: ID!): [Task]
     task(id: ID!): Task
   }
 
@@ -53,7 +53,7 @@ const typeDefs = `#graphql
     login(email: String!, password: String!): AuthPayload
     
     createProject(name: String!, description: String!, dueDate: DateTime!, userId: String): Project
-    createTask(name: String!, description: String, dueDate: DateTime, projectId: ID!): Task
+    createTask(name: String!, description: String, dueDate: DateTime, isActive: Boolean, projectId: ID!): Task
     
     removeProject(id: ID!): Project
     removeTask(id: ID!): Task

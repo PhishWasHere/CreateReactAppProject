@@ -40,6 +40,8 @@ import { serverAuth } from "@/utils/auth";
 // };
 
 const resolvers = {
+  // todd: update return for !== 200 
+    // returns need to be "throw new error()"
   Query: {
     //todo: add auth middleware to queries
     Hello:  async (_: null, args: any, context: any) => {
@@ -104,6 +106,48 @@ const resolvers = {
         }
 
         return project;
+
+      } catch (err) {
+        // console.log(err);
+        
+        const msg = getError(err);
+        throw new Error(msg);
+      }
+    },
+    
+    tasks: async (_: null, {id}: {id:string}, context: any) => {
+      if (!context.body.token) throw new Error("Not authenticated");
+      const ctx: any = await serverAuth.authMiddleware(context);
+      if (ctx.statusCode !== 200) return ctx;
+
+      try {
+        return prisma.task.findMany({ 
+          where : { projectId: String(id) },
+          include: { project: true } 
+        });
+
+      } catch (err) {
+        const msg = getError(err);
+        throw new Error(msg);
+      }
+    },
+
+    task: async (_: null, { id }: { id: string }, context: any) => {
+      if (!context.body.token) throw new Error("Not authenticated");
+      const ctx: any = await serverAuth.authMiddleware(context);
+      if (ctx.statusCode !== 200) return ctx;
+
+      try {
+        const task = await prisma.task.findUnique({
+          where: { id: String(id) },
+          include: { project: true },
+        });
+
+        if (task?.project.userId !== ctx.body.user._id) {
+          return { error: true, message: "Unauthorized", status: 401 };
+        }
+
+        return task;
 
       } catch (err) {
         const msg = getError(err);
@@ -183,14 +227,13 @@ const resolvers = {
     },
     
     removeUser: async (_: null, { id }: { id: string }, context: any) => {
-      if (!context) throw new Error("Context not found");
-      
+      if (!context.body.token) throw new Error("Not authenticated");
+
       const ctx: any = await serverAuth.authMiddleware(context);
-      
       if (ctx.statusCode !== 200) return ctx;
       
       try {
-        const user = await prisma.user.delete({
+        const user = await prisma.user.findUnique({
           where: { id: String(ctx.body.user._id) },
         });
 
@@ -291,8 +334,11 @@ const resolvers = {
       }
     },
 
-    createTask: async (_: null, { name, description, priority, dueDate, projectId }: { name: string, description: string, priority: number, dueDate: Date, projectId: string }, context: any) => {
-      if (!context.user) throw new Error("Not authenticated");
+    createTask: async (_: null, { name, description, priority, dueDate, isActive, projectId }: { name: string, description: string, priority: number, dueDate: Date, isActive: boolean, projectId: string }, context: any) => {
+      if (!context.body.token) throw new Error("Not authenticated");
+
+      const ctx: any = await serverAuth.authMiddleware(context);
+      if (ctx.statusCode !== 200) return ctx;            
 
       try {
         const task = await prisma.task.create({
@@ -301,10 +347,15 @@ const resolvers = {
             description,
             priority,
             dueDate,
-            project: { connect: { id: String(projectId) } },
+            isActive,
+            project: { 
+              connect: { 
+                id: String(projectId) 
+              } 
+            },
           },
         });
-
+                
         return task;
       } catch (err) {
         const msg = getError(err);
@@ -313,7 +364,10 @@ const resolvers = {
     },
 
     removeTask: async (_: null, { id }: { id: string }, context: any) => {
-      if (!context.user) throw new Error("Not authenticated");
+      if (!context.body.token) throw new Error("Not authenticated");
+
+      const ctx: any = await serverAuth.authMiddleware(context);
+      if (ctx.statusCode !== 200) return ctx;     
 
       try {
         const task = await prisma.task.delete({
@@ -328,7 +382,10 @@ const resolvers = {
     },
 
     updateTask: async (_: null, { id, name, description, dueDate, isActive }: { id: string, name: string, description: string, dueDate: Date, isActive: boolean }, context: any) => {
-      if (!context.user) throw new Error("Not authenticated");
+      if (!context.body.token) throw new Error("Not authenticated");
+
+      const ctx: any = await serverAuth.authMiddleware(context);
+      if (ctx.statusCode !== 200) return ctx;
 
       try {
         const task = await prisma.task.update({
