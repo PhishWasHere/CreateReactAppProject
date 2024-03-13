@@ -21,7 +21,7 @@ export const signupMutation = gql`mutation($email: String!, $password: String!, 
   }
 }
 `
-export const removeUserMutation = gql`mutation($removeUserId: ID!) {
+export const removeUserMutation = gql`mutation($removeUserId: ID) {
     removeUser(id: $removeUserId) {
     id
   }

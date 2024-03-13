@@ -11,7 +11,7 @@ export default function Page () {
   
   return (
     <div>
-      <h1>Page</h1>
+      <h1>this one is empty</h1>
 
     </div>
   )

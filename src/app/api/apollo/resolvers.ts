@@ -233,7 +233,7 @@ const resolvers = {
       if (ctx.statusCode !== 200) return ctx;
       
       try {
-        const user = await prisma.user.findUnique({
+        const user = await prisma.user.delete({
           where: { id: String(ctx.body.user._id) },
         });
 
@@ -244,7 +244,8 @@ const resolvers = {
       }
     },
 
-    createProject: async (_: null, { name, description, dueDate }: { name: string, description: string, dueDate: Date }, context: any) => {      
+    createProject: async (_: null, { name, description, dueDate }: { name: string, description: string, dueDate: Date }, context: any) => {
+         
       if (!context.body.token) throw new Error("Not authenticated");
 
       const ctx: any = await serverAuth.authMiddleware(context);
@@ -353,6 +354,11 @@ const resolvers = {
                 id: String(projectId) 
               } 
             },
+            user: {
+              connect: {
+                id: ctx.body.user._id,
+              }
+            }
           },
         });
                 

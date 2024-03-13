@@ -2,7 +2,6 @@
 export const dynamic = "force-dynamic";
 import Image from "next/image";
 import {useEffect, useState} from "react";
-import cookie from "js-cookie";
 
 import { useSuspenseQuery, useMutation } from "@apollo/client";
 import { gql, useQuery } from "@apollo/client";
@@ -19,7 +18,6 @@ export default function Home() {
   });
 
   const convertDate = (d: string) => {
-    // const date = new Date(d);
     const iso = toISO(d);
     form.dueDate = iso;
   }
@@ -27,7 +25,7 @@ export default function Home() {
   const click = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     try {
-      await newProject({variables: form});
+      await newProject({variables: {...form}});
 
     } catch (error) {
       console.log(error);

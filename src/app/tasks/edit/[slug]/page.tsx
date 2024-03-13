@@ -53,7 +53,7 @@ export default function Page({ params }: { params: { slug: string } }) {
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <h1>edit project</h1>
+      <h1>edit task</h1>
       {loading? <p>loading...</p> : null}
       {error? <p>error...</p> : null}
 

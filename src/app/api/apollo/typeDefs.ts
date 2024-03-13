@@ -57,7 +57,7 @@ const typeDefs = `#graphql
     
     removeProject(id: ID!): Project
     removeTask(id: ID!): Task
-    removeUser(id: ID!): User
+    removeUser(id: ID): User
 
     updateProject(id: ID!, name: String, description: String, dueDate: DateTime, isActive: Boolean): Project
     updateTask(id: ID!, name: String, description: String, dueDate: DateTime, isActive: Boolean): Task
