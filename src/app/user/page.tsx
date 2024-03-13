@@ -10,11 +10,18 @@ import { DataType, ProjectType } from "@/utils/types/index";
 
 // todo: need to add redirect if not logged in
 export default function Page () {
-  const {data} = useQuery(query.user);
+  const {data, loading, error} = useQuery(query.user);
+  useEffect(() => {
+
+    console.log("res ", data, loading, error);
+    
+  }, [data, loading, error]);
 
   return (
     <div>
       <h1>User route</h1>
+      {loading? <p>loading...</p> : null}
+      {error? <p>error... {error.toString()}</p> : null}
       { data?
         <>
           <h2>{data.user.name}</h2>
@@ -28,7 +35,7 @@ export default function Page () {
           </ul>
         </>
         :
-        <p>loading...</p>
+        null
       }
     </div>
   )

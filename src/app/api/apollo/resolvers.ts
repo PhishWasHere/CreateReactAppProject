@@ -57,7 +57,7 @@ const resolvers = {
     user: async (_: null, __: null, context: any) => {      
       if (!context.body.token) throw new Error("Not authenticated");
       const ctx: any = await serverAuth.authMiddleware(context);
-      if (ctx.statusCode !== 200) return ctx;
+      if (ctx.statusCode !== 200) throw new Error("Authentication error");
       
       try {
         return prisma.user.findUnique({
@@ -76,7 +76,7 @@ const resolvers = {
     projects: async (_: null, args: any, context: any) => {
       if (!context.body.token) throw new Error("Not authenticated");
       const ctx: any = await serverAuth.authMiddleware(context);
-      if (ctx.statusCode !== 200) return ctx;
+      if (ctx.statusCode !== 200) throw new Error("Authentication error");
 
       try {
         return prisma.project.findMany({ 
@@ -93,7 +93,7 @@ const resolvers = {
     project: async (_: null, { id }: { id: string }, context: any) => {     
       if (!context.body.token) throw new Error("Not authenticated");
       const ctx: any = await serverAuth.authMiddleware(context);
-      if (ctx.statusCode !== 200) return ctx;
+      if (ctx.statusCode !== 200) throw new Error("Authentication error");
 
       try {
         const project = await prisma.project.findUnique({
@@ -118,7 +118,7 @@ const resolvers = {
     tasks: async (_: null, {id}: {id:string}, context: any) => {
       if (!context.body.token) throw new Error("Not authenticated");
       const ctx: any = await serverAuth.authMiddleware(context);
-      if (ctx.statusCode !== 200) return ctx;
+      if (ctx.statusCode !== 200) throw new Error("Authentication error");
 
       try {
         return prisma.task.findMany({ 
@@ -135,7 +135,7 @@ const resolvers = {
     task: async (_: null, { id }: { id: string }, context: any) => {
       if (!context.body.token) throw new Error("Not authenticated");
       const ctx: any = await serverAuth.authMiddleware(context);
-      if (ctx.statusCode !== 200) return ctx;
+      if (ctx.statusCode !== 200) throw new Error("Authentication error");
 
       try {
         const task = await prisma.task.findUnique({
@@ -160,7 +160,6 @@ const resolvers = {
   Mutation: {
     // todo: need to remove any type from ctx inside protected routes
     // todo: inside folded
-    // todo: figure out how to return better erros to client
     signup: async (_: null, { email, password, name }: { email: string, password: string, name: string }, __: null) => {
       try {
         const user = await prisma.user.create({
@@ -205,7 +204,7 @@ const resolvers = {
       if (!context.body.token) throw new Error("Not authenticated");
 
       const ctx: any = await serverAuth.authMiddleware(context);
-      if (ctx.statusCode !== 200) return ctx;
+      if (ctx.statusCode !== 200) throw new Error("Authentication error");
 
       try {
         const id = ctx.body.user._id;
@@ -230,7 +229,7 @@ const resolvers = {
       if (!context.body.token) throw new Error("Not authenticated");
 
       const ctx: any = await serverAuth.authMiddleware(context);
-      if (ctx.statusCode !== 200) return ctx;
+      if (ctx.statusCode !== 200) throw new Error("Authentication error");
       
       try {
         const user = await prisma.user.delete({
@@ -249,7 +248,7 @@ const resolvers = {
       if (!context.body.token) throw new Error("Not authenticated");
 
       const ctx: any = await serverAuth.authMiddleware(context);
-      if (ctx.statusCode !== 200) return ctx;
+      if (ctx.statusCode !== 200) throw new Error("Authentication error");
       
       if (!name || !description || !dueDate) {
         return { error: true, message: "Missing fields", status: 406 };
@@ -281,7 +280,7 @@ const resolvers = {
     removeProject: async (_: null, { id }: { id: string }, context: any) => {
       if (!context.body.token) throw new Error("Not authenticated");
       const ctx: any = await serverAuth.authMiddleware(context);
-      if (ctx.statusCode !== 200) return ctx;
+      if (ctx.statusCode !== 200) throw new Error("Authentication error");
 
       try {
         const project = await prisma.project.findUnique({
@@ -315,7 +314,7 @@ const resolvers = {
     updateProject: async (_: null, { id, name, description, dueDate, isActive }: { id: string, name: string, description: string, dueDate: Date, isActive: boolean }, context: any) => {      
       if (!context.body.token) throw new Error("Not authenticated");
       const ctx: any = await serverAuth.authMiddleware(context);
-      if (ctx.statusCode !== 200) return ctx;
+      if (ctx.statusCode !== 200) throw new Error("Authentication error");
 
       try {
         const project = await prisma.project.update({
@@ -339,7 +338,7 @@ const resolvers = {
       if (!context.body.token) throw new Error("Not authenticated");
 
       const ctx: any = await serverAuth.authMiddleware(context);
-      if (ctx.statusCode !== 200) return ctx;            
+      if (ctx.statusCode !== 200) throw new Error("Authentication error");            
 
       try {
         const task = await prisma.task.create({
@@ -373,7 +372,7 @@ const resolvers = {
       if (!context.body.token) throw new Error("Not authenticated");
 
       const ctx: any = await serverAuth.authMiddleware(context);
-      if (ctx.statusCode !== 200) return ctx;     
+      if (ctx.statusCode !== 200) throw new Error("Authentication error");     
 
       try {
         const task = await prisma.task.delete({
@@ -391,7 +390,7 @@ const resolvers = {
       if (!context.body.token) throw new Error("Not authenticated");
 
       const ctx: any = await serverAuth.authMiddleware(context);
-      if (ctx.statusCode !== 200) return ctx;
+      if (ctx.statusCode !== 200) throw new Error("Authentication error");
 
       try {
         const task = await prisma.task.update({
