@@ -1,6 +1,7 @@
 import getError from "@/utils/getErr";
 import prisma from "@/lib/prisma";
 import { serverAuth } from "@/utils/auth";
+import {toISO, toLocal} from "@/utils/dateConverter";
 
 // need to fix types later
 // type TaskType = {
@@ -73,7 +74,7 @@ const resolvers = {
       }
     },
 
-    projects: async (_: null, args: any, context: any) => {
+    projects: async (_: null, __: null, context: any) => {
       if (!context.body.token) throw new Error("Not authenticated");
       const ctx: any = await serverAuth.authMiddleware(context);
       if (ctx.statusCode !== 200) throw new Error("Authentication error");
@@ -100,6 +101,7 @@ const resolvers = {
           where: { id: String(id) },
           include: { user: true, tasks: true },
         });
+
 
         if (project?.userId !== ctx.body.user._id) {
           return { error: true, message: "Unauthorized", status: 401 };
@@ -292,14 +294,6 @@ const resolvers = {
 
         if (project.userId !== ctx.body.user._id) {
           return { error: true, message: "Unauthorized", status: 401 };
-        }
-
-        if (project.tasks.length > 0) {
-          project.tasks.map((task) => {
-            return prisma.task.delete({
-              where: { id: task.id },
-            });
-          });
         }
 
         return prisma.project.delete({

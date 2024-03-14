@@ -4,7 +4,8 @@ COPY package*.json ./
 COPY tsconfig.json ./
 RUN npm install
 COPY . .
-RUN npm run build
-ENV HOST=0.0.0.0 PORT=3030 NODE_ENV=production DATABASE_URL=postgresql://postgres:password@db:8081/mydb?schema=public API_URI=http://localhost:0000/api/apollo
-EXPOSE 3030
-CMD ["npm", "run", "start"]
+COPY migrate.sh ./
+RUN chmod +x migrate.sh
+ENV HOST=0.0.0.0 PORT=3030 NODE_ENV=production DATABASE_URL=postgresql://postgres:postgres@db:5432/postgres?schema=public API_URI=http://localhost:3030/api/apollo
+EXPOSE 3030 5555
+CMD ["./migrate.sh"] 

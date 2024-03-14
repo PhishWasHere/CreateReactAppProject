@@ -9,9 +9,7 @@ import { query, mutation } from "@/lib/gql/index";
 import { setContext } from "@apollo/client/link/context";
 import { userAuth } from "@/utils/auth";
 
-export default function Home() {
-  const t = useSuspenseQuery(query.hello);
-
+export default function Page() {
   const [login, {data, loading, error}] = useMutation(mutation.updateUserMutation);
   const [form, setForm] = useState({
     name: "name",
@@ -57,14 +55,6 @@ export default function Home() {
         </button>
       </form>
 
-      <button onClick={e => {
-        e.preventDefault();
-        t
-        console.log(t.data);
-        
-      }}> 
-        hello
-      </button>
     </main>
   );
 }

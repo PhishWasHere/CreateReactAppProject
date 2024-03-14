@@ -8,8 +8,7 @@ import { useSuspenseQuery, useMutation } from "@apollo/client";
 import { gql, useQuery } from "@apollo/client";
 import { query, mutation } from "@/lib/gql/index";
 
-export default function Home() {
-  const t = useSuspenseQuery(query.hello);
+export default function Page() {
 
   const [removeUser, {data, loading, error}] = useMutation(mutation.removeUserMutation);
 
@@ -36,14 +35,6 @@ export default function Home() {
         </button>
       </form>
 
-      <button onClick={e => {
-        e.preventDefault();
-        t
-        console.log(t.data);
-        
-      }}> 
-        hello
-      </button>
     </main>
   );
 }

@@ -6,7 +6,7 @@ import { query, mutation } from "@/lib/gql/index";
 import Link from "next/link";
 
 import { ProjectType } from "@/utils/types/index";
-import { toLocal } from "@/utils/dateConvertor";
+import { toLocal } from "@/utils/dateConverter";
 
 // todo: toLocale causing server/client mismatch
 export default function Page({ params }: { params: { slug: string } }) {

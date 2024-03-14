@@ -12,22 +12,29 @@ services:
       - .:/usr/src/app
       - /usr/src/app/node_modules
     environment:
-      - DATABASE_URL=postgresql://postgres:password@db:8081/mydb?schema=public
-      - API_URI=http://localhost:0000/api/apollo
+      - DATABASE_URL=postgresql://postgres:postgres@db:5432/postgres?schema=public
+      - API_URI=http://localhost:3030/api/apollo
     depends_on:
-      - db
+      db:
+        condition: service_healthy
 
  db:
     image: postgres:16.2
     restart: always
     environment:
-      POSTGRES_PASSWORD: password
+      POSTGRES_PASSWORD: postgres
       POSTGRES_USER: postgres
       POSTGRES_DB: postgres
     ports:
-      - 8081:8081
+      - 5434:5432
     volumes:
       - postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
  
 volumes:
  postgres-data:

@@ -6,7 +6,7 @@ import { query, mutation } from "@/lib/gql/index";
 import Link from "next/link";
 
 import { ProjectType } from "@/utils/types/index";
-import { toISO, toLocal } from "@/utils/dateConvertor";
+import { toISO, toLocal } from "@/utils/dateConverter";
 import { useEffect, useState } from "react";
 
 export default function Page({ params }: { params: { slug: string } }) {

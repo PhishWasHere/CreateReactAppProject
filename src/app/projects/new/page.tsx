@@ -6,7 +6,7 @@ import {useEffect, useState} from "react";
 import { useSuspenseQuery, useMutation } from "@apollo/client";
 import { gql, useQuery } from "@apollo/client";
 import { query, mutation } from "@/lib/gql/index";
-import { toISO } from "@/utils/dateConvertor";
+import { toISO } from "@/utils/dateConverter";
 
 export default function Home() {
 

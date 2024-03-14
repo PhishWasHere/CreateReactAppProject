@@ -5,7 +5,7 @@ import {useEffect, useState} from "react";
 import { useSuspenseQuery, useMutation, useQuery } from "@apollo/client";
 import { query, mutation } from "@/lib/gql/index";
 import { ParentType } from "@/utils/types";
-import { toISO } from "@/utils/dateConvertor";
+import { toISO } from "@/utils/dateConverter";
 
 // todo: turn into component that takes in id as args
 export default function Page({ params }: { params: { slug: string } }) {
@@ -31,7 +31,7 @@ export default function Page({ params }: { params: { slug: string } }) {
         dueDate: t.data.project.dueDate,
       });
     }
-  }, [t.data]);
+  }, [params.slug, t.data]);
 
   const click = async (e: React.MouseEvent<HTMLButtonElement>) => { 
     e.preventDefault();
