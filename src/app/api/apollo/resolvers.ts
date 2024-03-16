@@ -41,8 +41,6 @@ import {toISO, toLocal} from "@/utils/dateConverter";
 // };
 
 const resolvers = {
-  // todd: update return for !== 200 
-    // returns need to be "throw new error()"
   Query: {
     //todo: add auth middleware to queries
     Hello:  async (_: null, args: any, context: any) => {
@@ -61,14 +59,14 @@ const resolvers = {
       if (ctx.statusCode !== 200) throw new Error("Authentication error");
       
       try {
-        return prisma.user.findUnique({
+        const data = await prisma.user.findUnique({
           where: { id: String(ctx.body.user._id) },
-          include: { projects: true },
+          include: { projects: true, tasks: true},
         });
-
-      } catch (err) {
-        console.log(err);
         
+        return data
+      } catch (err) {
+
         const msg = getError(err);
         throw new Error(msg);
       }
@@ -82,7 +80,7 @@ const resolvers = {
       try {
         return prisma.project.findMany({ 
           where: { userId: ctx.body.user._id },
-          include: { user: true, tasks: true }}
+          include: { tasks: true }}
         );
 
       } catch (err) {
@@ -110,8 +108,7 @@ const resolvers = {
         return project;
 
       } catch (err) {
-        // console.log(err);
-        
+
         const msg = getError(err);
         throw new Error(msg);
       }
@@ -172,7 +169,9 @@ const resolvers = {
           },
         });
         
-        return user;
+        const token = serverAuth.signToken({ _id: user.id, username: user.name});
+
+        return {user, token};
       } catch (err) {
         const msg = getError(err);
         throw new Error(msg);
@@ -186,11 +185,10 @@ const resolvers = {
         const user = await prisma.user.findUnique({
           where: { email },
         });        
-
+        
         // todo: need to add hashing comparison
         if (!user || user.password !== password) {
-          const res = { error: true, message: "Invalid email or password", status: 401};
-          return res;
+          throw new Error("Invalid credentials");
         };
 
         const token = serverAuth.signToken({ _id: user.id, username: user.name});

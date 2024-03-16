@@ -32,9 +32,12 @@ export const removeToken = () => {
 }
 
 type userType = {
+  data: {
+    username: string;
+  };
   id: string;
   email: string;
-  name: string;
+  username: string;
 }
 
 export const getUser = () => {
