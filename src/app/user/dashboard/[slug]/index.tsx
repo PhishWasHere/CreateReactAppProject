@@ -30,7 +30,7 @@ export default function Dashboard() {
                 <div>{p.name}</div>
                 <div>due:{toLocal(p.dueDate)}</div>
                 {!p.tasks? <p>no tasks</p> : <p>{p.tasks.length} remaining tasks</p>}
-                <Link href={`/user/projects?id=${p.id}&name=${p.name}`}>View</Link>
+                <Link href={`/user/project?id=${p.id}&name=${p.name}`}>View</Link>
               </li>
             ))}
           </ul>

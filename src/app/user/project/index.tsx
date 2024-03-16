@@ -4,6 +4,7 @@ import { useEffect, useState } from "react"
 import { useQuery, useSuspenseQuery } from "@apollo/client";
 import { query } from "@/lib/gql/index";
 import { toLocal } from "@/utils/dateConverter";
+import { TaskType } from "@/utils/types";
 
 export default function Project({ id }: { id: string | string[] }) {
   const {data, loading, error} = useQuery(query.project, { variables: { projectId: id } });
@@ -25,7 +26,7 @@ export default function Project({ id }: { id: string | string[] }) {
           <p>{toLocal(data.project.dueDate)}</p>
 
           <div>tasks: </div>
-          {data.project.tasks.map((task: any) => (
+          {data.project.tasks.map((task: TaskType) => (
             <div key={task.id}>
               <h3>{task.name}</h3>
               <p>{task.description}</p>
