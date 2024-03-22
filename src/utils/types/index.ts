@@ -11,11 +11,17 @@ export type DataType = {
 }
 
 export type UserType = {
+  data: {
+    id: string;
+    username: string;
+    email: string;
+  }
   id: string;
   name: string;
   email: string;
   password: string;
   projects: ProjectType[];
+  tasks: TaskType[];
 }
 
 export type ProjectType = {

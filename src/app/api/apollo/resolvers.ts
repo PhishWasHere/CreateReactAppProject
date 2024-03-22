@@ -170,7 +170,7 @@ const resolvers = {
         });
         
         const token = serverAuth.signToken({ _id: user.id, username: user.name});
-
+        
         return {user, token};
       } catch (err) {
         const msg = getError(err);
@@ -191,7 +191,7 @@ const resolvers = {
           throw new Error("Invalid credentials");
         };
 
-        const token = serverAuth.signToken({ _id: user.id, username: user.name});
+        const token = serverAuth.signToken({ _id: user.id, email, username: user.name});
         
         return {user, token};
       } catch (err) {

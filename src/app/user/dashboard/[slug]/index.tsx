@@ -7,19 +7,30 @@ import Link from "next/link";
 import { ProjectType } from "@/utils/types/index";
 import { toLocal } from "@/utils/dateConverter";
 import CreateProject from "@/components/projects/createProject";
+import { userAuth } from "@/utils/auth";
+import EditUser from "@/components/user/editUser";
 
 export default function Dashboard() {
-  const {data, loading, error} = useQuery(query.projects);
+  const {data, loading, error, refetch} = useQuery(query.projects);
+  const userData = userAuth.getUser();
+
+  useEffect(() => {
+    if(userData?.data === null || undefined) {
+      return console.log("couldnt find userdata");
+    }
+  }, [userData])
 
   return(
     <main>
       <h1>Dashboard route</h1>
+      <EditUser userData={userData} refetch={refetch} />
+
       {loading? <p>loading...</p> : null}
       {error? <p>error... {error.toString()}</p> : null } 
       {data?
         data.projects.length === 0?     
           <>
-            <CreateProject />
+            <CreateProject refetch={refetch} />
           </>
         :
         <>
@@ -34,7 +45,7 @@ export default function Dashboard() {
               </li>
             ))}
           </ul>
-          <CreateProject />
+          <CreateProject refetch={refetch} />
         </>
         :
      

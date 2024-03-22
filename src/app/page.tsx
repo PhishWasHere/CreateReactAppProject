@@ -45,24 +45,8 @@ export default function Page() {
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <h1>Login route</h1>
-      {loading? <p>loading...</p> : null}
-      <form className="">
-        {error? <p>incorrect credentials </p> : null}
-        <input type="text" className="text-black" defaultValue={form.name}
-          onChange={(e) => setForm({...form, name: e.target.value})}
-        />
-        <input type="text" className="text-black" defaultValue={form.email}
-          onChange={(e) => setForm({...form, email: e.target.value})}
-        />
-        <input type="text" className="text-black" defaultValue={form.password}
-          onChange={(e) => setForm({...form, password: e.target.value})}
-        />
-
-        <button onClick={(e) => click(e)}>
-          click
-        </button>
-      </form>
+      <h1>base route</h1>
+    
 
     </main>
   );

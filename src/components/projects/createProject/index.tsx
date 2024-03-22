@@ -6,8 +6,9 @@ import { useMutation } from "@apollo/client";
 import { gql, useQuery } from "@apollo/client";
 import { query, mutation } from "@/lib/gql/index";
 import { toISO } from "@/utils/dateConverter";
+import getError from "@/utils/getErr";
 
-export default function CreateProject() {
+export default function CreateProject({ refetch } : { refetch:Function }) {
   const [newProject, {data, loading, error}] = useMutation(mutation.createProjectMutation);
   const [form, setForm] = useState({
     name: "name",
@@ -26,8 +27,7 @@ export default function CreateProject() {
     form.dueDate = iso;
   }
 
-  const click = async (e: React.MouseEvent<HTMLButtonElement>) => {
-    // e.preventDefault();
+  const update = async (e: React.MouseEvent<HTMLButtonElement>) => {
     try {
       await newProject({variables: {...form}});
       setForm({
@@ -35,8 +35,11 @@ export default function CreateProject() {
         description: "description",
         dueDate: undefined as unknown as string,
       });
+
+      refetch();
     } catch (error) {
-      console.log(error);
+      const err = getError(error);
+      console.error(err);
     }
   }
 
@@ -57,7 +60,7 @@ export default function CreateProject() {
           />
 
           <button 
-            onClick={(e) => click(e)}
+            onClick={(e) => update(e)}
             disabled={form.name === undefined || form.description === undefined || form.dueDate === undefined}  
           >
             click

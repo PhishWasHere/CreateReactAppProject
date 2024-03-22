@@ -1,5 +1,6 @@
 import {jwtDecode} from 'jwt-decode';
 import cookie from "js-cookie";
+import { UserType } from '../types'; 
 
 const tokenName = "token";
 
@@ -23,7 +24,7 @@ export const setToken = (token: string) => {
 }
 
 export const getToken = () => {
-  const token = cookie.get(tokenName);  
+  const token = cookie.get(tokenName);
   return token;
 }
 
@@ -41,8 +42,12 @@ type userType = {
 }
 
 export const getUser = () => {
-  const token = getToken();
-  if (!token) return null;
-  const user: userType = jwtDecode(token);
-  return user;
+  try {
+    const token = getToken();
+    if (!token) return null;
+    const user: UserType = jwtDecode(token);
+    return user;
+  } catch (err) {
+    return null;
+  }
 }

@@ -6,8 +6,9 @@ import { redirect } from "next/navigation";
 import { useMutation } from "@apollo/client";
 import { mutation } from "@/lib/gql/index";
 import { userAuth } from "@/utils/auth";
+import getError from "@/utils/getErr";
 
-export default function Page() {
+export default function Login() {
 
   // useEffect(() => {
   //   const data = userAuth.getUser();    
@@ -16,50 +17,54 @@ export default function Page() {
   //   }
   // }, []);
 
-  const [login, {data, loading, error}] = useMutation(mutation.loginMutation);
+  const [loginMutation, {data, loading, error}] = useMutation(mutation.loginMutation);
   const [form, setForm] = useState({
     name: "username",
     email: "email",
     password: "password",
   });
 
-  const click = async (e: React.MouseEvent<HTMLButtonElement>) => { 
+  const login = async (e: React.MouseEvent<HTMLButtonElement>) => { 
     e.preventDefault();
     
     try {
-      await login({variables: form});
+      await loginMutation({variables: form});
 
     } catch (error) {
-      console.log(error);
+      const err = getError(error);
+      console.error(err);
     }
   }
 
   useEffect(() => {
-    if (data){      
+    if (error) {
+      userAuth.removeToken();
+    }
+    
+    if (data){
       userAuth.setToken(data.login.token);
       redirect(`/user/dashboard/${data.login.user.name}`);
-    } else {
-      userAuth.removeToken();
     }
   }, [data, error]);
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
       <h1>Login route</h1>
+
       {loading? <p>loading...</p> : null}
       <form className="">
         {error? <p>incorrect credentials </p> : null}
-        <input type="text" className="text-black" defaultValue={form.name}
+        <input type="text" className="text-black" placeholder={form.name}
           onChange={(e) => setForm({...form, name: e.target.value})}
         />
-        <input type="text" className="text-black" defaultValue={form.email}
+        <input type="text" className="text-black" placeholder={form.email}
           onChange={(e) => setForm({...form, email: e.target.value})}
         />
-        <input type="text" className="text-black" defaultValue={form.password}
+        <input type="text" className="text-black" placeholder={form.password}
           onChange={(e) => setForm({...form, password: e.target.value})}
         />
 
-        <button onClick={(e) => click(e)}>
+        <button onClick={(e) => login(e)}>
           click
         </button>
       </form>
