@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 
 import {ApolloWrapper} from "@/lib/apollo";
+import Wrapper from "./wrapper";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -18,9 +19,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body className= {inter.className}>
         <ApolloWrapper>
-          {children}
+          <Wrapper>
+            <main className="w-[100svw] h-[100svh] overflow-hidden text-slate-800 bg-slate-100">
+              {children}
+            </main>
+          </Wrapper>
         </ApolloWrapper>
       </body>
     </html>
