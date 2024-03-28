@@ -13,16 +13,16 @@ const typeDefs = `#graphql
 
   type User {
     id: ID!
-    name: String!
-    email: String!
+    name: String
+    email: String
     password: String
     projects: [Project]
   }
 
   type Project {
     id: ID!
-    name: String!
-    description: String!
+    name: String
+    description: String
     isActive: Boolean
     user: User
     userId: ID
@@ -32,8 +32,8 @@ const typeDefs = `#graphql
 
   type Task {
     id: ID!
-    name: String!
-    description: String!
+    name: String
+    description: String
     isActive: Boolean
     dueDate: DateTime
     project: Project

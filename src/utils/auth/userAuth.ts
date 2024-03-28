@@ -9,13 +9,12 @@ export const validateToken = () => {
   if (!token) return false;
 
   const decodedToken = jwtDecode(token);
-  console.log(decodedToken);
   
-  if (decodedToken.exp! < Date.now() / 1000) {
+  if (decodedToken.exp! < Date.now() / 1000) {    
     cookie.remove(tokenName);
-    return true;
+    return false;
   }
-  return false
+  return true
 }
 
 export const setToken = (token: string) => {
@@ -32,20 +31,16 @@ export const removeToken = () => {
   cookie.remove(tokenName);
 }
 
-type userType = {
-  data: {
-    username: string;
-  };
-  id: string;
-  email: string;
-  username: string;
-}
-
 export const getUser = () => {
   try {
     const token = getToken();
     if (!token) return null;
     const user: UserType = jwtDecode(token);
+
+    const valid = validateToken();
+    
+    if (!valid) return null;
+
     return user;
   } catch (err) {
     return null;

@@ -1,12 +1,27 @@
 "use client"
 
-import {useEffect, useState} from "react";
+import { useState} from "react";
 
 import { useMutation } from "@apollo/client";
-import { gql, useQuery } from "@apollo/client";
-import { query, mutation } from "@/lib/gql/index";
+import { mutation } from "@/lib/gql/index";
 import { toISO } from "@/utils/dateConverter";
 import getError from "@/utils/getErr";
+import { motion } from "framer-motion";
+
+const vars = {
+  open: () =>  ({ 
+    opacity: 1, x: 0, zIndex: 2,
+    transition: {
+      duration: 0.2, ease: "easeInOut"
+    }
+  }),
+  closed: { 
+    opacity: 0, x: "-200%", backgroundColor: "rgba(0,0,0,0)", zIndex: -10,
+    transition: {
+      duration: 0.2, ease: "easeInOut"
+    }
+  },
+}
 
 export default function CreateProject({ refetch } : { refetch:Function }) {
   const [newProject, {data, loading, error}] = useMutation(mutation.createProjectMutation);
@@ -16,13 +31,11 @@ export default function CreateProject({ refetch } : { refetch:Function }) {
     dueDate: undefined as unknown as string,
   });
 
-  // useEffect(() => {
-  //   let d = new Date(0).toLocaleString( 'sv', { timeZoneName: 'short' } );
-  //   d = d.slice(0, 16);
-  //   setForm({...form, dueDate: d});
-  // }, []);
+  const [isOpen, setIsOpen] = useState(false)
 
   const convertDate = (d: string) => {
+    if (!d) return;
+
     const iso = toISO(d);
     form.dueDate = iso;
   }
@@ -44,29 +57,45 @@ export default function CreateProject({ refetch } : { refetch:Function }) {
   }
 
   return (
-    <>
-      <p>Create A Project</p>
-      {error? <p>error...</p> : null}
-      {loading? <p>loading...</p> : 
-        <form>
-        <input type="text" className="text-black" placeholder={form.name}
-            onChange={(e) => setForm({...form, name: e.target.value})}
-          />
-          <input type="text" className="text-black" placeholder={form.description}
-            onChange={(e) => setForm({...form, description: e.target.value})}
-          />
-          <input type="datetime-local" className="text-black" placeholder={form.dueDate}
-            onChange={(e) => convertDate(e.target.value)}
-          />
+    <div className="flex">
 
+      <button className="flex">
+        <span onClick={(e) => {e.preventDefault(); setIsOpen(!isOpen); }} className="font-medium text-sm mt-1 sm:mr-auto bg-[#FF9671] rounded-full hover:text-white hover:bg-[#FF6F91] transition duration-200 px-2">Create a project</span>
+      </button>
+      
+      <motion.form className="grid sm:w-[30svw] w-[100svw] bg-slate-300 border border-slate-600 rounded-lg p-2 absolute" animate={isOpen? "open" : "closed"} variants={vars}>
+        
+        <button className="fixed top-[2%] left-[96%]" onClick={(e => {e.preventDefault(); setIsOpen(false); })}>
+          x
+        </button>
+
+        <p className="mt-1">Project Name</p>
+        <input type="text" className="text-black" placeholder="some name"
+          onChange={(e) => setForm({...form, name: e.target.value})}
+        />
+        <p className="mt-1">Project Description</p>
+        <input type="text" className="text-black" placeholder="some description"
+          onChange={(e) => setForm({...form, description: e.target.value})}
+        />
+        <p className="mt-1">Due Date</p>
+        <input type="datetime-local" className="text-black" placeholder={form.dueDate}
+          onChange={(e) => convertDate(e.target.value)}
+        />
+
+
+        <div className="flex mt-2">
           <button 
             onClick={(e) => update(e)}
-            disabled={form.name === undefined || form.description === undefined || form.dueDate === undefined}  
+            className="bg-[#FF9671] rounded-full hover:text-white hover:bg-[#FF6F91] transition duration-200 px-2"
+            disabled={form.name === undefined || form.description === undefined || form.dueDate === undefined || loading}  
           >
-            click
+            {loading ? "Loading..." : "Create"}             
           </button>
-        </form>
-      }
-    </>
+        </div>
+
+        {error? <p>error...</p> : null}
+
+      </motion.form>
+    </div>
   )
 }

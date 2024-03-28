@@ -2,10 +2,15 @@
 
 import {useEffect, useState} from "react";
 import Link from "next/link";
-
+import { redirect } from "next/navigation";
 import { userAuth } from "@/utils/auth";
 
 export default function Page() {
+  useEffect(() => {
+    if (userAuth.getUser() !== null) {
+      redirect("/user/dashboard");
+    }
+  }, []);
 
   return (
     <>
@@ -28,7 +33,7 @@ export default function Page() {
             <p>
               This project is built with Next.js, Tailwind CSS, and Prisma with PostgreSQL.
             </p>
-            <p className="text-sm">
+            <p className="text-sm font-semibold">
               (please note that this project is just a demo, and will probably not be maintained in the future)
             </p>
           </article>

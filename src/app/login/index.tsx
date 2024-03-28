@@ -19,7 +19,6 @@ export default function Login() {
 
   const [loginMutation, {data, loading, error}] = useMutation(mutation.loginMutation);
   const [form, setForm] = useState({
-    name: "username",
     email: "example@email.com",
     password: "password",
   });
@@ -54,22 +53,22 @@ export default function Login() {
   return (
     <div className="mt-[40svh]">
 
-    <h1 className=" text-xl font-semibold text-center mb-2">
-      Login
-    </h1>
 
-    <form className="grid sm:w-[30svw] mx-auto ">
-      <input type="text" className="text-black mt-1 text-center rounded-lg" placeholder={form.name}
-        onChange={(e) => setForm({...form, name: e.target.value})}
-      />
-      <input type="text" className="text-black mt-1 text-center rounded-lg" placeholder={form.email}
+    <form className="grid sm:w-[30svw] mx-auto bg-slate-300 rounded-lg p-2">
+      <h1 className=" text-xl font-semibold text-center mb-2">
+        Login
+      </h1>
+
+      <p className="mt-1">Email</p>
+      <input type="text" className="text-black text-center rounded-lg" placeholder={form.email}
         onChange={(e) => setForm({...form, email: e.target.value})}
       />
-      <input type={showPass? "text" : "password"} className="text-black mt-1 text-center rounded-lg" placeholder={"password"}
+      <p className="mt-1">Password</p>
+      <input type={showPass? "text" : "password"} className="text-black text-center rounded-lg" placeholder={"password"}
         onChange={(e) => setForm({...form, password: e.target.value})}
       />
 
-      <div className="flex mt-1">
+      <div className="flex mt-2">
         <button onClick={(e) => login(e)} className="bg-[#FF9671] rounded-full hover:text-white hover:bg-[#FF6F91] transition duration-200 px-2 " disabled={loading}>
           {loading ? "Loading..." : "Login"}
         </button>

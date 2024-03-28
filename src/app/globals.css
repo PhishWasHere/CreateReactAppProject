@@ -2,6 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
+/* colors */
+  /* bg: slate-200/300 */
+  /* orange: #FF9671 | pink/purple: #FF6F91 | blue: #62a5c5 */
 :root {
   --foreground-rgb: 0, 0, 0;
   --background-start-rgb: 214, 219, 220;

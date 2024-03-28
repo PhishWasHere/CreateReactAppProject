@@ -2,6 +2,7 @@ import getError from "@/utils/getErr";
 import prisma from "@/lib/prisma";
 import { serverAuth } from "@/utils/auth";
 import {toISO, toLocal} from "@/utils/dateConverter";
+import { ProjectType } from "@/utils/types";
 
 // need to fix types later
 // type TaskType = {
@@ -43,12 +44,12 @@ import {toISO, toLocal} from "@/utils/dateConverter";
 const resolvers = {
   Query: {
     //todo: add auth middleware to queries
-    Hello:  async (_: null, args: any, context: any) => {
+    Hello:  async (_: null, __: null, ___: null) => {
       // for testing purposes
       return "world";
     },
 
-    users: async (_: null, args: any, context: any) => {
+    users: async (_: null, __: null, ___: null) => {
       // for testing purposes
       return prisma.user.findMany({ include: { projects: true }});
     },
@@ -78,10 +79,12 @@ const resolvers = {
       if (ctx.statusCode !== 200) throw new Error("Authentication error");
 
       try {
-        return prisma.project.findMany({ 
+        const projects = await prisma.project.findMany({ 
           where: { userId: ctx.body.user._id },
           include: { tasks: true }}
         );
+          
+        return projects
 
       } catch (err) {
         const msg = getError(err);
@@ -163,7 +166,7 @@ const resolvers = {
       try {
         const user = await prisma.user.create({
           data: {
-            email, // todo: need to validate email
+            email, // todo: need to encrypt email
             password, // todo: need to hash
             name,
           },
@@ -251,7 +254,7 @@ const resolvers = {
       if (ctx.statusCode !== 200) throw new Error("Authentication error");
       
       if (!name || !description || !dueDate) {
-        return { error: true, message: "Missing fields", status: 406 };
+        throw new Error("Invalid values");
       }
 
       try {
@@ -277,27 +280,35 @@ const resolvers = {
       }
     },
 
-    removeProject: async (_: null, { id }: { id: string }, context: any) => {
+    removeProject: async (_: null, { id }: { id: string }, context: any) => {      
       if (!context.body.token) throw new Error("Not authenticated");
       const ctx: any = await serverAuth.authMiddleware(context);
       if (ctx.statusCode !== 200) throw new Error("Authentication error");
 
       try {
         const project = await prisma.project.findUnique({
-          where: { id: String(id) },
-          include: { tasks: true },
+          where: { id: String(id) }
         });
 
-        if (!project) return { error: true, message: "Project not found", status: 404 };
+        if (!project) throw new Error("Project not found");
 
         if (project.userId !== ctx.body.user._id) {
-          return { error: true, message: "Unauthorized", status: 401 };
+          throw new Error("Unauthorized");
         }
 
-        return prisma.project.delete({
+        await prisma.project.delete({
           where: { id: String(id) },
         });
+
+        let res = {
+          id: id,
+        };
+        
+        return res
+
       } catch (err) {
+        console.log(err);
+  
         const msg = getError(err);
         throw new Error(msg);
       }
@@ -330,7 +341,11 @@ const resolvers = {
       if (!context.body.token) throw new Error("Not authenticated");
 
       const ctx: any = await serverAuth.authMiddleware(context);
-      if (ctx.statusCode !== 200) throw new Error("Authentication error");            
+      if (ctx.statusCode !== 200) throw new Error("Authentication error");
+
+      if (!name || !description || !dueDate || !projectId) {
+        throw new Error("Invalid values");
+      }
 
       try {
         const task = await prisma.task.create({

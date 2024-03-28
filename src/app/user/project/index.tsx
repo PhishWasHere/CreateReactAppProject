@@ -20,29 +20,41 @@ export default function Project({ id }: { id: string | string[] }) {
   }, [data, loading]);
 
   return  (
-    <div>
-      <h1>Project</h1>
+    <>
       { error && <p>Error: {error.message}</p>}
       { loading && <p>Loading...</p>}
       { data && (
-        <div>
-          <h2>{data.project.name}</h2>
-          <p>{data.project.description}</p>
-          <p>{toLocal(data.project.dueDate)}</p>
-
-          <div>tasks: </div>
-          {data.project.tasks.map((task: TaskType) => (
-            <div key={task.id}>
-              <h3>{task.name}</h3>
-              <p>{task.description}</p>
-              <p>{toLocal(task.dueDate)}</p>
-              <EditTask taskData={task} refetch={refetch}/>
+        <section>
+          <section className="bg-slate-300 sm:h-[100svh] sm:w-[13svw] sm:absolute break-words">
+            <div className="flex sm:block">
+              <h1 className="font-semibold text-2xl">{data.project.name}</h1>
+              <p className="text-sm sm:mb-1 sm:mt-0 mt-2 sm:ml-0 ml-auto">{toLocal(data.project.dueDate)}</p>
             </div>
-          ))}
-          <EditProject projData={data.project} refetch={refetch}/>
-          <CreateTask id={id} refetch={refetch}/>
-        </div>
+            <p>{data.project.description}</p>
+
+            <div className="flex sm:block">
+              <EditProject projData={data.project} refetch={refetch}/>
+              <CreateTask id={id} refetch={refetch}/>
+            </div>
+          </section>
+
+          <article className="sm:translate-x-[13svw]">
+            <div>tasks: </div>
+            <ul className="flex overflow-auto flex-wrap">
+              {data.project.tasks.map((t: TaskType) => (
+                <li key={t.id} className={`mt-2 ${t.isActive ? "border-[#62a5c5]" : "border-[#FF6F91]"} bg-slate-300 border-2 rounded-lg p-2 break-words m-1 max-w-[100svw] sm:max-w-[25svw]`}>
+                  <h4 className=" font-semibold">{t.name}</h4>
+                  <p className="font-medium">{t.description}</p>
+                  <div className="flex mt-1">
+                    <EditTask taskData={t} refetch={refetch}/>
+                    <p className="text-sm font-light ml-auto mt-1">{toLocal(t.dueDate)}</p>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </article>
+        </section>
       )}
-    </div>
+    </>
   )
 }
