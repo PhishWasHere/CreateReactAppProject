@@ -1,6 +1,6 @@
 ## Next.js Project Manager
 
-This is an updated version of the orignial [bootcamp graduation project](https://github.com/PhishWasHere/CreateReactAppProject/tree/old). While this is an updated version, this is still more of a tech demo and a way to learn new tools, as such the css is minimal. 
+This is an updated version of the orignial [bootcamp graduation project](https://github.com/PhishWasHere/CreateReactAppProject/tree/old). While this is an updated version, this is still more of a tech demo and a way for me to learn new tools, as such the css is minimal. 
 </br>
 This project uses: [PostgreSQL](https://www.postgresql.org/), [Prisma](https://www.prisma.io/), [Apollo](https://www.apollographql.com/), TypeScript, and [Next.js v13.4](https://nextjs.org)
 
